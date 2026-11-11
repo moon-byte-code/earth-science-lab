@@ -1,0 +1,13 @@
+{
+  "name": "하연샘 지구과학 실험실",
+  "short_name": "지구과학 실험실",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#020308",
+  "theme_color": "#020308",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
