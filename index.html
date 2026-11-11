@@ -108,6 +108,7 @@
   .note{padding:26px;text-align:center;font-size:14.5px;color:rgba(255,255,255,.6);border-radius:16px;
     background:rgba(255,255,255,.04);border:1px dashed rgba(255,255,255,.18);line-height:1.6}
 
+
   /* ---------- 본문 ---------- */
   .wrap{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:0 28px 46vh}
   #spacer{height:260px}
@@ -233,6 +234,7 @@
    ========================================================= */
 const SIMULATORS = [
   { title:"별의 물리량", desc:"분광형과 표면 온도, 별의 색과 밝기의 관계", icon:"⭐", category:"별과 우주", url:"star-physics/" },
+  { title:"H-R도와 별의 진화", desc:"H-R도에서 별의 위치를 찾고, 질량에 따른 진화 경로를 따라가요", icon:"✨", category:"별과 우주", url:"hr-diagram/" },
   // { title:"새 시뮬레이터", desc:"한 줄 설명", icon:"🌊", category:"대기와 해양", url:"폴더이름/" },
 ];
 const CATEGORIES = [   // 위에서부터 01, 02, 03 순서
@@ -243,7 +245,7 @@ const CATEGORIES = [   // 위에서부터 01, 02, 03 순서
 /* =========================================================
    ✏️ 질문 게시판 연결 주소 — 구글 Apps Script '웹 앱 URL'을 따옴표 안에 붙여 넣으세요
    ========================================================= */
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxPQ2GyKFR_tC9unUoLQDkYlgsW37QjK0UrtrgbNWJS_29tSnL_bYFxGvhqrjOfbE1CKQ/exec";
+const SCRIPT_URL = "";
 /* ========================================================= */
 
 const head = document.getElementById("head");
