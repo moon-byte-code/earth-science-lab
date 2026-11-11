@@ -337,7 +337,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .blank.shown .blank-in{color:var(--ink);background:var(--surface);border-bottom-color:var(--ink-3)}
 .blank-fb{font-size:13px;font-weight:700;white-space:nowrap}
 .blank.ok .blank-fb{color:var(--good)}
-.blank.no .blank-fb{color:var(--bad)}
+.blank.no .blank-fb{color:var(--bad);white-space:normal}
 .fill-bar{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;border-top:1px dashed var(--line);padding-top:10px;margin-top:4px}
 .fill-bar .btn{padding:6px 11px;font-size:13px;background:var(--surface)}
 .fill-count{font-size:13px;color:var(--ink-3)}
@@ -1898,6 +1898,7 @@ document.addEventListener('keydown',e=>{if(!$('#quizModal').hidden)return;const 
 const normA=t=>String(t).replace(/[\s.()\[\]~!?,'"·]/g,'').toLowerCase();
 function closeChoices(except){document.querySelectorAll('.blank-pop').forEach(p=>{if(p!==except)p.hidden=true;});}
 document.addEventListener('click',e=>{if(!(e.target.closest&&e.target.closest('.blank.choice')))closeChoices();});
+const TRY_AGAIN='다시 한번 더 생각해보세요.';
 function setupFill(box){const spans=[...box.querySelectorAll('.blank')].filter(sp=>!sp.dataset.ready);if(!spans.length)return;
   const items=spans.map(sp=>{sp.dataset.ready='1';const ans=sp.dataset.a.split('|');const main=ans[0];
     const fb=document.createElement('span');fb.className='blank-fb';fb.setAttribute('aria-live','polite');
@@ -1912,7 +1913,7 @@ function setupFill(box){const spans=[...box.querySelectorAll('.blank')].filter(s
       btn.addEventListener('click',e=>{e.stopPropagation();if(it.state==='ok'||it.state==='shown')return;const open=pop.hidden;closeChoices();pop.hidden=!open;});
       pop.querySelectorAll('.blank-opt').forEach(o=>o.addEventListener('click',e=>{e.stopPropagation();pop.hidden=true;
         const ok=normA(o.textContent)===normA(main);it.state=ok?'ok':'no';sp.className='blank choice '+it.state;btn.textContent=o.textContent;
-        if(ok){btn.disabled=true;fb.textContent='✓';}else{fb.textContent='정답: '+main;}count();}));
+        if(ok){btn.disabled=true;fb.textContent='✓';}else{fb.textContent=TRY_AGAIN;}count();}));
     }else{
       const inp=document.createElement('input');inp.type='text';inp.className='blank-in';inp.autocomplete='off';inp.spellcheck=false;inp.setAttribute('aria-label','빈칸: 답을 쓰고 Enter');
       inp.style.width=(Math.max(main.length,2)*1.1+2.4)+'em';sp.append(inp,fb);it.inp=inp;
@@ -1920,7 +1921,7 @@ function setupFill(box){const spans=[...box.querySelectorAll('.blank')].filter(s
       const check=()=>{if(it.state==='ok'||it.state==='shown')return;const v=normA(inp.value);if(!v)return;
         let ok;if(sp.dataset.num){const x=parseFloat(String(inp.value).replace(/[^0-9.\-]/g,''));const n=+sp.dataset.num;ok=!isNaN(x)&&Math.abs(x-n)<=Math.abs(n)*(+sp.dataset.tol||0.05);}else ok=it.ans.some(a=>normA(a)===v);
         it.state=ok?'ok':'no';sp.className='blank '+it.state;
-        if(ok){if(!sp.dataset.num)inp.value=main;inp.readOnly=true;fb.textContent='✓';}else{fb.textContent='정답: '+main;}count();};
+        if(ok){if(!sp.dataset.num)inp.value=main;inp.readOnly=true;fb.textContent='✓';}else{fb.textContent=TRY_AGAIN;}count();};
       inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();check();}});
       inp.addEventListener('change',check);
       inp.addEventListener('input',()=>{if(it.state==='no'){it.state='';sp.className='blank';fb.textContent='';}});
