@@ -479,6 +479,8 @@ p,li,.mode-desc,.lq-q,.heat-msg,figcaption{text-wrap:pretty}
 .home-link:hover{color:var(--accent);border-color:var(--accent)}
 .crumb{color:var(--accent)}
 .foot-link{margin-bottom:10px;font-size:13px}
+.lv-intro{display:flex;flex-direction:column;gap:12px}
+.lv-intro>p,.lv-intro>.key{max-width:900px}
 </style>
 </head>
 <body>
@@ -582,58 +584,6 @@ p,li,.mode-desc,.lq-q,.heat-msg,figcaption{text-wrap:pretty}
 
     <div class="lab sub-lab">
       <div class="viz">
-        <div class="seg" role="group" aria-label="방출과 흡수 선택">
-          <button id="lv-emi" data-lv="emi" aria-pressed="true">방출 (빛을 낸다)</button>
-          <button id="lv-abs" data-lv="abs" aria-pressed="false">흡수 (빛을 받는다)</button>
-        </div>
-        <p class="cap">수소 원자에서 전자가 옮겨 갈 준위를 골라 보자</p>
-        <p class="hint" style="color:var(--ink-2)">'방출'에서 이동 버튼 5개를 차례로 누른 뒤, '흡수'로 바꿔 5개를 다시 누르며 '빛의 파장'을 활동지 표에 적자.</p>
-        <div class="chips" id="lvChips" aria-label="전자 전이 선택"></div>
-        <canvas id="lvCanvas" class="lv-canvas" aria-label="수소 원자의 전자 궤도와 에너지 준위 그림"></canvas>
-        <div class="stats" style="grid-template-columns:repeat(3,minmax(0,1fr))">
-          <div class="stat"><span class="lbl">전자의 이동</span><span class="val" id="lvT">3 → 2</span></div>
-          <div class="stat"><span class="lbl">준위 차이 ΔE</span><span class="val" id="lvE">1.89 eV</span></div>
-          <div class="stat"><span class="lbl">빛의 파장</span><span class="val" id="lvL">656 nm</span><span class="note" id="lvLn">가시광선 (빨강)</span></div>
-        </div>
-        <p class="cap" id="lvCap">모은 선으로 만든 방출 스펙트럼</p>
-        <canvas id="lvStrip" class="gas-strip" aria-label="모은 선으로 만든 스펙트럼"></canvas>
-        <div class="row" style="justify-content:space-between">
-          <span class="hint">준위 사이 간격은 보기 쉽게 조정해 그렸다.</span>
-          <button class="btn ghost" id="lvReset">선 지우기</button>
-        </div>
-      </div>
-      <div class="txt">
-        <span class="ws-tag">해 보기 2 · 방출·흡수 스펙트럼이 나타나는 원리</span>
-        <h3 class="sub-title">원리: 전자의 에너지 준위는 양자화되어 있다</h3>
-        <p>원자 속 전자는 원자핵 주위의 아무 곳에나 있을 수 없고, 정해진 <b>에너지 준위</b>(궤도)에만 있을 수 있다. 이렇게 에너지가 띄엄띄엄 정해져 있는 것을 <b>양자화</b>되었다고 한다. 준위는 n = 1, 2, 3, …으로 나타내고, n이 클수록 에너지가 높다.</p>
-        <div class="key fill">
-          <p class="key-title">방출·흡수 스펙트럼이 나타나는 원리</p>
-          <ul>
-            <li>전자가 높은 준위에서 낮은 준위로 이동할 때 빛(에너지)을 내보내므로 <span class="blank" data-a="방출"></span> 스펙트럼이 생긴다.</li>
-            <li>전자가 낮은 준위에서 높은 준위로 이동할 때 빛(에너지)을 받아들이므로 <span class="blank" data-a="흡수"></span> 스펙트럼이 생긴다.</li>
-          </ul>
-        </div>
-        <div class="key fill">
-          <p class="key-title">표를 채운 뒤 답해 보자</p>
-          <ul>
-            <li>같은 두 준위 사이에서 방출하는 빛과 흡수하는 빛의 파장은 <span class="blank" data-a="같다" data-opts="같다|다르다"></span>.</li>
-            <li>두 준위의 에너지 차이가 클수록 나오는 빛의 파장은 <span class="blank" data-a="짧다" data-opts="짧다|길다"></span>.</li>
-          </ul>
-        </div>
-        <p class="hint">수소에서 n=2로 내려오는 이동은 가시광선, n=1로 내려오면 자외선, n=3으로 내려오면 적외선이 나온다. eV(전자볼트)는 원자 하나의 에너지처럼 아주 작은 에너지를 나타내는 단위이다.</p>
-      </div>
-    </div>
-
-    <div class="key fill star-spec">
-      <p class="key-title">별의 스펙트럼</p>
-      <ul>
-        <li>별의 대기에 존재하는 원소들은 별의 표면 온도에 따라 <span class="blank" data-a="이온화|이온"></span>되는 정도와 들뜬 상태의 원자 비율이 달라, 각각 고유한 선을 만들어 낸다. 그래서 별빛을 분광기로 분해해 보면 <span class="blank" data-a="흡수|흡수스펙트럼"></span> 스펙트럼을 볼 수 있다.</li>
-        <li>별의 스펙트럼을 분석하면 별의 <span class="blank" data-a="구성 성분|성분|구성원소|원소|화학조성|조성|구성물질"></span>이나 <span class="blank" data-a="표면 온도|온도|표면의온도"></span> 등을 알 수 있다.</li>
-      </ul>
-    </div>
-
-    <div class="lab sub-lab">
-      <div class="viz">
         <div class="chips" id="gasChips" aria-label="기체 선택"></div>
         <div class="tube-wrap"><div class="tube" id="tube" role="img" aria-label="빛을 내는 기체 방전관"></div></div>
         <p class="cap">방출 스펙트럼 (방전관의 빛)</p>
@@ -658,6 +608,60 @@ p,li,.mode-desc,.lq-q,.heat-msg,figcaption{text-wrap:pretty}
           </ul>
         </div>
       </div>
+    </div>
+
+    <div class="sub-lab lv-intro">
+        <span class="ws-tag">해 보기 2 · 방출·흡수 스펙트럼이 나타나는 원리</span>
+        <h3 class="sub-title">원리: 전자의 에너지 준위는 양자화되어 있다</h3>
+        <p>원자 속 전자는 원자핵 주위의 아무 곳에나 있을 수 없고, 정해진 <b>에너지 준위</b>(궤도)에만 있을 수 있다. 이렇게 에너지가 띄엄띄엄 정해져 있는 것을 <b>양자화</b>되었다고 한다. 준위는 n = 1, 2, 3, …으로 나타내고, n이 클수록 에너지가 높다.</p>
+        <div class="key fill">
+          <p class="key-title">방출·흡수 스펙트럼이 나타나는 원리</p>
+          <ul>
+            <li>전자가 높은 준위에서 낮은 준위로 이동할 때 빛(에너지)을 내보내므로 <span class="blank" data-a="방출"></span> 스펙트럼이 생긴다.</li>
+            <li>전자가 낮은 준위에서 높은 준위로 이동할 때 빛(에너지)을 받아들이므로 <span class="blank" data-a="흡수"></span> 스펙트럼이 생긴다.</li>
+          </ul>
+        </div>
+    </div>
+    <div class="lab">
+      <div class="viz">
+        <div class="seg" role="group" aria-label="방출과 흡수 선택">
+          <button id="lv-emi" data-lv="emi" aria-pressed="true">방출 (빛을 낸다)</button>
+          <button id="lv-abs" data-lv="abs" aria-pressed="false">흡수 (빛을 받는다)</button>
+        </div>
+        <p class="cap">수소 원자에서 전자가 옮겨 갈 준위를 골라 보자</p>
+        <p class="hint" style="color:var(--ink-2)">'방출'에서 이동 버튼 5개를 차례로 누른 뒤, '흡수'로 바꿔 5개를 다시 누르며 '빛의 파장'을 활동지 표에 적자.</p>
+        <div class="chips" id="lvChips" aria-label="전자 전이 선택"></div>
+        <canvas id="lvCanvas" class="lv-canvas" aria-label="수소 원자의 전자 궤도와 에너지 준위 그림"></canvas>
+        <div class="stats" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+          <div class="stat"><span class="lbl">전자의 이동</span><span class="val" id="lvT">3 → 2</span></div>
+          <div class="stat"><span class="lbl">준위 차이 ΔE</span><span class="val" id="lvE">1.89 eV</span></div>
+          <div class="stat"><span class="lbl">빛의 파장</span><span class="val" id="lvL">656 nm</span><span class="note" id="lvLn">가시광선 (빨강)</span></div>
+        </div>
+        <p class="cap" id="lvCap">모은 선으로 만든 방출 스펙트럼</p>
+        <canvas id="lvStrip" class="gas-strip" aria-label="모은 선으로 만든 스펙트럼"></canvas>
+        <div class="row" style="justify-content:space-between">
+          <span class="hint">준위 사이 간격은 보기 쉽게 조정해 그렸다.</span>
+          <button class="btn ghost" id="lvReset">선 지우기</button>
+        </div>
+      </div>
+      <div class="txt">
+        <div class="key fill">
+          <p class="key-title">표를 채운 뒤 답해 보자</p>
+          <ul>
+            <li>같은 두 준위 사이에서 방출하는 빛과 흡수하는 빛의 파장은 <span class="blank" data-a="같다" data-opts="같다|다르다"></span>.</li>
+            <li>두 준위의 에너지 차이가 클수록 나오는 빛의 파장은 <span class="blank" data-a="짧다" data-opts="짧다|길다"></span>.</li>
+          </ul>
+        </div>
+        <p class="hint">수소에서 n=2로 내려오는 이동은 가시광선, n=1로 내려오면 자외선, n=3으로 내려오면 적외선이 나온다. eV(전자볼트)는 원자 하나의 에너지처럼 아주 작은 에너지를 나타내는 단위이다.</p>
+      </div>
+    </div>
+
+    <div class="key fill star-spec">
+      <p class="key-title">별의 스펙트럼</p>
+      <ul>
+        <li>별의 대기에 존재하는 원소들은 별의 표면 온도에 따라 <span class="blank" data-a="이온화|이온"></span>되는 정도와 들뜬 상태의 원자 비율이 달라, 각각 고유한 선을 만들어 낸다. 그래서 별빛을 분광기로 분해해 보면 <span class="blank" data-a="흡수|흡수스펙트럼"></span> 스펙트럼을 볼 수 있다.</li>
+        <li>별의 스펙트럼을 분석하면 별의 <span class="blank" data-a="구성 성분|성분|구성원소|원소|화학조성|조성|구성물질"></span>이나 <span class="blank" data-a="표면 온도|온도|표면의온도"></span> 등을 알 수 있다.</li>
+      </ul>
     </div>
 
     <div class="quiz-cta">
@@ -692,14 +696,6 @@ p,li,.mode-desc,.lq-q,.heat-msg,figcaption{text-wrap:pretty}
         </div>
         <span class="ws-tag">해 보기 1 · 별의 표면 온도와 분광형에 따른 흡수선의 세기</span>
         <p class="hint" style="color:var(--ink-2)">O~M 버튼을 차례로 누르고, 왼쪽 '흡수선의 세기' 그래프에서 세로선과 만나는 곡선 중 가장 높이 솟은 것을 찾자.</p>
-        <div class="key fill">
-          <p class="key-title">핵심</p>
-          <ul>
-            <li>O형 별은 표면 온도가 매우 높고 <span class="blank" data-a="파란색|파랑|파랑색|파란|청색|푸른색|푸른|청백색"></span>을 띠며, M형 별로 갈수록 표면 온도가 낮고 <span class="blank" data-a="붉은색|붉은|빨간색|빨간|빨강|적색"></span>을 띤다.</li>
-            <li>A형 별에서는 <span class="blank" data-a="HⅠ" data-opts="HⅠ|HeⅠ|HeⅡ|CaⅡ"></span> 흡수선이 가장 강하게 나타나며, G2형 별인 태양에서는 <span class="blank" data-a="CaⅡ" data-opts="CaⅠ|CaⅡ|FeⅠ|TiO"></span> 흡수선이 가장 강하게 나타난다.</li>
-            <li>O형은 이온화된 헬륨(HeⅡ), B형은 중성 헬륨(HeⅠ), G·K형은 이온화된 칼슘(CaⅡ)과 철(FeⅠ) 같은 금속, M형은 산화 타이타늄(TiO) 같은 <span class="blank" data-a="분자|분자의"></span> 흡수선이 두드러진다.</li>
-          </ul>
-        </div>
         <p class="cap">표 채우기: 선택한 분광형의 색과 표면 온도</p>
         <div class="type-info">
           <div class="type-badge">
@@ -711,6 +707,14 @@ p,li,.mode-desc,.lq-q,.heat-msg,figcaption{text-wrap:pretty}
             <p class="feat" id="tiFeat"></p>
             <p class="ex" id="tiEx"></p>
           </div>
+        </div>
+        <div class="key fill">
+          <p class="key-title">핵심</p>
+          <ul>
+            <li>O형 별은 표면 온도가 매우 높고 <span class="blank" data-a="파란색|파랑|파랑색|파란|청색|푸른색|푸른|청백색"></span>을 띠며, M형 별로 갈수록 표면 온도가 낮고 <span class="blank" data-a="붉은색|붉은|빨간색|빨간|빨강|적색"></span>을 띤다.</li>
+            <li>A형 별에서는 <span class="blank" data-a="HⅠ" data-opts="HⅠ|HeⅠ|HeⅡ|CaⅡ"></span> 흡수선이 가장 강하게 나타나며, G2형 별인 태양에서는 <span class="blank" data-a="CaⅡ" data-opts="CaⅠ|CaⅡ|FeⅠ|TiO"></span> 흡수선이 가장 강하게 나타난다.</li>
+            <li>O형은 이온화된 헬륨(HeⅡ), B형은 중성 헬륨(HeⅠ), G·K형은 이온화된 칼슘(CaⅡ)과 철(FeⅠ) 같은 금속, M형은 산화 타이타늄(TiO) 같은 <span class="blank" data-a="분자|분자의"></span> 흡수선이 두드러진다.</li>
+          </ul>
         </div>
         <div class="quiz-cta">
           <p>분광형과 표면 온도 연습 문제 (8문제)</p>
