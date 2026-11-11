@@ -51,7 +51,7 @@ b,strong{font-weight:700}
 .hero{padding:20px 8px 12px;display:flex;flex-direction:column;gap:12px}
 .eyebrow{font-size:14px;font-weight:700;color:var(--accent)}
 .hero h1{font-size:clamp(28px,6vw,38px);font-weight:800;line-height:1.25}
-.hero .lead{color:var(--ink-2);font-size:17px;max-width:62ch}
+.hero .lead{color:var(--ink-2);font-size:17px;max-width:none;text-wrap:wrap}
 .steps{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
 .steps a{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;background:var(--surface);color:var(--ink-2);text-decoration:none;font-size:14px;font-weight:500;border:1px solid var(--line)}
 .steps a span{font-family:var(--font-num);color:var(--accent);font-weight:600}
@@ -468,6 +468,10 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .ws-tag.more{background:var(--ink-3)}
 .after-q summary{cursor:pointer;list-style:revert}
 .after-q[open] summary{margin-bottom:6px}
+/* 한국어 줄바꿈: 단어(어절) 단위로 끊고, 너무 긴 낱말만 쪼갠다 */
+body{word-break:keep-all;overflow-wrap:break-word;line-break:strict}
+p,li,.mode-desc,.lq-q,.heat-msg,figcaption{text-wrap:pretty}
+.ac-f,.lr-calc,.formula,.wtable td,.mfig,.blank-pop{word-break:normal}
 </style>
 </head>
 <body>
@@ -475,7 +479,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   <header class="hero">
     <p class="eyebrow">지구과학 · 별과 우주</p>
     <h1>별의 물리량</h1>
-    <p class="lead">별은 너무 멀어서 온도계나 자를 댈 수 없다. 대신 별빛을 분석하면 별의 표면 온도, 광도, 크기를 알 수 있다. 위의 번호를 누르거나 좌우로 넘기며 차례대로 학습해 보자.</p>
+    <p class="lead">별은 너무 멀어서 온도계나 자를 댈 수 없다. 대신 별빛을 분석하면 별의 표면 온도, 광도, 크기를 알 수 있다.<br>위의 번호를 누르거나 좌우로 넘기며 차례대로 학습해 보자.</p>
   </header>
 
   <div class="pager-bar">
