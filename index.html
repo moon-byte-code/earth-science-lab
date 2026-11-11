@@ -46,6 +46,68 @@
   .tab:hover{background:rgba(255,255,255,.1);color:#fff}
   .tab.on{background:#fff;color:#0b0e22;border-color:#fff}
 
+
+  /* ---------- 보기 전환 (시뮬레이터 / 질문 게시판) ---------- */
+  .top{align-items:center}
+  .seg{display:flex;gap:2px;padding:3px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);letter-spacing:0}
+  .seg button{border:none;background:none;color:rgba(255,255,255,.7);font-family:inherit;font-size:13px;font-weight:600;
+    padding:6px 14px;border-radius:999px;cursor:pointer;transition:background .2s,color .2s}
+  .seg button:hover{color:#fff}
+  .seg button.on{background:rgba(255,255,255,.92);color:#111}
+  [hidden]{display:none !important}
+
+  /* ---------- 질문 게시판 ---------- */
+  #boardView{padding-top:26px}
+  .static .acc-btn{cursor:default}
+  .static .acc-btn:hover{background:rgba(255,255,255,.07)}
+  .num.txt{font-size:12px;color:#fff}
+  .pane{margin-top:14px;padding:24px;border-radius:20px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+  .field + .field{margin-top:22px}
+  .label{display:block;font-size:14px;font-weight:700;margin-bottom:10px}
+  .label small{font-weight:500;color:rgba(255,255,255,.5);margin-left:6px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);color:rgba(255,255,255,.8);font-family:inherit;
+    font-size:14px;font-weight:600;padding:8px 14px;border-radius:999px;cursor:pointer;transition:.2s}
+  .chip:hover{background:rgba(255,255,255,.1);color:#fff}
+  .chip.on{background:#fff;color:#111;border-color:#fff}
+  .input,.textarea{width:100%;font-family:inherit;font-size:15px;color:#fff;background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:12px 14px;outline:none;transition:border-color .2s,background .2s}
+  .input::placeholder,.textarea::placeholder{color:rgba(255,255,255,.4)}
+  .input:focus,.textarea:focus{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.09)}
+  .textarea{min-height:130px;resize:vertical;line-height:1.6}
+  .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .row .input{flex:1;min-width:180px}
+  .check{display:flex;align-items:center;gap:8px;font-size:14px;color:rgba(255,255,255,.8);cursor:pointer;user-select:none}
+  .check input{width:18px;height:18px;accent-color:#fff;cursor:pointer}
+  .check.off{opacity:.4;cursor:not-allowed}
+  .hint{font-size:12.5px;color:rgba(255,255,255,.5);margin-top:8px;line-height:1.5}
+  .counter{text-align:right;font-size:12px;color:rgba(255,255,255,.45);margin-top:6px}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+  .submit{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:22px;flex-wrap:wrap}
+  .btn{border:none;font-family:inherit;font-size:15px;font-weight:700;padding:13px 24px;border-radius:999px;cursor:pointer;
+    background:#fff;color:#111;transition:transform .15s,opacity .2s}
+  .btn:hover{transform:translateY(-1px)}
+  .btn:disabled{opacity:.5;cursor:wait;transform:none}
+  .msg{font-size:14px;color:rgba(255,255,255,.8)}
+  .msg.err{color:#fca5a5}
+
+  .qlist{display:flex;flex-direction:column;gap:12px;margin-top:14px}
+  .q{padding:22px 24px;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+  .q-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:rgba(255,255,255,.55)}
+  .q-unit{display:inline-flex;align-items:center;gap:6px;font-weight:700;color:#fff;padding:3px 10px;border-radius:999px;
+    background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12)}
+  .q-unit::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c,#fff)}
+  .q-text{font-size:16px;line-height:1.7;margin-top:12px;white-space:pre-wrap;word-break:break-word}
+  .q-text::before{content:"Q. ";font-weight:800}
+  .a{margin-top:14px;padding:14px 16px;border-radius:12px;background:rgba(255,255,255,.07);border-left:3px solid rgba(255,255,255,.6)}
+  .a b{display:block;font-size:12.5px;letter-spacing:.04em;color:rgba(255,255,255,.6);margin-bottom:6px}
+  .a p{font-size:15px;line-height:1.7;white-space:pre-wrap;word-break:break-word}
+  .a.wait p{color:rgba(255,255,255,.5)}
+  .note{padding:26px;text-align:center;font-size:14.5px;color:rgba(255,255,255,.6);border-radius:16px;
+    background:rgba(255,255,255,.04);border:1px dashed rgba(255,255,255,.18);line-height:1.6}
+
   /* ---------- 본문 ---------- */
   .wrap{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:0 28px 46vh}
   #spacer{height:260px}
@@ -97,6 +159,8 @@
     .wrap{padding-left:18px;padding-right:18px}
     .en{display:none} .acc-btn{padding:14px} .acc-btn h2{font-size:18px}
     .earth{width:125vw;right:-40vw;bottom:-28vh}
+    .top > span{display:none} .top{justify-content:flex-start}
+    .pane{padding:18px} .q{padding:18px}
   }
 </style>
 </head>
@@ -109,7 +173,9 @@
 <header class="head" id="head">
   <div class="banner">
     <div class="fold"><div>
-      <div class="top"><span>EARTH SCIENCE LAB</span><span id="cnt"></span></div>
+      <div class="top"><span>EARTH SCIENCE LAB</span>
+        <div class="seg" id="seg"><button data-view="sims" class="on">시뮬레이터</button><button data-view="board">질문 게시판</button></div>
+      </div>
     </div></div>
     <h1>하연샘 <em>지구과학</em> 실험실</h1>
     <div class="fold"><div>
@@ -122,6 +188,41 @@
 <div class="wrap">
   <div id="spacer"></div>
   <main id="list"></main>
+
+  <main id="boardView" hidden>
+    <section class="static" style="--c:#fff">
+      <div class="acc-btn"><span class="num txt">Q</span><h2>질문하기</h2><span class="en">ASK A QUESTION</span></div>
+      <form class="pane" id="qform" autocomplete="off">
+        <div class="field">
+          <span class="label">단원</span>
+          <div class="chips" id="unitChips"></div>
+        </div>
+        <div class="field">
+          <label class="label" for="nick">닉네임<small>선택</small></label>
+          <div class="row">
+            <input class="input" id="nick" maxlength="20" placeholder="비워 두면 익명으로 보내져요">
+            <label class="check off" id="showWrap"><input type="checkbox" id="showNick" disabled> 게시판에 닉네임 공개</label>
+          </div>
+          <p class="hint">공개를 체크하지 않으면 게시판에는 ‘익명’으로 보여요. (선생님은 닉네임을 볼 수 있어요)</p>
+        </div>
+        <div class="field">
+          <label class="label" for="qtext">질문</label>
+          <textarea class="textarea" id="qtext" maxlength="500" placeholder="궁금한 점을 자유롭게 적어 주세요"></textarea>
+          <div class="counter"><span id="qcount">0</span> / 500</div>
+        </div>
+        <input class="hp" id="website" tabindex="-1" aria-hidden="true">
+        <div class="submit">
+          <span class="msg" id="qmsg"></span>
+          <button class="btn" id="qbtn" type="submit">질문 보내기</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="static" id="qa" style="--c:#fff">
+      <div class="acc-btn"><span class="num txt">A</span><h2>질문 모아보기<small id="qa-count"></small></h2><span class="en">Q &amp; A BOARD</span></div>
+      <div class="qlist" id="qlist"></div>
+    </section>
+  </main>
 </div>
 <footer>© 하연샘 지구과학 실험실</footer>
 
@@ -139,11 +240,14 @@ const CATEGORIES = [   // 위에서부터 01, 02, 03 순서
   { name:"고체 지구",   en:"Solid Earth",        color:"#fb923c" },
   { name:"별과 우주",   en:"Stars & Universe",   color:"#a78bfa" },
 ];
+/* =========================================================
+   ✏️ 질문 게시판 연결 주소 — 구글 Apps Script '웹 앱 URL'을 따옴표 안에 붙여 넣으세요
+   ========================================================= */
+const SCRIPT_URL = "";
 /* ========================================================= */
 
 const head = document.getElementById("head");
 const spacer = document.getElementById("spacer");
-document.getElementById("cnt").textContent = `${SIMULATORS.length} SIMULATORS`;
 
 /* 아코디언: 시뮬레이터가 있는 단원만 열린 채로 시작 */
 document.getElementById("list").innerHTML = CATEGORIES.map((c,i) => {
@@ -192,6 +296,8 @@ tabsEl.addEventListener("click", e => {
   const t = e.target.closest(".tab"); if (!t) return;
   const i = +t.dataset.i;
   setTab(i); lockUntil = Date.now() + 900;
+  if (view === "board"){ filter = i; renderBoard(); if (i >= 0) pickUnit(CATEGORIES[i].name);
+    scrollTo({top:0, behavior:"smooth"}); return; }
   if (i < 0){ scrollTo({top:0, behavior:"smooth"}); return; }
   const sec = document.getElementById("sec"+i);
   sec.classList.add("open"); sec.querySelector(".acc-btn").setAttribute("aria-expanded", true);
@@ -199,7 +305,7 @@ tabsEl.addEventListener("click", e => {
 });
 
 function spy(){
-  if (Date.now() < lockUntil) return;
+  if (view !== "sims" || Date.now() < lockUntil) return;
   let cur = -1;
   if (scrollY > 20){
     const line = head.offsetHeight + 60;
@@ -207,6 +313,104 @@ function spy(){
   }
   setTab(cur);
 }
+
+
+/* ================= 보기 전환 ================= */
+let view = "sims", filter = -1;
+const segEl = document.getElementById("seg");
+function setView(v){
+  view = v;
+  segEl.querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.view === v));
+  document.getElementById("list").hidden = v !== "sims";
+  document.getElementById("boardView").hidden = v !== "board";
+  history.replaceState(null, "", v === "board" ? "#board" : location.pathname + location.search);
+  filter = -1; setTab(-1); scrollTo({top:0});
+  if (v === "board") loadBoard();
+}
+segEl.addEventListener("click", e => { const b = e.target.closest("button"); if (b) setView(b.dataset.view); });
+
+/* ================= 질문 게시판 ================= */
+const UNITS = [...CATEGORIES.map(c => c.name), "기타"];
+const colorOf = u => (CATEGORIES.find(c => c.name === u) || {color:"#d1d5db"}).color;
+const esc = t => String(t ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+const DEMO = /demo/.test(location.search);
+let items = null, unit = "";
+
+const chipsEl = document.getElementById("unitChips");
+chipsEl.innerHTML = UNITS.map(u => `<button type="button" class="chip" data-u="${u}">${u}</button>`).join("");
+function pickUnit(u){ unit = u; chipsEl.querySelectorAll(".chip").forEach(c => c.classList.toggle("on", c.dataset.u === u)); }
+chipsEl.addEventListener("click", e => { const c = e.target.closest(".chip"); if (c) pickUnit(c.dataset.u); });
+
+const nick = document.getElementById("nick"), showNick = document.getElementById("showNick"), showWrap = document.getElementById("showWrap");
+nick.addEventListener("input", () => {
+  const has = nick.value.trim().length > 0;
+  showNick.disabled = !has; showWrap.classList.toggle("off", !has); if (!has) showNick.checked = false;
+});
+const qtext = document.getElementById("qtext");
+qtext.addEventListener("input", () => document.getElementById("qcount").textContent = qtext.value.length);
+
+const qmsg = document.getElementById("qmsg"), qbtn = document.getElementById("qbtn");
+function say(t, err){ qmsg.textContent = t; qmsg.classList.toggle("err", !!err); }
+
+document.getElementById("qform").addEventListener("submit", async e => {
+  e.preventDefault();
+  const q = qtext.value.trim();
+  if (!unit) return say("단원을 선택해 주세요.", true);
+  if (q.length < 2) return say("질문을 입력해 주세요.", true);
+  const data = { unit, nickname: nick.value.trim(), showNickname: showNick.checked, question: q,
+                 website: document.getElementById("website").value };
+  if (!SCRIPT_URL && !DEMO) return say("아직 질문 시트와 연결되지 않았어요.", true);
+  qbtn.disabled = true; say("보내는 중…");
+  try{
+    let res = { ok:true };
+    if (!DEMO){
+      const r = await fetch(SCRIPT_URL, { method:"POST", body: JSON.stringify(data) });
+      res = await r.json();
+    }
+    if (!res.ok) throw new Error(res.error || "");
+    qtext.value = ""; nick.value = ""; nick.dispatchEvent(new Event("input"));
+    document.getElementById("qcount").textContent = 0;
+    say("질문이 전달됐어요! 선생님이 확인하면 게시판에 올라와요 🙌");
+  }catch(err){
+    say(err.message || "전송에 실패했어요. 잠시 후 다시 시도해 주세요.", true);
+  }finally{ qbtn.disabled = false; }
+});
+
+const SAMPLE = [
+  { time:"2026-11-10T05:00:00Z", unit:"별과 우주", nickname:"별바라기", question:"분광형이 O형인 별이 왜 더 파랗게 보이나요?", answer:"표면 온도가 높을수록 최대 에너지를 방출하는 파장이 짧아지기 때문이에요(빈의 변위 법칙). 그래서 고온의 O형 별은 파란색으로 보여요." },
+  { time:"2026-11-09T05:00:00Z", unit:"대기와 해양", nickname:"", question:"엘니뇨가 생기면 우리나라 날씨도 달라지나요?", answer:"" },
+];
+
+async function loadBoard(){
+  const list = document.getElementById("qlist");
+  if (!SCRIPT_URL && !DEMO){ items = []; list.innerHTML = `<div class="note">질문 게시판을 준비하고 있어요.</div>`; return; }
+  if (!items) list.innerHTML = `<div class="note">질문을 불러오는 중…</div>`;
+  try{
+    if (DEMO) items = SAMPLE;
+    else { const r = await fetch(SCRIPT_URL); const res = await r.json(); items = res.items || []; }
+    renderBoard();
+  }catch(err){
+    list.innerHTML = `<div class="note">질문을 불러오지 못했어요. 잠시 후 새로고침해 주세요.</div>`;
+  }
+}
+
+function fmt(t){ const d = new Date(t); return isNaN(d) ? "" : `${d.getMonth()+1}월 ${d.getDate()}일`; }
+function renderBoard(){
+  if (!items) return;
+  const list = document.getElementById("qlist");
+  const shown = filter < 0 ? items : items.filter(x => x.unit === CATEGORIES[filter].name);
+  document.getElementById("qa-count").textContent = shown.length;
+  if (!SCRIPT_URL && !DEMO) return;
+  list.innerHTML = shown.length ? shown.map(x => `
+    <article class="q" style="--c:${colorOf(x.unit)}">
+      <div class="q-meta"><span class="q-unit">${esc(x.unit)}</span><span>${esc(x.nickname || "익명")}</span><span>${fmt(x.time)}</span></div>
+      <p class="q-text">${esc(x.question)}</p>
+      <div class="a ${x.answer ? "" : "wait"}"><b>하연샘 답변</b><p>${x.answer ? esc(x.answer) : "답변을 준비하고 있어요."}</p></div>
+    </article>`).join("")
+    : `<div class="note">${filter < 0 ? "아직 올라온 질문이 없어요. 첫 질문을 남겨 보세요!" : "이 단원에는 아직 질문이 없어요."}</div>`;
+}
+
+if (location.hash === "#board") setView("board");
 
 /* 반짝이는 별 */
 const cv = document.getElementById("sky"), ctx = cv.getContext("2d");
