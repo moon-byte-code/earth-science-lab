@@ -462,6 +462,14 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .level-up .key-title{color:var(--c-neu)}
 .level-up summary{cursor:pointer;font-weight:700;color:var(--accent);font-size:14.5px}
 .level-up details p{margin-top:8px;color:var(--ink)}
+.aq-in{width:100%;box-sizing:border-box;font:inherit;font-size:15px;line-height:1.6;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;resize:vertical;min-height:96px}
+.aq-in:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+.aq-in[readonly]{background:var(--surface-2)}
+.aq-row{justify-content:space-between;align-items:center}
+.aq-fb{line-height:1.6}
+.aq-fb.wait{background:var(--surface-2);color:var(--ink-2)}
+.aq-model{border-radius:12px;padding:10px 12px;background:var(--accent-soft)}
+.aq-model-t{font-weight:700;color:var(--accent);margin-bottom:4px}
 .lx-quiz{border:1.5px solid var(--accent)}
 .lq-q{font-size:16px;color:var(--ink);line-height:1.8}
 .lq-q b{color:var(--accent)}
@@ -777,12 +785,19 @@ p,li,.mode-desc,.lq-q,.heat-msg,figcaption{text-wrap:pretty}
               <li>온도가 높은 별의 플랑크 곡선일수록 최대 복사 에너지를 방출하는 파장은 <span class="blank" data-a="짧아진다" data-opts="짧아진다|길어진다|같다"></span>.</li>
             </ul>
           </div>
-          <div class="key level-up">
+          <div class="key level-up ai-q" id="aqPlanck">
             <p class="key-title">[심화]</p>
             <p>왜 표면 온도가 낮은 별은 붉은색을 띠고, 표면 온도가 높은 별일수록 푸른색을 띨까? 흑체의 온도를 바꾸어 가며 최대 복사 에너지를 방출하는 파장의 길이와 연관 지어 답해 보자.</p>
-            <details><summary>생각한 뒤 예시 답안 보기</summary>
-              <p>표면 온도가 높을수록 최대 복사 에너지를 방출하는 파장(λ<sub>max</sub>)이 짧아진다. 그래서 표면 온도가 높은 별은 가시광선 중 파장이 짧은 파란빛을 상대적으로 많이 내고, 표면 온도가 낮은 별은 파장이 긴 붉은빛을 상대적으로 많이 낸다. 왼쪽 그래프에서 온도를 바꾸며 무지개색 부분의 모양을 비교해 보자.</p>
-            </details>
+            <textarea id="aqIn" class="aq-in" rows="4" maxlength="500" placeholder="그래프에서 관찰한 내용을 바탕으로 문장으로 써 보자."></textarea>
+            <div class="row aq-row">
+              <span class="hint" id="aqLeft">채점 기회 2번</span>
+              <button class="btn" id="aqBtn" type="button">AI 채점받기</button>
+            </div>
+            <div class="fb aq-fb" id="aqFb" aria-live="polite" hidden></div>
+            <div class="aq-model" id="aqModel" hidden>
+              <p class="aq-model-t">모범 답안</p>
+              <p>표면 온도가 높을수록 최대 복사 에너지를 방출하는 파장(λ<sub>max</sub>)이 짧아진다. 그래서 표면 온도가 높은 별은 가시광선 중 파장이 짧은 파란빛을 상대적으로 많이 내어 푸른색을 띠고, 표면 온도가 낮은 별은 파장이 긴 붉은빛을 상대적으로 많이 내어 붉은색을 띤다.</p>
+            </div>
           </div>
           <details class="key after-q">
             <summary class="key-title">문제를 푼 뒤 열어 보기: 플랑크 곡선의 특징</summary>
@@ -1763,6 +1778,34 @@ document.querySelectorAll('[data-lv]').forEach(b=>b.addEventListener('click',()=
 $('#lvReset').addEventListener('click',()=>{LV.seen=new Set();drawLv();drawLvStrip();});
 lvChips();updLvStats();
 
+/* ---------- 4. [심화] AI 채점 ---------- */
+// Apps Script 웹앱 주소를 따옴표 안에 붙여 넣는다. 비어 있으면 핵심어로 간이 채점한다.
+const GRADER_URL='https://script.google.com/macros/s/AKfycbxVJJDmFR_wn0VU--gZtXkc3ZxlJ6XdcpdqJRpUsl8Zk3yeQFVTB4NTzIl8_G3UGdEI/exec';
+(function(){const box=$('#aqPlanck');if(!box)return;
+  const inp=$('#aqIn'),btn=$('#aqBtn'),fb=$('#aqFb'),left=$('#aqLeft'),model=$('#aqModel');
+  const MAX=2;let tries=0,busy=false;
+  function say(cls,t){fb.hidden=false;fb.className='fb aq-fb '+cls;fb.textContent=t;}
+  function finish(){inp.readOnly=true;btn.disabled=true;model.hidden=false;left.textContent='채점 끝'+(left.dataset.mode==='간이'?' · 간이 채점':'');}
+  function localGrade(a){const t=a.replace(/\s+/g,'');
+    const temp=/온도/.test(t),lam=/파장|λ|람다/.test(t),dir=/짧|길/.test(t),blue=/파란|파랑|푸른|청색|푸르|보라|남색/.test(t),red=/붉|빨간|빨강|적색|주황/.test(t);
+    if(temp&&lam&&dir&&(blue||red))return{result:'correct',feedback:'온도, 최대 복사 에너지를 방출하는 파장, 별의 색을 잘 연결했다.'};
+    if(!(temp&&lam&&dir))return{result:'wrong',feedback:'표면 온도가 달라질 때 최대 복사 에너지를 방출하는 파장이 어떻게 변하는지 써 보자.'};
+    return{result:'partial',feedback:'그 파장이 가시광선의 어느 색 쪽에 해당하는지 별의 색과 연결해 보자.'};}
+  async function aiGrade(a){const ctl=new AbortController();const tm=setTimeout(()=>ctl.abort(),20000);
+    try{const r=await fetch(GRADER_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({q:'planck-color',answer:a}),signal:ctl.signal});
+      const j=await r.json();if(!j||!j.result)throw 0;return j;}finally{clearTimeout(tm);}}
+  btn.addEventListener('click',async()=>{if(busy||tries>=MAX)return;const a=inp.value.trim();
+    if(a.length<10){say('no','한 문장 이상으로 조금 더 자세히 써 보자.');return;}
+    busy=true;btn.disabled=true;say('wait','채점하고 있다…');
+    let g,ai=false;if(GRADER_URL){try{g=await aiGrade(a);ai=true;}catch(e){console.warn('AI 채점 연결 실패',e);g=null;}}
+    if(!g){g=localGrade(a);}
+    left.dataset.mode=ai?'AI':'간이';
+    busy=false;btn.disabled=false;tries++;
+    if(g.result==='correct'){say('ok','정답! '+(g.feedback||''));finish();return;}
+    if(tries<MAX){say('no','다시 한번 더 생각해보세요. '+(g.feedback||''));left.textContent='채점 기회 '+(MAX-tries)+'번 남음'+(left.dataset.mode==='간이'?' · 간이 채점':'');inp.focus();}
+    else{say('no','아쉽다. 모범 답안과 내 답을 비교해 보자.'+(g.feedback?' ('+g.feedback+')':''));finish();}});
+  inp.addEventListener('input',()=>{if(!busy&&tries<MAX&&fb.classList.contains('no')&&inp.value.trim().length<10)fb.hidden=true;});
+})();
 /* ---------- 7. 광도와 크기 (세 변수 탐구) ---------- */
 const TSUN=6000;
 const LUMPRE=[['태양',1,6000],['시리우스 A',1.71,9940],['리겔',79,12100],['베텔게우스',760,3600],['프록시마 센타우리',0.154,3042],['시리우스 B',0.0084,25000]];
