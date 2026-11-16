@@ -1,12 +1,6 @@
-<!doctype html>
-<html lang="ko">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="고등학교 지구과학 별의 물리량 시뮬레이터: 빛의 파장과 에너지, 스펙트럼, 분광형, 흑체 복사, 빈의 변위 법칙, 슈테판·볼츠만 법칙, 별의 광도와 크기">
-<link rel="icon" type="image/png" href="../icons/icon-192.png">
-<style>html{-webkit-text-size-adjust:100%}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>별의 물리량</title>
+<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
@@ -375,6 +369,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .blank-pop{position:absolute;top:calc(100% + 6px);left:0;z-index:15;display:flex;gap:6px;padding:8px;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.15);white-space:nowrap}
 .blank-opt{font:inherit;font-family:var(--font-num);font-weight:700;font-size:15px;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);cursor:pointer}
 .blank-opt:hover{border-color:var(--accent);color:var(--accent)}
+.blank-pop{position:fixed;top:0;left:0;z-index:60;flex-wrap:wrap;max-width:min(92vw,440px);white-space:normal}
+.blank-opt{white-space:nowrap}
 .steps-hint .blank{display:inline-flex;min-width:0;border:0;text-align:left}
 .lum-result{display:flex;flex-direction:column;gap:4px;background:var(--accent-soft);border:1.5px solid var(--accent);border-radius:14px;padding:12px 14px}
 .lr-main{font-size:18px;font-weight:700;color:var(--ink)}
@@ -509,11 +505,10 @@ p,li,.mode-desc,.lq-q,.heat-msg,figcaption{text-wrap:pretty}
 .lv-intro{display:flex;flex-direction:column;gap:12px}
 .lv-intro>p,.lv-intro>.key{max-width:900px}
 </style>
-</head>
-<body>
+
 <div class="wrap">
   <header class="hero">
-    <p class="eyebrow"><a class="home-link" href="../"><span class="tri" aria-hidden="true">◀</span>하연샘 지구과학 실험실</a><span class="crumb">고등학교 · 지구과학 · 별과 우주</span></p>
+    <p class="eyebrow"><a class="home-link" href="https://moon-byte-code.github.io/earth-science-lab/"><span class="tri" aria-hidden="true">◀</span>하연샘 지구과학 실험실</a><span class="crumb">고등학교 · 지구과학 · 별과 우주</span></p>
     <h1>별의 물리량</h1>
     <p class="lead">별은 너무 멀어서 온도계나 자를 댈 수 없다. 대신 별빛을 분석하면 별의 표면 온도, 광도, 크기를 알 수 있다.<br>위의 번호를 누르거나 좌우로 넘기며 차례대로 학습해 보자.</p>
   </header>
@@ -1199,7 +1194,7 @@ p,li,.mode-desc,.lq-q,.heat-msg,figcaption{text-wrap:pretty}
       <div id="mqBody" style="display:flex;flex-direction:column;gap:14px"></div>
     </div>
   </div>
-  <p class="foot"><a class="home-link foot-link" href="../"><span class="tri" aria-hidden="true">◀</span>하연샘 지구과학 실험실로 돌아가기</a><br>온도 범위와 흡수선 세기는 교과서마다 조금씩 다를 수 있는 대표값이다.</p>
+  <p class="foot"><a class="home-link foot-link" href="https://moon-byte-code.github.io/earth-science-lab/"><span class="tri" aria-hidden="true">◀</span>하연샘 지구과학 실험실로 돌아가기</a><br>온도 범위와 흡수선 세기는 교과서마다 조금씩 다를 수 있는 대표값이다.</p>
 </div>
 
 
@@ -1211,6 +1206,7 @@ const FB=()=>cssv('--font-body'), FN=()=>cssv('--font-num');
 const WIEN=2.898e6, SUN=5778;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const fmt=n=>Math.round(n).toLocaleString('ko-KR');
+const fmt3=n=>n.toLocaleString('ko-KR',{minimumFractionDigits:3,maximumFractionDigits:3});
 const g=(x,c,w)=>{const d=(x-c)/w;return Math.exp(-d*d);};
 function planck(nm,T){const l=nm*1e-9;const x=1.4388e-2/(l*T);if(x>700||l<=0)return 0;return 1/(Math.pow(l,5)*(Math.exp(x)-1));}
 const peak=T=>planck(WIEN/T,T);
@@ -1357,7 +1353,7 @@ function drawSpecPlot(cv,o){
   if(o.main){const c=o.main;stroke(c,ink,2.4);const lm=WIEN/c.T;const v=Math.min(valAt(c,lm),1.12);
     if(lm<=xmax){ctx.setLineDash([3,3]);ctx.strokeStyle=acc;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(X(lm),Y(0));ctx.lineTo(X(lm),Y(v));ctx.stroke();ctx.setLineDash([]);
       ctx.fillStyle=acc;ctx.beginPath();ctx.arc(X(lm),Y(v),4,0,Math.PI*2);ctx.fill();
-      const t=c.label||`λmax = ${fmt(lm)} nm`;ctx.font=`600 12px ${FN()}`;const tw=ctx.measureText(t).width;ctx.textAlign='left';
+      const t=c.label||`λmax = ${fmt3(lm)} nm`;ctx.font=`600 12px ${FN()}`;const tw=ctx.measureText(t).width;ctx.textAlign='left';
       let tx=X(lm)+8;if(tx+tw>w-pad.r)tx=X(lm)-8-tw;ctx.fillText(t,Math.max(tx,pad.l+4),Math.max(Y(v)+4,pad.t+12));}}
   if(o.hover!=null&&o.main){const x=clamp(o.hover,pad.l,pad.l+pw);const l=L(x);const v=valAt(o.main,l);const rel=l>0?planck(l,o.main.T)/peak(o.main.T):0;
     ctx.strokeStyle=ink2;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x+.5,pad.t);ctx.lineTo(x+.5,pad.t+ph);ctx.stroke();
@@ -1429,7 +1425,7 @@ function updS4(){const T=S4.T;
   $('#tC').textContent=`= ${fmt(T-273)} °C`;
   document.querySelectorAll('[data-wt]').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.wt===T));[['#sbHalf',3000],['#sbSun',6000],['#sbDouble',12000],['#sbTriple',18000]].forEach(([id,v])=>$(id).setAttribute('aria-pressed',v===T));
   document.querySelectorAll('#presets .chip').forEach(b=>b.setAttribute('aria-pressed',Math.abs(PRE[+b.dataset.i][2]-T)<1));
-  const lm=WIEN/T;$('#rL').textContent=fmt(lm)+' nm';$('#rLn').textContent=regionName(lm);
+  const lm=WIEN/T;$('#rL').textContent=fmt3(lm)+' nm';$('#rLn').textContent=regionName(lm);
   const rgb=kToRGB(T);const sw=$('#rSw');sw.style.background=rgbStr(rgb);sw.style.setProperty('--glow',rgbStr(rgb,.6));
   $('#rT').textContent=T<2400?'M 이후':typeCode(tempIdx(T));const cn=starColorName(T);$('#rC').textContent=cn;
   // 흑체 모형
@@ -1444,7 +1440,7 @@ function updS4(){const T=S4.T;
   drawPlanck();}
 function wienTable(){const rows=[{n:'현재 곡선',T:S4.T}];if(S4.sun&&Math.abs(S4.T-SUN)>1)rows.push({n:'태양',T:SUN});S4.pins.forEach((T,i)=>rows.push({n:'남긴 곡선 '+(i+1),T}));
   $('#wTable').innerHTML='<thead><tr><th>곡선</th><th>표면 온도 T</th><th>λmax</th><th>λmax × T</th></tr></thead><tbody>'+
-   rows.map(r=>`<tr><td>${r.n}</td><td>${fmt(r.T)} K</td><td>${fmt(WIEN/r.T)} nm</td><td class="prod">2.898 × 10⁶ nm·K</td></tr>`).join('')+'</tbody>';}
+   rows.map(r=>`<tr><td>${r.n}</td><td>${fmt(r.T)} K</td><td>${fmt3(WIEN/r.T)} nm</td><td class="prod">2.898 × 10⁶ nm·K</td></tr>`).join('')+'</tbody>';}
 function drawPlanck(){
   const sun=S4.sun&&Math.abs(S4.T-SUN)>1?[{T:SUN,color:cssv('--ink-3'),label:'태양'}]:[];
   const pins=S4.pins.map((T,i)=>({T,color:cssv(PIN_C[i%4]),label:fmt(T)+' K'}));
@@ -1953,6 +1949,10 @@ document.addEventListener('keydown',e=>{if(!$('#quizModal').hidden)return;const 
 
 /* ---------- 빈칸 채우기 ---------- */
 const normA=t=>String(t).replace(/[\s.()\[\]~!?,'"·]/g,'').toLowerCase();
+function numVal(t){let s=String(t).trim();if(!s)return null;s=s.replace(/\s+/g,'').replace(/(\d+(?:\.\d+)?)분의(\d+(?:\.\d+)?)/g,'($2/$1)').replace(/약|정도|쯤|배|켈빈|K|k/g,'').replace(/^=/,'');return calc(s,1);}
+function numEq(x,a,tol){return x!=null&&a!=null&&Math.abs(x-a)<=Math.max(Math.abs(a)*tol,1e-9);}
+function placePop(btn,pop){pop.style.position='fixed';pop.style.left='0px';pop.style.top='0px';const r=btn.getBoundingClientRect(),vw=document.documentElement.clientWidth,vh=window.innerHeight;const pw=pop.offsetWidth,ph=pop.offsetHeight;let x=Math.min(Math.max(8,r.left),vw-pw-8);let y=r.bottom+6;if(y+ph>vh-8&&r.top-ph-6>8)y=r.top-ph-6;pop.style.left=Math.max(8,x)+'px';pop.style.top=y+'px';}
+window.addEventListener('scroll',()=>closeChoices(),true);window.addEventListener('resize',()=>closeChoices());
 function closeChoices(except){document.querySelectorAll('.blank-pop').forEach(p=>{if(p!==except)p.hidden=true;});}
 document.addEventListener('click',e=>{if(!(e.target.closest&&e.target.closest('.blank.choice')))closeChoices();});
 const TRY_AGAIN='다시 한번 더 생각해보세요.';
@@ -1967,7 +1967,7 @@ function setupFill(box){const spans=[...box.querySelectorAll('.blank')].filter(s
       pop.innerHTML=sp.dataset.opts.split('|').map(o=>`<button type="button" class="blank-opt">${o}</button>`).join('');
       sp.append(btn,fb,pop);it.inp=btn;
       it.setVal=v=>{btn.textContent=v||'고르기';};it.lock=on=>{btn.disabled=on;};
-      btn.addEventListener('click',e=>{e.stopPropagation();if(it.state==='ok'||it.state==='shown')return;const open=pop.hidden;closeChoices();pop.hidden=!open;});
+      btn.addEventListener('click',e=>{e.stopPropagation();if(it.state==='ok'||it.state==='shown')return;const open=pop.hidden;closeChoices();pop.hidden=!open;if(open)placePop(btn,pop);});
       pop.querySelectorAll('.blank-opt').forEach(o=>o.addEventListener('click',e=>{e.stopPropagation();pop.hidden=true;
         const ok=normA(o.textContent)===normA(main);it.state=ok?'ok':'no';sp.className='blank choice '+it.state;btn.textContent=o.textContent;
         if(ok){btn.disabled=true;fb.textContent='✓';}else{fb.textContent=TRY_AGAIN;}count();}));
@@ -1976,7 +1976,7 @@ function setupFill(box){const spans=[...box.querySelectorAll('.blank')].filter(s
       inp.style.width=(Math.max(main.length,2)*1.1+2.4)+'em';sp.append(inp,fb);it.inp=inp;
       it.setVal=v=>{inp.value=v;};it.lock=on=>{inp.readOnly=on;};
       const check=()=>{if(it.state==='ok'||it.state==='shown')return;const v=normA(inp.value);if(!v)return;
-        let ok;if(sp.dataset.num){const x=parseFloat(String(inp.value).replace(/[^0-9.\-]/g,''));const n=+sp.dataset.num;ok=!isNaN(x)&&Math.abs(x-n)<=Math.abs(n)*(+sp.dataset.tol||0.05);}else ok=it.ans.some(a=>normA(a)===v);
+        let ok;const xv=numVal(inp.value);if(sp.dataset.num){ok=numEq(xv,+sp.dataset.num,+sp.dataset.tol||0.05);}else ok=it.ans.some(a=>normA(a)===v)||(xv!=null&&it.ans.some(a=>numEq(xv,numVal(a),0.01)));
         it.state=ok?'ok':'no';sp.className='blank '+it.state;
         if(ok){if(!sp.dataset.num)inp.value=main;inp.readOnly=true;fb.textContent='✓';}else{fb.textContent=TRY_AGAIN;}count();};
       inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();check();}});
@@ -2061,5 +2061,5 @@ new MutationObserver(re).observe(document.documentElement,{attributes:true,attri
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(re);
 })();
 </script>
-</body>
-</html>
+
+</body></html>
