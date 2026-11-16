@@ -1955,7 +1955,7 @@ function placePop(btn,pop){pop.style.position='fixed';pop.style.left='0px';pop.s
 window.addEventListener('scroll',()=>closeChoices(),true);window.addEventListener('resize',()=>closeChoices());
 function closeChoices(except){document.querySelectorAll('.blank-pop').forEach(p=>{if(p!==except)p.hidden=true;});}
 document.addEventListener('click',e=>{if(!(e.target.closest&&e.target.closest('.blank.choice')))closeChoices();});
-const TRY_AGAIN='다시 한번 더 생각해보세요.';
+const TRY_AGAIN='다시 한번 더 생각해 보세요.';
 function setupFill(box){const spans=[...box.querySelectorAll('.blank')].filter(sp=>!sp.dataset.ready);if(!spans.length)return;
   const items=spans.map(sp=>{sp.dataset.ready='1';const ans=sp.dataset.a.split('|');const main=ans[0];
     const fb=document.createElement('span');fb.className='blank-fb';fb.setAttribute('aria-live','polite');

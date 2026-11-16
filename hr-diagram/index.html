@@ -2834,7 +2834,7 @@ function setupFill(box){const spans=[...box.querySelectorAll('.blank')].filter(s
       btn.addEventListener('click',e=>{e.stopPropagation();if(it.state==='ok'||it.state==='shown')return;const open=pop.hidden;closeChoices();pop.hidden=!open;if(open)placePop(btn,pop);});
       pop.querySelectorAll('.blank-opt').forEach(o=>o.addEventListener('click',e=>{e.stopPropagation();pop.hidden=true;
         const ok=normA(o.textContent)===normA(main);it.state=ok?'ok':'no';sp.className='blank choice '+it.state;btn.textContent=o.textContent;
-        if(ok){btn.disabled=true;fb.textContent='✓';}else{fb.textContent='정답: '+main;}count();}));
+        if(ok){btn.disabled=true;fb.textContent='✓';}else{fb.textContent='다시 한번 더 생각해 보세요.';}count();}));
     }else{
       const inp=document.createElement('input');inp.type='text';inp.className='blank-in';inp.autocomplete='off';inp.spellcheck=false;inp.setAttribute('aria-label','빈칸: 답을 쓰고 Enter');
       inp.style.width=(Math.max(main.length,2)*1.1+2.4)+'em';sp.append(inp,fb);it.inp=inp;
@@ -2842,14 +2842,14 @@ function setupFill(box){const spans=[...box.querySelectorAll('.blank')].filter(s
       const check=()=>{if(it.state==='ok'||it.state==='shown')return;const v=normA(inp.value);if(!v)return;
         let ok;if(sp.dataset.num){const x=parseFloat(String(inp.value).replace(/[^0-9.\-]/g,''));const n=+sp.dataset.num;ok=!isNaN(x)&&Math.abs(x-n)<=Math.abs(n)*(+sp.dataset.tol||0.05);}else ok=it.ans.some(a=>normA(a)===v);
         it.state=ok?'ok':'no';sp.className='blank '+it.state;
-        if(ok){if(!sp.dataset.num)inp.value=main;inp.readOnly=true;fb.textContent='✓';}else{fb.textContent='정답: '+main;}count();};
+        if(ok){if(!sp.dataset.num)inp.value=main;inp.readOnly=true;fb.textContent='✓';}else{fb.textContent='다시 한번 더 생각해 보세요.';}count();};
       inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();check();}});
       inp.addEventListener('change',check);
       inp.addEventListener('input',()=>{if(it.state==='no'){it.state='';sp.className='blank';fb.textContent='';}});
     }
     const base=()=>'blank'+(sp.dataset.opts?' choice':'');
     it.show=()=>{if(it.state==='ok')return;it.state='shown';it.setVal(main);it.lock(true);sp.className=base()+' shown';fb.textContent='';};
-    it.reset=()=>{it.state='';it.setVal('');it.lock(false);sp.className=base();fb.textContent='';};
+    it.reset=()=>{it.miss=0;it.state='';it.setVal('');it.lock(false);sp.className=base();fb.textContent='';};
     sp._item=it;return it;});
   let bar=null;
   function count(){if(!bar)return;const ok=items.filter(i=>i.state==='ok').length;bar.querySelector('.fill-count').textContent=`빈칸 ${items.length}개 중 ${ok}개 정답`;}
