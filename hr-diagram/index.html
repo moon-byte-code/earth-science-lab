@@ -914,6 +914,35 @@ p,li,.mode-desc,.lq-q,.heat-msg,figcaption{text-wrap:pretty}
 .fa-opts button.wrong{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
 .fa-card .fb{width:100%;max-width:600px;box-sizing:border-box}
 .fa-end{font-size:15px;color:var(--ink)}
+.st-row{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px;align-items:start}
+.st-left,.st-right{display:flex;flex-direction:column;gap:14px}
+@media (max-width:900px){.st-row{grid-template-columns:1fr}}
+.st-block{display:block}
+.st-block>.key:first-child{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px 22px;align-items:center}
+.st-block>.key:first-child>.key-title,.st-block>.key:first-child>p{grid-column:1/-1}
+.st-block>.key+details{margin-top:12px}
+@media (max-width:820px){.st-block>.key:first-child{grid-template-columns:1fr}}
+.uks-row{max-width:640px}
+.blank-opt .gdot,.blank.choice .gdot{display:inline-block;vertical-align:-1px;margin-right:2px}
+.st-block>.key:first-child{display:flex!important;flex-direction:column;gap:10px}
+.st4{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.6fr) minmax(0,.8fr);gap:18px;align-items:center}
+.st4-img{width:100%;height:auto;border-radius:10px;background:#fff}
+.st4 .tw{margin:0}
+@media (max-width:820px){.st4{grid-template-columns:1fr 1fr}.st4 .tw{grid-column:1/-1;order:3}}
+#uksBox{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:10px 26px;align-items:start}
+#uksBox>.row:first-child{grid-column:1/-1}
+#uksBox>#uksQ,#uksBox>#uksFig{grid-column:1}
+#uksBox>#uksOpts,#uksBox>#uksFb,#uksBox>.row:last-child{grid-column:2}
+#uksBox>#uksOpts{grid-row:2/span 2;align-self:center}
+@media (max-width:820px){#uksBox{grid-template-columns:1fr}#uksBox>*{grid-column:1!important;grid-row:auto!important}}
+.uks-row{max-width:none}
+.st-block>.key:first-child{align-items:stretch!important;text-align:left}
+.st4{align-items:center}.st4-img{border-radius:10px}
+.st4-mid{display:flex;flex-direction:column;gap:10px}
+.st4-cap{margin:0;text-align:center;font-size:12.5px;color:var(--ink-3);line-height:1.5}
+.st-block>.key:first-child{padding-bottom:16px}
+@media (max-width:820px){.st4-mid{grid-column:1/-1;order:3}}
+.st-block .st4-cap{font-size:12.5px;color:var(--ink-3)}
 </style>
 </head><body>
 <div class="wrap">
@@ -998,14 +1027,7 @@ p,li,.mode-desc,.lq-q,.heat-msg,figcaption{text-wrap:pretty}
 
         <div class="key fill">
           <p class="key-title">2. 각 집단에 속한 별의 크기를 비교해 보자.</p>
-          <p>광도는 <b class="fx">L = 4πR²·σT⁴</b> 이다. 분광형(표면 온도)이 같은 두 별을 골라 광도를 비교하면 크기를 비교할 수 있다.</p>
-          <div class="chips" id="pairChips" aria-label="비교할 두 별"></div>
-          <div class="stats s3" id="pairStats" hidden>
-            <div class="stat"><span class="lbl">절대 등급 차</span><span class="val" id="pDm">-</span></div>
-            <div class="stat"><span class="lbl">광도 비</span><span class="val" id="pL">-</span></div>
-            <div class="stat"><span class="lbl">반지름 비 (√광도 비)</span><span class="val" id="pR">-</span></div>
-          </div>
-          <p class="hint" id="pairNote">절대 등급이 5 작으면 광도는 100배, 1 작으면 약 2.5배이다. 광도 비 = 10<sup>0.4 × (등급 차)</sup></p>
+          <p>광도는 <b class="fx">L = 4πR²·σT⁴</b> 이다. 표면 온도가 같은 두 별은 광도를 비교하면 크기를 비교할 수 있다.</p>
           <ul>
             <li>표면 온도가 같을 때 광도가 클수록 반지름이 <span class="blank" data-a="크다" data-opts="크다|작다"></span>.</li>
             <li>시리우스 B는 시리우스 A와 분광형이 같지만 광도가 훨씬 작으므로 반지름이 훨씬 <span class="blank" data-a="작다" data-opts="크다|작다"></span>.</li>
@@ -1072,16 +1094,6 @@ p,li,.mode-desc,.lq-q,.heat-msg,figcaption{text-wrap:pretty}
         </div>
         </div>
         <div class="cls-info" id="clsInfo"></div>
-        <div class="key try fill">
-          <p class="key-title">해 보기 · 탐구의 집단은 무엇이었을까?</p>
-          <p>1쪽 탐구에서 나눈 세 집단은 각각 어떤 별일까?</p>
-          <ul>
-            <li>가장 많은 별이 모인 띠 모양 집단: <span class="blank" data-a="주계열성" data-opts="주계열성|거성|초거성|백색왜성"></span></li>
-            <li>안타레스, 베텔게우스가 속한 집단: <span class="blank" data-a="초거성" data-opts="주계열성|거성|초거성|백색왜성"></span></li>
-            <li>시리우스 B, 프로키온 B가 속한 집단: <span class="blank" data-a="백색왜성" data-opts="주계열성|거성|초거성|백색왜성"></span></li>
-          </ul>
-          <p class="hint">왼쪽 H-R도에서 두 별을 눌러 어느 영역에 있는지 확인해 보자.</p>
-        </div>
         <div class="key lx-quiz" id="ukBox">
           <div class="row" style="justify-content:space-between">
             <p class="key-title">미지의 별 확인하기</p>
@@ -1337,6 +1349,33 @@ p,li,.mode-desc,.lq-q,.heat-msg,figcaption{text-wrap:pretty}
       <div class="rx-leg"><span><i class="lg-p"></i>양성자</span><span><i class="lg-n"></i>중성자</span><span><i class="lg-e"></i>전자</span><span><b>ν</b> 중성미자</span><span><b class="lg-g">〰</b> 감마선</span></div>
           
     </div>
+    <div class="sub-lab st-block">
+        <div class="key">
+          <p class="key-title">② 질량에 따른 주계열성의 내부 구조</p>
+          <p>주계열성은 질량에 따라 에너지가 생성되고 전달되는 방식이 다르게 나타나므로 내부 구조가 달라진다.</p>
+
+          <div class="st4">
+            <img class="st4-img" src="assets/img01.webp" alt="질량이 태양 정도인 주계열성의 내부 구조">
+            <div class="st4-mid"><div class="tw">
+          <table class="cmp-table">
+            <thead><tr><th>질량이 태양 정도인 별</th><th>질량이 태양의 약 1.5배 이상인 별</th></tr></thead>
+            <tbody><tr>
+              <td><b>핵 - 복사층 - 대류층</b><br>중심핵에서 생성한 에너지를 복사층에서 복사로 전달하고, 이를 대류층이 둘러싸고 있다.</td>
+              <td><b>대류핵 - 복사층</b><br>중심부로부터의 거리에 따른 온도 차가 커 대류가 일어나는 핵이 형성된다.</td>
+            </tr></tbody>
+          </table>
+          </div><p class="st4-cap">질량에 따른 주계열성의 내부 구조와 에너지 전달<br>(M: 별의 질량, M☉: 태양 질량)</p></div>
+            <img class="st4-img" src="assets/img02.webp" alt="질량이 태양의 약 1.5배 이상인 주계열성의 내부 구조">
+          </div>
+        </div>
+        <details class="key after-q">
+          <summary class="key-title">더 알아보기: 질량이 태양의 0.26배 이하인 별의 내부 구조</summary>
+          <div class="low-row">
+            <img src="assets/img03.png" alt="질량이 태양의 0.08배~0.26배인 별: 내부 전체가 대류층">
+            <p>질량이 태양의 0.08배~0.26배인 별은 주계열 단계에서 내부 전체가 대류층이므로 모든 수소가 핵융합 반응을 하고 있다.</p>
+          </div>
+        </details>
+    </div>
     <div class="lab">
       <div class="viz">
         <div class="slider-block">
@@ -1379,28 +1418,9 @@ p,li,.mode-desc,.lq-q,.heat-msg,figcaption{text-wrap:pretty}
             <li>질량이 태양의 약 0.25배인 별: 약 700억 년</li>
           </ul>
         </details>
-        <div class="key">
-          <p class="key-title">② 질량에 따른 주계열성의 내부 구조</p>
-          <p>주계열성은 질량에 따라 에너지가 생성되고 전달되는 방식이 다르게 나타나므로 내부 구조가 달라진다.</p>
-          <figure class="st-fig"><img src="assets/img01.jpg" alt="질량에 따른 주계열성의 내부 구조와 에너지 전달: 0.26 M☉ < M < 1.5 M☉인 별은 핵-복사층-대류층, M > 1.5 M☉인 별은 대류핵-복사층">
-            <figcaption class="hint">질량에 따른 주계열성의 내부 구조와 에너지 전달 (M: 별의 질량, M☉: 태양 질량)</figcaption></figure>
-          <div class="tw">
-          <table class="cmp-table">
-            <thead><tr><th>질량이 태양 정도인 별</th><th>질량이 태양의 약 1.5배 이상인 별</th></tr></thead>
-            <tbody><tr>
-              <td><b>핵 - 복사층 - 대류층</b><br>중심핵에서 생성한 에너지를 복사층에서 복사로 전달하고, 이를 대류층이 둘러싸고 있다.</td>
-              <td><b>대류핵 - 복사층</b><br>중심부로부터의 거리에 따른 온도 차가 커 대류가 일어나는 핵이 형성된다.</td>
-            </tr></tbody>
-          </table>
-          </div>
-        </div>
-        <details class="key after-q">
-          <summary class="key-title">더 알아보기: 질량이 태양의 0.26배 이하인 별의 내부 구조</summary>
-          <div class="low-row">
-            <img src="assets/img02.png" alt="질량이 태양의 0.08배~0.26배인 별: 내부 전체가 대류층">
-            <p>질량이 태양의 0.08배~0.26배인 별은 주계열 단계에서 내부 전체가 대류층이므로 모든 수소가 핵융합 반응을 하고 있다.</p>
-          </div>
-        </details>
+      </div>
+    </div>
+    <div class="sub-lab uks-row">
         <div class="key lx-quiz" id="uksBox">
           <div class="row" style="justify-content:space-between">
             <p class="key-title">미지의 별 확인하기</p>
@@ -1415,7 +1435,6 @@ p,li,.mode-desc,.lq-q,.heat-msg,figcaption{text-wrap:pretty}
             <button class="btn" id="uksSee" hidden>왼쪽 그래프에서 확인하기</button>
           </div>
         </div>
-      </div>
     </div>
   </section>
 
@@ -1806,14 +1825,7 @@ $('#grpCheck').addEventListener('click',()=>{const fb=$('#grpFb');fb.hidden=fals
   if(new Set(Object.values(r2c)).size<3){fb.textContent='멀리 떨어진 별들이 같은 색으로 묶여 있다. 그래프에서 서로 떨어져 있는 별 무리를 찾아 세 집단으로 나누어 보자.';return;}
   const m={};for(let g=1;g<=3;g++)m[r2c[g]]=g;setMap(m);fb.className='fb ok';fb.innerHTML='정확하게 나누었다! '+okMsg(m);});
 
-// 크기 비교
-$('#pairChips').innerHTML=PAIRS.map(([a,b],k)=>`<button class="chip" data-p="${k}" aria-pressed="false">${ACT[a].n}(${ACT[a].t}) ↔ ${ACT[b].n}(${ACT[b].t})</button>`).join('');
-document.querySelectorAll('[data-p]').forEach(b=>b.addEventListener('click',()=>{P1.pair=+b.dataset.p;const[a,c]=PAIRS[P1.pair];P1.plotted.add(a);P1.plotted.add(c);updList();updPair();drawPaper();}));
-function updPair(){document.querySelectorAll('[data-p]').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.p===P1.pair));
-  if(P1.pair<0){$('#pairStats').hidden=true;return;}$('#pairStats').hidden=false;const[a,b]=PAIRS[P1.pair];const A=ACT[a],B=ACT[b];const dm=+(B.M-A.M).toFixed(1);const lr=Math.pow(10,0.4*dm);
-  $('#pDm').textContent=dm.toFixed(1);$('#pL').textContent='약 '+bigTxt(lr)+'배';$('#pR').textContent='약 '+bigTxt(Math.sqrt(lr))+'배';
-  $('#pairNote').innerHTML=`${A.n}의 절대 등급(${A.M})이 ${B.n}(${B.M})보다 ${dm.toFixed(1)} 작으므로 광도는 10<sup>0.4 × ${dm.toFixed(1)}</sup> ≈ ${bigTxt(lr)}배이다. 표면 온도가 ${A.t===B.t?'같으므로':'거의 같으므로'} L ∝ R²에서 반지름은 약 ${bigTxt(Math.sqrt(lr))}배 크다.`;}
-
+function updPair(){}
 /* ---------- 2. H-R도와 별의 분류 ---------- */
 const MSP=[[3,-6.0],[5,-5.7],[10,-4.0],[15,-1.2],[20,0.6],[25,1.9],[30,2.7],[35,3.5],[40,4.4],[45,5.1],[50,5.9],[55,7.4],[60,9.2],[65,12.3],[69,15.0]];
 function msM(i){for(let k=1;k<MSP.length;k++){const[a,ma]=MSP[k-1],[b,mb]=MSP[k];if(i<=b)return ma+(mb-ma)*(i-a)/(b-a);}return MSP[MSP.length-1][1];}
@@ -1949,14 +1961,14 @@ function setCls(k){P2.sel=k;document.querySelectorAll('[data-c]').forEach(b=>b.s
   const box=$('#clsInfo');if(k==='all'){box.innerHTML='';drawP2();return;}
   if(pane&&getComputedStyle(pane).overflowY==='auto'){const t=$('#clsBoxes').offsetTop-pane.offsetTop-8;pane.scrollTo({top:Math.max(0,t),behavior:'smooth'});}
   const c=CLS[k];const nAll=BG.length,nk=BG.filter(s=>s.c===k).length;
-  box.innerHTML=`<div class="stats"><div class="stat"><span class="lbl">위치</span><span class="val"><span class="ko">${c.pos}</span></span></div>
+  box.innerHTML=`<p class="cap">${c.n}과 태양의 크기 비교 <span class="hint">(같은 축척)</span></p><canvas id="sizeCv" class="size-cv" aria-label="태양과 ${c.n}의 크기 비교"></canvas>
+    <p class="hint">예: ${c.ex}</p>
+    <div class="stats"><div class="stat"><span class="lbl">위치</span><span class="val"><span class="ko">${c.pos}</span></span></div>
     <div class="stat"><span class="lbl">표면 온도</span><span class="val"><span class="ko">${c.T}</span></span></div>
     <div class="stat"><span class="lbl">광도</span><span class="val"><span class="ko">${c.L}</span></span></div>
     <div class="stat"><span class="lbl">반지름</span><span class="val"><span class="ko">${c.R}</span></span></div>
     <div class="stat"><span class="lbl">평균 밀도</span><span class="val"><span class="ko">${c.D}</span></span></div>
-    <div class="stat"><span class="lbl">예시 분포 속 별의 수</span><span class="val">${nk}개</span><span class="note">\'별 분포\'를 켜면 보인다 · ${nAll}개 중 약 ${Math.round(nk/nAll*100)} %</span></div></div>
-    <p class="cap">${c.n}과 태양의 크기 비교 <span class="hint">(같은 축척)</span></p><canvas id="sizeCv" class="size-cv" aria-label="태양과 ${c.n}의 크기 비교"></canvas>
-    <p class="hint">예: ${c.ex}</p>`;
+    <div class="stat"><span class="lbl">예시 분포 속 별의 수</span><span class="val">${nk}개</span><span class="note">\'별 분포\'를 켜면 보인다 · ${nAll}개 중 약 ${Math.round(nk/nAll*100)} %</span></div></div>`;
   drawP2();}
 function drawSize(){const cv=$('#sizeCv');if(!cv||P2.sel==='all')return;const{ctx,w,h}=setup(cv);const c=CLS[P2.sel],rep=c.rep;
   ctx.fillStyle='#28346a';rrect(ctx,0,0,w,h,12);ctx.fill();ctx.save();rrect(ctx,0,0,w,h,12);ctx.clip();
@@ -2045,7 +2057,7 @@ $('#openHR').addEventListener('click',e=>openQuiz('hr',e.currentTarget));
 $('#mqClose').addEventListener('click',closeQuiz);
 $('#quizModal').addEventListener('click',e=>{if(e.target.id==='quizModal')closeQuiz();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#quizModal').hidden)closeQuiz();});
-const GIMG={a_surf:'assets/img03.webp',a_H:'assets/img04.webp',a_shell:'assets/img05.webp',a_He:'assets/img06.webp',a_CO:'assets/img07.webp',b_surf:'assets/img08.webp',b_H:'assets/img09.webp',b_He:'assets/img10.webp',b_CO:'assets/img11.webp',b_ONe:'assets/img12.webp',b_SiS:'assets/img13.webp',b_Fe:'assets/img14.webp',pn:'assets/img15.webp',sn:'assets/img16.webp',o_wd:'assets/img17.webp',o_sun:'assets/img18.webp',o_gi:'assets/img19.webp',o_blue:'assets/img20.webp',o_sg:'assets/img21.webp',o_ns:'assets/img22.webp',o_pro:'assets/img23.webp',o_ism:'assets/img24.webp',o_pn:'assets/img25.webp',o_sn:'assets/img26.webp',T_sunms:'assets/img27.webp',T_bigms:'assets/img28.webp',T_g23:'assets/img29.webp',T_g24:'assets/img30.webp',T_sg:'assets/img31.webp'};
+const GIMG={a_surf:'assets/img04.webp',a_H:'assets/img05.webp',a_shell:'assets/img06.webp',a_He:'assets/img07.webp',a_CO:'assets/img08.webp',b_surf:'assets/img09.webp',b_H:'assets/img10.webp',b_He:'assets/img11.webp',b_CO:'assets/img12.webp',b_ONe:'assets/img13.webp',b_SiS:'assets/img14.webp',b_Fe:'assets/img15.webp',pn:'assets/img16.webp',sn:'assets/img17.webp',o_wd:'assets/img18.webp',o_sun:'assets/img19.webp',o_gi:'assets/img20.webp',o_blue:'assets/img21.webp',o_sg:'assets/img22.webp',o_ns:'assets/img23.webp',o_pro:'assets/img24.webp',o_ism:'assets/img25.webp',o_pn:'assets/img26.webp',o_sn:'assets/img27.webp',T_sunms:'assets/img28.webp',T_bigms:'assets/img29.webp',T_g23:'assets/img30.webp',T_g24:'assets/img31.webp',T_sg:'assets/img32.webp'};
 const GIM={};Object.keys(GIMG).forEach(k=>{const im=new Image();im.src=GIMG[k];GIM[k]=im;});
 const $x=s=>document.querySelector(s)||{};
 
@@ -3175,12 +3187,12 @@ function setupFill(box){const spans=[...box.querySelectorAll('.blank')].filter(s
       sp.classList.add('choice');
       const btn=document.createElement('button');btn.type='button';btn.className='blank-in blank-btn';btn.textContent='고르기';btn.setAttribute('aria-haspopup','true');
       const pop=document.createElement('span');pop.className='blank-pop';pop.hidden=true;
-      pop.innerHTML=sp.dataset.opts.split('|').map(o=>`<button type="button" class="blank-opt">${o}</button>`).join('');
+      pop.innerHTML=sp.dataset.opts.split('|').map(o=>`<button type="button" class="blank-opt">${o.replace(/^집단 ([123])$/,'<i class="gdot g$1"></i> 집단 $1')}</button>`).join('');
       sp.append(btn,fb,pop);it.inp=btn;
       it.setVal=v=>{btn.textContent=v||'고르기';};it.lock=on=>{btn.disabled=on;};
       btn.addEventListener('click',e=>{e.stopPropagation();if(it.state==='ok'||it.state==='shown')return;const open=pop.hidden;closeChoices();pop.hidden=!open;if(open)placePop(btn,pop);});
       pop.querySelectorAll('.blank-opt').forEach(o=>o.addEventListener('click',e=>{e.stopPropagation();pop.hidden=true;
-        const ok=normA(o.textContent)===normA(main);it.state=ok?'ok':'no';sp.className='blank choice '+it.state;btn.textContent=o.textContent;
+        const ok=normA(o.textContent)===normA(main);it.state=ok?'ok':'no';sp.className='blank choice '+it.state;btn.innerHTML=o.innerHTML;
         if(ok){btn.disabled=true;fb.textContent='✓';}else{fb.textContent='다시 한번 더 생각해 보세요.';}count();}));
     }else{
       const inp=document.createElement('input');inp.type='text';inp.className='blank-in';inp.autocomplete='off';inp.spellcheck=false;inp.setAttribute('aria-label','빈칸: 답을 쓰고 Enter');
