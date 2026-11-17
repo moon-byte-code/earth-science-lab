@@ -1,4 +1,8 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}.mwrong{text-align:left;width:100%;display:flex;flex-direction:column;gap:6px;margin:6px 0}
+.mwrong details{background:var(--surface-2);border-radius:10px;padding:10px 12px}
+.mwrong summary{cursor:pointer;font-weight:600;color:var(--ink);font-size:14.5px}
+.mwrong p{margin:8px 0 0;font-size:14px;line-height:1.6;color:var(--ink-2)}
+</style></head><body>
 <title>별의 물리량</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1673,36 +1677,48 @@ const MQ_SB=[
  {q:'별 A의 단위 면적당 방출 에너지가 별 B의 81배일 때, A의 표면 온도는 B의 몇 배일까?',o:['3배','9배','27배','81배'],a:0,ex:'(온도 비)⁴ = 81 = 3⁴ 이므로 온도 비는 3배이다.'}];
 const QSETS={spec:{items:MQ,back:'1, 2단계의 설명과 시뮬레이션'},sb:{items:MQ_SB,back:'5단계의 ② 슈테판·볼츠만 탭'}};
 const MQGAS=['h','he','na','hg'];
-const MQS={set:'spec',i:0,score:0,done:false,gas:0,opener:null};
-function openQuiz(set,opener){MQS.set=set;if(opener)MQS.opener=opener;MQS.i=0;MQS.score=0;MQS.gas=Math.floor(Math.random()*4);
+const MQS={set:'spec',done:false,opener:null};
+const QST={};const QBTN={spec:'#openQuiz',sb:'#openSB',lum:'#openLum',type:'#openType',wien:'#openWien'};
+function qLoad(set){if(QST[set])return QST[set];let s=null;try{s=JSON.parse(localStorage.getItem('spq_'+set)||'null');}catch(e){}
+  const n=QSETS[set]?QSETS[set].items.length:0;if(!s||!Array.isArray(s.list)||s.list.some(k=>k>=n))s=null;QST[set]=s;return s;}
+function qSave(set){try{localStorage.setItem('spq_'+set,JSON.stringify(QST[set]));}catch(e){}updQBtn(set);}
+function qNew(set,list,mode){const prev=QST[set];QST[set]={list,pos:0,score:0,mode,wrong:mode==='wrong'&&prev?prev.wrong.slice():[],ans:{},gas:{}};qSave(set);}
+function updQBtn(set){const b=$(QBTN[set]);if(!b)return;const s=QST[set];if(!b.dataset.label)b.dataset.label=b.textContent;
+  b.textContent=!s?b.dataset.label:s.mode==='wrong'&&s.pos<s.list.length?`오답 다시 풀기 (${s.pos+1} / ${s.list.length})`:(!s.pos&&!Object.keys(s.ans).length)?b.dataset.label:s.pos<s.list.length?`이어서 풀기 (${s.pos+1} / ${s.list.length})`:s.wrong.length?'결과 · 오답 보기':'다시 풀기';}
+function openQuiz(set,opener){MQS.set=set;if(opener)MQS.opener=opener;if(!qLoad(set))qNew(set,QSETS[set].items.map((_,k)=>k),'all');
   $('#quizModal').hidden=false;document.documentElement.style.overflow='hidden';renderMQ();$('#mqClose').focus();}
 function closeQuiz(){$('#quizModal').hidden=true;document.documentElement.style.overflow='';if(MQS.opener)MQS.opener.focus();}
-function renderMQ(){const body=$('#mqBody');const QS=QSETS[MQS.set].items;const n=QS.length;
-  $('#mqProg').innerHTML=QS.map((_,k)=>`<i class="${k<MQS.i?'on':''}"></i>`).join('');
-  if(MQS.i>=n){const s=MQS.score;
-    body.innerHTML=`<div class="mresult"><p class="hint">결과</p><span class="big">${s} / ${n}</span>
-      <p style="font-size:16px">${s===n?'모두 맞혔다! 다음 단계로 가 볼까?':s>=n-2?'잘했다. 틀린 문제의 풀이를 다시 확인해 보자.':QSETS[MQS.set].back+'을 다시 살펴본 뒤 한 번 더 풀어 보자.'}</p>
-      <div class="row"><button class="btn" id="mqRetry">다시 풀기</button><button class="btn primary" id="mqEnd">닫기</button></div></div>`;
-    $('#mqRetry').onclick=()=>openQuiz(MQS.set);$('#mqEnd').onclick=closeQuiz;return;}
-  const q=QS[MQS.i];MQS.done=false;
+function renderMQ(){const body=$('#mqBody');const set=MQS.set,QS=QSETS[set].items,s=QST[set],n=s.list.length;if(!s.gas)s.gas={};
+  $('#mqProg').innerHTML=s.list.map((_,k)=>`<i class="${k<s.pos?'on':''}"></i>`).join('');
+  if(s.pos>=n){const sc=s.score,w=s.wrong;
+    const ansTxt=q=>q.fig==='gas'?'(그림 문제: 다시 풀며 확인)':`${'①②③④'[q.a]} ${q.o[q.a]}`;
+    body.innerHTML=`<div class="mresult"><p class="hint">${s.mode==='wrong'?'오답 다시 풀기 결과':'결과'}</p><span class="big">${sc} / ${n}</span>
+      <p style="font-size:16px">${sc===n?(s.mode==='wrong'?'틀렸던 문제를 모두 해결했다!':'모두 맞혔다! 다음 단계로 가 볼까?'):sc>=n-2?'잘했다. 틀린 문제를 다시 확인해 보자.':QSETS[set].back+'을 다시 살펴본 뒤 한 번 더 풀어 보자.'}</p>
+      ${w.length?`<div class="mwrong"><p class="key-title">아직 틀린 문제 ${w.length}개</p>${w.map(k=>{const q=QS[k];return `<details><summary>${q.q}</summary><p><b>정답: ${ansTxt(q)}</b><br>${q.ex}</p></details>`;}).join('')}</div>`:''}
+      <div class="row" style="justify-content:center">${w.length?'<button class="btn primary" id="mqWrong">오답 다시 풀기</button>':''}<button class="btn" id="mqRetry">처음부터 다시 풀기</button><button class="btn ghost" id="mqEnd">닫기</button></div></div>`;
+    if(w.length)$('#mqWrong').onclick=()=>{qNew(set,w.slice(),'wrong');renderMQ();};
+    $('#mqRetry').onclick=()=>{qNew(set,QS.map((_,k)=>k),'all');QST[set].wrong=[];qSave(set);renderMQ();};$('#mqEnd').onclick=closeQuiz;return;}
+  const qi=s.list[s.pos],q=QS[qi];MQS.done=false;
   let opts=q.o,ans=q.a,fig='';
-  if(q.fig==='gas'){opts=MQGAS.map(k=>GASES.find(x=>x.k===k).n);ans=MQS.gas;
+  if(q.fig==='gas'){if(s.gas[s.pos]==null){s.gas[s.pos]=Math.floor(Math.random()*4);qSave(set);}const g=s.gas[s.pos];opts=MQGAS.map(k=>GASES.find(x=>x.k===k).n);ans=g;
     fig=`<div class="mfig"><p class="cap">미지의 기체</p><canvas id="mqU" style="height:44px"></canvas><p class="cap" style="margin-top:6px">원소별 방출 스펙트럼</p>`+
       MQGAS.map((k,j)=>`<div class="refrow"><span>${opts[j]}</span><canvas id="mqR${j}" style="height:24px"></canvas></div>`).join('')+'</div>';}
   if(q.fig==='planck2'||q.fig==='wien2')fig=`<div class="mfig"><canvas id="mqP" class="plotc" style="height:210px"></canvas></div>`;
-  body.innerHTML=`<p class="hint">문제 ${MQS.i+1} / ${n}</p><h3 id="mqTitle">${q.q}</h3>${fig}
+  body.innerHTML=`<p class="hint">${s.mode==='wrong'?'오답 다시 풀기 · ':''}문제 ${s.pos+1} / ${n}</p><h3 id="mqTitle">${q.q}</h3>${fig}
     <div class="mopts">${opts.map((t,j)=>`<button data-j="${j}">${'①②③④'[j]} ${t}</button>`).join('')}</div>
-    <div class="fb" id="mqFb" hidden></div><div class="row" style="justify-content:flex-end"><button class="btn primary" id="mqNext" hidden>${MQS.i===n-1?'결과 보기':'다음 문제'}</button></div>`;
-  requestAnimationFrame(()=>{
-    if(q.fig==='gas'){drawGasStrip($('#mqU'),GASES.find(x=>x.k===MQGAS[MQS.gas]).lines,'emi',true);MQGAS.forEach((k,j)=>drawGasStrip($('#mqR'+j),GASES.find(x=>x.k===k).lines,'emi',false));}
-    if(q.fig==='wien2')drawSpecPlot($('#mqP'),{others:[{T:3500,color:cssv('--c-tio'),label:'A: λmax 828 nm',solid:true},{T:7000,color:cssv('--c-he1'),label:'B: λmax 414 nm',solid:true}],mode:'shape',xmax:2000});
-    if(q.fig==='planck2')drawSpecPlot($('#mqP'),{others:[{T:8000,color:cssv('--c-he1'),label:'A 8,000 K',solid:true},{T:4000,color:cssv('--c-tio'),label:'B 4,000 K',solid:true}],area:true,mode:'abs',xmax:2000});});
-  body.querySelectorAll('.mopts button').forEach(b=>b.addEventListener('click',()=>{if(MQS.done)return;const j=+b.dataset.j;const fb=$('#mqFb');fb.hidden=false;
-    if(j===ans){b.className='right';fb.className='fb ok';fb.textContent='정답! '+q.ex;MQS.score++;}
-    else{b.className='wrong';body.querySelectorAll('.mopts button')[ans].className='right';fb.className='fb no';fb.textContent='아쉽다. '+q.ex;}
-    MQS.done=true;body.querySelectorAll('.mopts button').forEach(x=>x.disabled=true);$('#mqNext').hidden=false;$('#mqNext').focus();
-    $('#mqProg').innerHTML=QS.map((_,k)=>`<i class="${k<=MQS.i?'on':''}"></i>`).join('');}));
-  $('#mqNext').addEventListener('click',()=>{MQS.i++;renderMQ();});}
+    <div class="fb" id="mqFb" hidden></div><div class="row" style="justify-content:space-between"><span class="hint">창을 닫고 찾아본 뒤 이어서 풀 수 있다.</span><button class="btn primary" id="mqNext" hidden>${s.pos===n-1?'결과 보기':'다음 문제'}</button></div>`;
+  requestAnimationFrame(()=>{if(!$('#mqBody .mopts'))return;
+    if(q.fig==='gas'&&$('#mqU')){drawGasStrip($('#mqU'),GASES.find(x=>x.k===MQGAS[ans]).lines,'emi',true);MQGAS.forEach((k,j)=>drawGasStrip($('#mqR'+j),GASES.find(x=>x.k===k).lines,'emi',false));}
+    if(q.fig==='wien2'&&$('#mqP'))drawSpecPlot($('#mqP'),{others:[{T:3500,color:cssv('--c-tio'),label:'A: λmax 828 nm',solid:true},{T:7000,color:cssv('--c-he1'),label:'B: λmax 414 nm',solid:true}],mode:'shape',xmax:2000});
+    if(q.fig==='planck2'&&$('#mqP'))drawSpecPlot($('#mqP'),{others:[{T:8000,color:cssv('--c-he1'),label:'A 8,000 K',solid:true},{T:4000,color:cssv('--c-tio'),label:'B 4,000 K',solid:true}],area:true,mode:'abs',xmax:2000});});
+  const showAns=j=>{const fb=$('#mqFb');fb.hidden=false;const bs=body.querySelectorAll('.mopts button');
+    if(j===ans){bs[j].className='right';fb.className='fb ok';fb.textContent='정답! '+q.ex;}else{bs[j].className='wrong';bs[ans].className='right';fb.className='fb no';fb.textContent='아쉽다. '+q.ex;}
+    MQS.done=true;bs.forEach(x=>x.disabled=true);$('#mqNext').hidden=false;};
+  if(s.ans[s.pos]!=null)showAns(s.ans[s.pos]);
+  body.querySelectorAll('.mopts button').forEach(b=>b.addEventListener('click',()=>{if(MQS.done)return;const j=+b.dataset.j;s.ans[s.pos]=j;
+    if(j===ans){s.score++;s.wrong=s.wrong.filter(k=>k!==qi);}else if(!s.wrong.includes(qi))s.wrong.push(qi);
+    qSave(set);showAns(j);$('#mqNext').focus();$('#mqProg').innerHTML=s.list.map((_,k)=>`<i class="${k<=s.pos?'on':''}"></i>`).join('');}));
+  $('#mqNext').addEventListener('click',()=>{s.pos++;qSave(set);renderMQ();});}
 $('#openQuiz').addEventListener('click',e=>openQuiz('spec',e.currentTarget));
 $('#openSB').addEventListener('click',e=>openQuiz('sb',e.currentTarget));
 $('#mqClose').addEventListener('click',closeQuiz);
@@ -1918,6 +1934,7 @@ QSETS.spec.back='1, 2 페이지의 설명과 시뮬레이션';
 QSETS.lum.back='7. 별의 광도와 크기 페이지';
 $('#openType').addEventListener('click',e=>openQuiz('type',e.currentTarget));
 $('#openWien').addEventListener('click',e=>openQuiz('wien',e.currentTarget));
+['spec','sb','lum','type','wien'].forEach(k=>{if(QSETS[k]){qLoad(k);updQBtn(k);}});
 
 /* ---------- 페이지 넘기기 ---------- */
 const PAGES=[...document.querySelectorAll('.page')];
