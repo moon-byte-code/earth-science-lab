@@ -1355,7 +1355,7 @@ p,li,.mode-desc,.lq-q,.heat-msg,figcaption{text-wrap:pretty}
           <p>주계열성은 질량에 따라 에너지가 생성되고 전달되는 방식이 다르게 나타나므로 내부 구조가 달라진다.</p>
 
           <div class="st4">
-            <img class="st4-img" src="assets/img01.webp" alt="질량이 태양 정도인 주계열성의 내부 구조">
+            <img class="st4-img" src="hr-img01.webp" alt="질량이 태양 정도인 주계열성의 내부 구조">
             <div class="st4-mid"><div class="tw">
           <table class="cmp-table">
             <thead><tr><th>질량이 태양 정도인 별</th><th>질량이 태양의 약 1.5배 이상인 별</th></tr></thead>
@@ -1365,13 +1365,13 @@ p,li,.mode-desc,.lq-q,.heat-msg,figcaption{text-wrap:pretty}
             </tr></tbody>
           </table>
           </div><p class="st4-cap">질량에 따른 주계열성의 내부 구조와 에너지 전달<br>(M: 별의 질량, M☉: 태양 질량)</p></div>
-            <img class="st4-img" src="assets/img02.webp" alt="질량이 태양의 약 1.5배 이상인 주계열성의 내부 구조">
+            <img class="st4-img" src="hr-img02.webp" alt="질량이 태양의 약 1.5배 이상인 주계열성의 내부 구조">
           </div>
         </div>
         <details class="key after-q">
           <summary class="key-title">더 알아보기: 질량이 태양의 0.26배 이하인 별의 내부 구조</summary>
           <div class="low-row">
-            <img src="assets/img03.png" alt="질량이 태양의 0.08배~0.26배인 별: 내부 전체가 대류층">
+            <img src="hr-img03.png" alt="질량이 태양의 0.08배~0.26배인 별: 내부 전체가 대류층">
             <p>질량이 태양의 0.08배~0.26배인 별은 주계열 단계에서 내부 전체가 대류층이므로 모든 수소가 핵융합 반응을 하고 있다.</p>
           </div>
         </details>
@@ -2057,7 +2057,7 @@ $('#openHR').addEventListener('click',e=>openQuiz('hr',e.currentTarget));
 $('#mqClose').addEventListener('click',closeQuiz);
 $('#quizModal').addEventListener('click',e=>{if(e.target.id==='quizModal')closeQuiz();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#quizModal').hidden)closeQuiz();});
-const GIMG={a_surf:'assets/img04.webp',a_H:'assets/img05.webp',a_shell:'assets/img06.webp',a_He:'assets/img07.webp',a_CO:'assets/img08.webp',b_surf:'assets/img09.webp',b_H:'assets/img10.webp',b_He:'assets/img11.webp',b_CO:'assets/img12.webp',b_ONe:'assets/img13.webp',b_SiS:'assets/img14.webp',b_Fe:'assets/img15.webp',pn:'assets/img16.webp',sn:'assets/img17.webp',o_wd:'assets/img18.webp',o_sun:'assets/img19.webp',o_gi:'assets/img20.webp',o_blue:'assets/img21.webp',o_sg:'assets/img22.webp',o_ns:'assets/img23.webp',o_pro:'assets/img24.webp',o_ism:'assets/img25.webp',o_pn:'assets/img26.webp',o_sn:'assets/img27.webp',T_sunms:'assets/img28.webp',T_bigms:'assets/img29.webp',T_g23:'assets/img30.webp',T_g24:'assets/img31.webp',T_sg:'assets/img32.webp'};
+const GIMG={a_surf:'hr-img04.webp',a_H:'hr-img05.webp',a_shell:'hr-img06.webp',a_He:'hr-img07.webp',a_CO:'hr-img08.webp',b_surf:'hr-img09.webp',b_H:'hr-img10.webp',b_He:'hr-img11.webp',b_CO:'hr-img12.webp',b_ONe:'hr-img13.webp',b_SiS:'hr-img14.webp',b_Fe:'hr-img15.webp',pn:'hr-img16.webp',sn:'hr-img17.webp',o_wd:'hr-img18.webp',o_sun:'hr-img19.webp',o_gi:'hr-img20.webp',o_blue:'hr-img21.webp',o_sg:'hr-img22.webp',o_ns:'hr-img23.webp',o_pro:'hr-img24.webp',o_ism:'hr-img25.webp',o_pn:'hr-img26.webp',o_sn:'hr-img27.webp',T_sunms:'hr-img28.webp',T_bigms:'hr-img29.webp',T_g23:'hr-img30.webp',T_g24:'hr-img31.webp',T_sg:'hr-img32.webp'};
 const GIM={};Object.keys(GIMG).forEach(k=>{const im=new Image();im.src=GIMG[k];GIM[k]=im;});
 const $x=s=>document.querySelector(s)||{};
 
