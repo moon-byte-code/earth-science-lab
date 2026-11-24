@@ -1344,8 +1344,19 @@ function setupFill(box){[...box.querySelectorAll('.blank')].filter(sp=>!sp.datas
     sp.className='blank choice '+(ok?'ok':'no');btn.textContent=o.textContent;if(ok){btn.disabled=true;fb.textContent='✓';}else fb.textContent='다시 한번 더 생각해 보세요.';}));});}
 document.querySelectorAll('.fill').forEach(setupFill);
 
+/* 1쪽: 오른쪽 설명이 스크롤 없이 다 보이도록 왼쪽 그림 높이를 맞춘다 (두 인물 중 긴 설명 기준) */
+function fitP1(){const cv=$('#skyStatic'),sec=$('#p-static');if(!cv||sec.hidden)return;
+  if(window.innerWidth<900){if(cv.style.height){cv.style.height='';}return;}
+  const col=sec.querySelector('.eq-col'),sc=sec.querySelector('.eq-scroll'),pe=$('#panelEin'),pf=$('#panelFri');
+  const was=[pe.hidden,pf.hidden];let maxS=0;
+  [[false,true],[true,false]].forEach(([a,b])=>{pe.hidden=a;pf.hidden=b;maxS=Math.max(maxS,sc.scrollHeight);});
+  pe.hidden=was[0];pf.hidden=was[1];
+  const fixed=col.clientHeight-sc.clientHeight;const need=fixed+maxS;
+  const viz=sec.querySelector('.viz'),bar=viz.querySelector('.anim-bar'),gap=parseFloat(getComputedStyle(viz).rowGap)||14;
+  const base=cv.clientWidth/1.02,want=Math.ceil(Math.max(base,need-bar.offsetHeight-gap));
+  if(Math.abs(cv.clientHeight-want)>1)cv.style.height=want+'px';}
 /* ---------- 시작 & 다시 그리기 ---------- */
-function drawAll(){drawStatic();drawTime();drawHL();drawRuler();drawQ586();drawRS();}
+function drawAll(){fitP1();drawStatic();drawTime();drawHL();drawRuler();drawQ586();drawRS();}
 qLoad('hub');updQBtn('hub');
 let raf=0;const re=()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(drawAll);};
 {const i0=PAGES.findIndex(p=>p.id===location.hash.slice(1));goTo(i0>=0?i0:0,{noAnim:true,noScroll:true,keepHash:i0<0});}
