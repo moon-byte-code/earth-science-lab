@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>허블-르메트르 법칙과 우주 팽창</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+<style>
+/* Layout: 학습 순서대로 1→6 카드. 카드마다 왼쪽(조작·그래프, 넓은 화면에서 고정) + 오른쪽(설명)을 한 화면에 둔다. */
+:root{
+  --bg:#F2F4F6; --surface:#FFFFFF; --surface-2:#F7F8FA; --ink:#191F28; --ink-2:#4E5968; --ink-3:#8B95A1; --line:#E5E8EB;
+  --accent:#3182F6; --accent-ink:#FFFFFF; --accent-soft:#E8F3FF;
+  --good:#03A15F; --good-soft:#E3F7EC; --bad:#E5303F; --bad-soft:#FDECEE;
+  --strip:#06070B; --grid:#EDF0F3; --metal:#5C636E;
+  --c-he2:#7048E8; --c-he1:#2F7BEA; --c-h:#191F28; --c-ion:#0CA678; --c-ca:#C99400; --c-neu:#F76707; --c-tio:#E03131;
+  --sp-he2:#12804A;--sp-he1:#8E5BB5;--sp-h:#F07B1D;--sp-si4:#D9B400;--sp-si3:#4FA9A9;--sp-mg2:#8A6A12;--sp-si2:#A33A2A;--sp-ca2:#3E95DA;--sp-fe2:#E0608F;--sp-fe1:#2B6E8F;--sp-ca1:#93B01A;--sp-tio:#43B04B;
+  --font-body:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --font-num:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --r-card:24px; --r-ctl:14px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0E1116; --surface:#191D24; --surface-2:#20252D; --ink:#F2F4F6; --ink-2:#B0B8C1; --ink-3:#7D8794; --line:#2B313A;
+  --accent:#4C9AFF; --accent-ink:#0E1116; --accent-soft:#1B2A40;
+  --good:#3DD68C; --good-soft:#123323; --bad:#FF6B76; --bad-soft:#3A1A1E;
+  --strip:#000000; --grid:#232831; --metal:#474E58;
+  --c-he2:#9775FA; --c-he1:#4C9AFF; --c-h:#F2F4F6; --c-ion:#38D9A9; --c-ca:#FFD43B; --c-neu:#FF922B; --c-tio:#FF6B6B;
+  --sp-he2:#3DD68C;--sp-he1:#B98CE0;--sp-h:#FF9A45;--sp-si4:#F5D63D;--sp-si3:#7FD3D3;--sp-mg2:#C9A43A;--sp-si2:#E2725F;--sp-ca2:#6CB8F5;--sp-fe2:#FF8DB8;--sp-fe1:#5AA6CC;--sp-ca1:#C5DE4A;--sp-tio:#7CD66F;
+  color-scheme:dark; } }
+:root[data-theme="dark"]{
+  --bg:#0E1116; --surface:#191D24; --surface-2:#20252D; --ink:#F2F4F6; --ink-2:#B0B8C1; --ink-3:#7D8794; --line:#2B313A;
+  --accent:#4C9AFF; --accent-ink:#0E1116; --accent-soft:#1B2A40;
+  --good:#3DD68C; --good-soft:#123323; --bad:#FF6B76; --bad-soft:#3A1A1E;
+  --strip:#000000; --grid:#232831; --metal:#474E58;
+  --c-he2:#9775FA; --c-he1:#4C9AFF; --c-h:#F2F4F6; --c-ion:#38D9A9; --c-ca:#FFD43B; --c-neu:#FF922B; --c-tio:#FF6B6B;
+  --sp-he2:#3DD68C;--sp-he1:#B98CE0;--sp-h:#FF9A45;--sp-si4:#F5D63D;--sp-si3:#7FD3D3;--sp-mg2:#C9A43A;--sp-si2:#E2725F;--sp-ca2:#6CB8F5;--sp-fe2:#FF8DB8;--sp-fe1:#5AA6CC;--sp-ca1:#C5DE4A;--sp-tio:#7CD66F;
+  color-scheme:dark; }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 64px}
+.wrap{max-width:1140px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+h1,h2,h3{text-wrap:balance;margin:0;letter-spacing:-0.02em}
+p{margin:0}
+.num{font-family:var(--font-num);font-variant-numeric:tabular-nums}
+b,strong{font-weight:700}
+
+.hero{padding:20px 8px 12px;display:flex;flex-direction:column;gap:12px}
+.eyebrow{font-size:14px;font-weight:700;color:var(--accent)}
+.hero h1{font-size:clamp(28px,6vw,38px);font-weight:800;line-height:1.25}
+.hero .lead{color:var(--ink-2);font-size:17px;max-width:none;text-wrap:wrap}
+.steps{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.steps a{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;background:var(--surface);color:var(--ink-2);text-decoration:none;font-size:14px;font-weight:500;border:1px solid var(--line)}
+.steps a span{font-family:var(--font-num);color:var(--accent);font-weight:600}
+.steps a:hover{color:var(--ink);border-color:var(--ink-3)}
+
+.card{background:var(--surface);border-radius:var(--r-card);padding:28px 26px;display:flex;flex-direction:column;gap:22px;scroll-margin-top:12px}
+@media (max-width:520px){.card{padding:24px 18px;border-radius:20px}}
+.card-head{display:flex;gap:14px;align-items:flex-start}
+.step-no{flex:none;width:30px;height:30px;border-radius:10px;background:var(--accent-soft);color:var(--accent);font-family:var(--font-num);font-weight:600;display:grid;place-items:center;font-size:15px;margin-top:2px}
+.card-head h2{font-size:22px;font-weight:800;line-height:1.35}
+.card-head .sub{color:var(--ink-2);margin-top:6px;font-size:15.5px}
+
+.lab{display:flex;flex-direction:column;gap:20px}
+.viz,.txt{display:flex;flex-direction:column;gap:14px;min-width:0}
+@media (min-width:900px){
+  .lab{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:32px;align-items:start}
+  .lab>.viz{position:sticky;top:12px}
+}
+.prose{display:flex;flex-direction:column;gap:10px}
+.prose p,.txt>p{color:var(--ink-2)}
+.prose p b,.txt>p b{color:var(--ink)}
+.key{background:var(--surface-2);border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:8px}
+.key-title{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:0.02em}
+.key p{color:var(--ink);font-size:15.5px}
+.key ul,.key ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;color:var(--ink);font-size:15.5px}
+.try{border:1px dashed var(--accent);background:transparent}
+.formula{font-family:var(--font-num);font-size:17px;font-weight:600;color:var(--ink);padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;max-width:100%;overflow-x:auto;align-self:flex-start}
+.formula small{font-size:13px;color:var(--ink-3);font-weight:500}
+
+.seg{display:flex;background:var(--surface-2);border-radius:var(--r-ctl);padding:4px;gap:4px;flex-wrap:wrap}
+.seg button{flex:1 1 0;min-width:84px;border:0;background:transparent;color:var(--ink-2);font:inherit;font-size:15px;font-weight:500;padding:9px 10px;border-radius:10px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.10)}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:14px}
+.flow .node{padding:7px 12px;border-radius:10px;background:var(--surface-2);color:var(--ink);font-weight:500}
+.flow .node.hl{background:var(--accent-soft);color:var(--accent);font-weight:700}
+.flow .arrow{color:var(--ink-3)}
+.mode-desc{color:var(--ink);font-size:15.5px}
+
+canvas{display:block;width:100%;touch-action:none}
+.strip{height:60px;border-radius:12px;background:var(--strip)}
+.plot-small{height:190px}
+.plot{height:320px}
+@media (max-width:520px){.plot{height:260px}}
+.hint{font-size:13px;color:var(--ink-3)}
+.cap{font-size:13.5px;color:var(--ink-2);font-weight:500}
+
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{border:0;font:inherit;font-weight:700;font-size:14.5px;border-radius:12px;padding:9px 14px;cursor:pointer;background:var(--accent-soft);color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:var(--surface-2);color:var(--ink-2)}
+.btn:disabled{opacity:.45;cursor:default}
+
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:28px;background:transparent;margin:0}
+input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:var(--line)}
+input[type=range]::-moz-range-track{height:6px;border-radius:3px;background:var(--line)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--surface);border:2px solid var(--accent);margin-top:-9px;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--surface);border:2px solid var(--accent)}
+#tSlider::-webkit-slider-runnable-track{background:linear-gradient(90deg,#ff5a1f,#ffb36b,#fff1dc,#cfe0ff,#8fb3ff)}
+#tSlider::-moz-range-track{background:linear-gradient(90deg,#ff5a1f,#ffb36b,#fff1dc,#cfe0ff,#8fb3ff)}
+
+.slider-block{display:flex;flex-direction:column;gap:4px}
+.slider-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.big-val{font-family:var(--font-num);font-size:28px;font-weight:600;letter-spacing:-0.02em}
+.big-val small{font-size:15px;color:var(--ink-3);font-weight:500;margin-left:4px}
+
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:999px;padding:5px 11px;font:inherit;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.chip .dot{width:9px;height:9px;border-radius:50%;flex:none;box-shadow:0 0 0 1px var(--line)}
+.chip[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.check{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--ink-2);cursor:pointer}
+.check input{width:18px;height:18px;accent-color:var(--accent)}
+
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+@media (max-width:1100px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.stat{background:var(--surface-2);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.stat .lbl{font-size:12.5px;color:var(--ink-3);font-weight:500}
+.stat .val{font-family:var(--font-num);font-size:19px;font-weight:600;font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.stat .val .ko{font-family:var(--font-body);font-size:16px;font-weight:700}
+.stat .note{font-size:12px;color:var(--ink-2)}
+.swatch{width:20px;height:20px;border-radius:50%;flex:none;box-shadow:0 0 0 1px var(--line),0 0 12px 1px var(--glow,transparent)}
+
+.panel{display:flex;flex-direction:column;gap:14px}
+.big-compare{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.big-compare .stat .val{font-size:22px}
+.wtable{width:100%;border-collapse:collapse;font-size:14px}
+.wtable th{font-weight:500;color:var(--ink-3);font-size:12.5px;text-align:right;padding:6px 6px;border-bottom:1px solid var(--line)}
+.wtable th:first-child,.wtable td:first-child{text-align:left}
+.wtable td{font-family:var(--font-num);text-align:right;padding:7px 6px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+.wtable td:first-child{font-family:var(--font-body);font-weight:500}
+.wtable td.prod{color:var(--accent);font-weight:600}
+.tw{overflow-x:auto}
+
+/* 흑체 가열 */
+.oven{height:170px;border-radius:20px;background:var(--surface-2);display:grid;place-items:center;max-width:100%}
+.ingot{width:110px;height:70px;border-radius:10px;transition:background .25s, box-shadow .25s}
+.heat-msg{font-size:15.5px;color:var(--ink);min-height:3.2em}
+
+/* 절대 온도 */
+.conv{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:10px;align-items:end}
+.conv label{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--ink-3);font-weight:500}
+.conv input{font-family:var(--font-num);font-size:22px;font-weight:600;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);width:100%}
+.conv .eq{font-size:20px;color:var(--ink-3);padding-bottom:12px}
+.conv-msg{font-size:14px;color:var(--bad);min-height:1.4em}
+ul.ladder{margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.ladder li{list-style:none;display:grid;grid-template-columns:minmax(0,1fr) 84px 80px;gap:8px;padding:8px 4px;border-bottom:1px solid var(--line);font-size:14px;align-items:center}
+.ladder li .k{font-family:var(--font-num);text-align:right;font-weight:600}
+.ladder li .c{font-family:var(--font-num);text-align:right;color:var(--ink-3)}
+.ladder li.me{background:var(--accent-soft);border-radius:10px;border-bottom-color:transparent}
+.ladder li.me .n{color:var(--accent);font-weight:700}
+.ladder li.zero .n{font-weight:700}
+.ladder-head{display:grid;grid-template-columns:minmax(0,1fr) 84px 80px;gap:8px;padding:0 4px 6px;font-size:12.5px;color:var(--ink-3)}
+.ladder-head span:not(:first-child){text-align:right}
+
+/* 분광형 */
+.types{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.tbtn{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:8px 2px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font:inherit;color:var(--ink)}
+.tbtn .L{font-family:var(--font-num);font-size:20px;font-weight:600;line-height:1}
+.tbtn .dot{width:12px;height:12px;border-radius:50%;box-shadow:0 0 0 1px var(--line)}
+.tbtn[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.tbtn[aria-pressed="true"] .L{color:var(--accent)}
+.type-info{display:flex;gap:16px;align-items:flex-start;background:var(--surface-2);border-radius:18px;padding:18px}
+.type-badge{display:flex;flex-direction:column;gap:6px;align-items:flex-start;flex:none;min-width:96px}
+.type-badge .code{font-family:var(--font-num);font-size:38px;font-weight:600;line-height:1}
+.type-badge .t{font-family:var(--font-num);font-size:14px;color:var(--ink-2)}
+.type-text{display:flex;flex-direction:column;gap:6px;min-width:0}
+.type-text .feat{font-size:15.5px}
+.type-text .ex{font-size:13.5px;color:var(--ink-3)}
+.legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}
+.lg{display:flex;align-items:center;gap:8px;font-size:12.5px;padding:5px 8px;border-radius:10px;background:var(--surface-2);min-width:0}
+.lg .dot{width:10px;height:10px;border-radius:50%;flex:none}
+.lg .nm{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lg .bar{width:40px;height:6px;border-radius:3px;background:var(--line);overflow:hidden;flex:none}
+.lg .bar i{display:block;height:100%}
+.strip-l{height:118px;border-radius:12px;background:var(--strip)}
+.chart-l{height:300px}
+.range-table{width:100%;border-collapse:collapse;font-size:13.5px}
+.range-table td{padding:5px 6px;border-bottom:1px solid var(--line)}
+.range-table td:first-child{font-family:var(--font-num);font-weight:600;width:36px}
+.range-table td:last-child{font-family:var(--font-num);text-align:right;color:var(--ink-2)}
+
+/* 퀴즈 */
+.ref{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.quiz-q{display:flex;flex-direction:column;gap:10px;padding:18px;border-radius:18px;background:var(--surface-2)}
+.quiz-q h3{font-size:16.5px;font-weight:700}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.opts button,.qtypes button{border:1px solid var(--line);background:var(--surface);border-radius:12px;font:inherit;color:var(--ink);cursor:pointer}
+.opts button{font-family:var(--font-num);font-size:17px;font-weight:600;padding:12px 8px}
+.qtypes{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.qtypes button{padding:8px 2px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.qtypes button .L{font-family:var(--font-num);font-size:19px;font-weight:600;line-height:1.1}
+.qtypes button .r{font-size:10px;color:var(--ink-3);font-family:var(--font-num);line-height:1.2;text-align:center}
+.opts button.right,.qtypes button.right{background:var(--good-soft);border-color:var(--good);color:var(--good)}
+.opts button.wrong,.qtypes button.wrong{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.opts button:disabled,.qtypes button:disabled{cursor:default}
+.fb{font-size:15px;border-radius:12px;padding:10px 12px}
+.fb.ok{background:var(--good-soft);color:var(--good)}
+.fb.no{background:var(--bad-soft);color:var(--bad)}
+.steps-hint{display:flex;flex-direction:column;gap:6px;font-size:15px;padding:12px 14px;border-radius:12px;background:var(--surface);border:1px solid var(--line)}
+.steps-hint .blank{display:inline-block;min-width:3.2em;border-bottom:2px solid var(--accent);text-align:center;font-family:var(--font-num);font-weight:600;color:var(--accent)}
+.score{font-size:14px;color:var(--ink-3)}
+.score b{color:var(--ink);font-family:var(--font-num)}
+
+/* 전자기파 */
+.em-bar{height:176px}
+.em-wave{height:84px;border-radius:14px;background:var(--surface-2)}
+.gauge{height:6px;border-radius:3px;background:var(--line);overflow:hidden;margin-top:6px}
+.gauge i{display:block;height:100%;border-radius:3px;background:linear-gradient(90deg,var(--c-tio),var(--c-neu),var(--c-he2))}
+.em-ex{font-size:15.5px;color:var(--ink)}
+.energy-axis{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--ink-2);font-weight:500}
+
+/* 기체 방전관 */
+.sub-lab{border-top:1px solid var(--line);padding-top:22px}
+.sub-title{font-size:18px;font-weight:800}
+.tube-wrap{height:92px;border-radius:16px;background:var(--strip);display:flex;align-items:center;justify-content:center;padding:0 20px}
+.tube{flex:1;max-width:360px;height:22px;border-radius:11px;position:relative;transition:background .3s, box-shadow .3s}
+.tube::before,.tube::after{content:"";position:absolute;top:-6px;width:14px;height:34px;border-radius:4px;background:#8a9099}
+.tube::before{left:-12px}.tube::after{right:-12px}
+.gas-strip{height:52px;border-radius:10px;background:var(--strip)}
+.gas-note{font-size:15.5px;color:var(--ink)}
+.quiz-cta{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:16px 18px;border-radius:16px;background:var(--accent-soft)}
+.quiz-cta p{color:var(--ink);font-weight:500}
+
+/* 팝업 퀴즈 */
+.modal{position:fixed;inset:0;z-index:50;background:rgba(8,10,14,.55);display:grid;place-items:center;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.modal-box{background:var(--surface);border-radius:24px;width:100%;max-width:580px;max-height:100%;overflow:auto;padding:24px;display:flex;flex-direction:column;gap:14px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.mprog{display:flex;gap:4px;flex:1;max-width:260px}
+.mprog i{flex:1;height:5px;border-radius:3px;background:var(--line)}
+.mprog i.on{background:var(--accent)}
+.modal-box h3{font-size:19px;font-weight:800;line-height:1.45}
+.mopts{display:flex;flex-direction:column;gap:8px}
+.mopts button{text-align:left;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);font:inherit;font-size:15.5px;color:var(--ink);cursor:pointer}
+.mopts button:hover:not(:disabled){border-color:var(--ink-3)}
+.mopts button.right{background:var(--good-soft);border-color:var(--good);color:var(--good);font-weight:700}
+.mopts button.wrong{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.mopts button:disabled{cursor:default}
+.mfig{display:flex;flex-direction:column;gap:6px}
+.mfig .refrow{display:grid;grid-template-columns:52px minmax(0,1fr);gap:8px;align-items:center;font-size:13.5px;font-weight:500}
+.mfig canvas{border-radius:8px;background:var(--strip)}
+.mfig canvas.plotc{background:transparent;border-radius:0}
+.lv-canvas{height:300px;border-radius:14px;background:var(--surface-2)}
+.lum-cv{height:250px;border-radius:14px;background:var(--strip)}
+.num-field{display:inline-flex;align-items:baseline;gap:6px}
+.num-field input{font-family:var(--font-num);font-size:22px;font-weight:600;width:150px;max-width:44vw;text-align:right;border:1px solid var(--line);border-radius:10px;padding:4px 10px;background:var(--surface-2);color:var(--ink)}
+.num-field input.bad{border-color:var(--bad);color:var(--bad)}
+.num-field span{color:var(--ink-3);font-size:15px}
+.calc-help{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;background:var(--surface-2);border-radius:12px;padding:10px 12px}
+.calc-help .hint{color:var(--ink-2)}
+.calc-help .btn{flex:none}
+.lum-eq{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);gap:6px;align-items:center}
+.lum-eq .op{font-size:18px;color:var(--ink-3);font-weight:600}
+.lum-eq .stat .val{font-size:16px}
+@media (max-width:520px){.lum-eq .stat .lbl{font-size:11px}.lum-eq .stat .val{font-size:14px}}
+.temp-range::-webkit-slider-runnable-track{background:linear-gradient(90deg,#ff5a1f,#ffb36b,#fff1dc,#cfe0ff,#8fb3ff)!important}
+.temp-range::-moz-range-track{background:linear-gradient(90deg,#ff5a1f,#ffb36b,#fff1dc,#cfe0ff,#8fb3ff)!important}
+.mresult{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.mresult .big{font-family:var(--font-num);font-size:44px;font-weight:600;line-height:1}
+[hidden]{display:none!important}
+
+.summary ol{margin:0;padding-left:22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px 32px}
+.summary li{color:var(--ink);font-size:15.5px}
+.summary li span{color:var(--ink-2)}
+.foot{font-size:12.5px;color:var(--ink-3);text-align:center;padding-top:8px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+html{scroll-behavior:smooth}
+
+/* 페이지 넘기기 */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.pager-bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);padding-block:8px}
+.ptabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin;padding:2px 2px 4px}
+.ptab{flex:none;display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:999px;padding:7px 13px 7px 8px;font:inherit;font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap}
+.ptab .pn{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);font-family:var(--font-num);font-weight:600;font-size:12.5px}
+.ptab[aria-current="page"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
+.ptab[aria-current="page"] .pn{background:var(--accent-ink);color:var(--accent)}
+.ptab:hover:not([aria-current="page"]){border-color:var(--ink-3);color:var(--ink)}
+.ptab:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.pager{display:flex;flex-direction:column}
+.page.in-r{animation:slideR .32s ease-out}
+.page.in-l{animation:slideL .32s ease-out}
+@keyframes slideR{from{transform:translateX(48px);opacity:.35}to{transform:none;opacity:1}}
+@keyframes slideL{from{transform:translateX(-48px);opacity:.35}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.page.in-r,.page.in-l{animation:none}}
+.pnav{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.pnav .btn{max-width:42%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pnav .btn:disabled{visibility:hidden}
+.pcount{color:var(--ink-3);font-size:14px;flex:none}
+@media (min-width:900px){.lab>.viz{top:72px}}
+.wrap{overflow-x:clip}
+/* 흑체 모형 */
+.bb-row{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;align-items:center}
+@media (max-width:520px){.bb-row{grid-template-columns:104px minmax(0,1fr)}}
+.bb-row .oven{height:130px;background:var(--strip)}
+.bb{width:84px;height:84px;border-radius:50%;transition:background .2s, box-shadow .2s}
+@media (max-width:520px){.bb{width:64px;height:64px}}
+/* 공식 강조 */
+.formula{font-weight:800;font-size:19px;background:var(--accent-soft);border:1.5px solid var(--accent);color:var(--ink);letter-spacing:-0.01em}
+.formula small{font-weight:500}
+.fx{font-family:var(--font-num);font-weight:700;color:var(--ink);background:var(--accent-soft);padding:1px 5px;border-radius:5px}
+/* 광도 그림 */
+.lfig{margin:0;display:flex;flex-direction:column;gap:10px;background:var(--surface-2);border-radius:16px;padding:14px}
+.lfig-svg{width:100%;max-width:360px;height:auto;align-self:center;display:block}
+.lf-bg{fill:var(--strip)}
+.lf-t{fill:#ffffff;fill-opacity:.85;font:500 11px var(--font-body)}
+.lf-t-big{fill:#ffd43b;font:700 15px var(--font-num)}
+.lf-t-dark{fill:#5c2c05;font:700 14px var(--font-num)}
+.lfig-eq{display:flex;flex-direction:column;gap:6px;align-items:stretch}
+.lf-item{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:9px 12px}
+.lf-item.hl{background:var(--accent-soft);border-color:var(--accent)}
+.lf-l{font-size:13.5px;color:var(--ink-2);min-width:0}
+.lf-f{font-family:var(--font-num);font-weight:700;font-size:17px;color:var(--ink);white-space:nowrap}
+.lf-op{align-self:center;font-size:18px;font-weight:700;color:var(--ink-3);line-height:1}
+
+/* 빈칸 */
+.blank{display:inline-flex;align-items:baseline;gap:4px;margin:0 2px;vertical-align:baseline}
+.blank-in{font:inherit;font-weight:700;color:var(--accent);background:var(--accent-soft);border:0;border-bottom:2px solid var(--accent);border-radius:6px 6px 0 0;padding:1px 6px;text-align:center;min-width:3.5em;max-width:100%}
+.blank-in::placeholder{color:var(--ink-3)}
+.blank.ok .blank-in{color:var(--good);background:var(--good-soft);border-bottom-color:var(--good)}
+.blank.no .blank-in{color:var(--bad);background:var(--bad-soft);border-bottom-color:var(--bad)}
+.blank.shown .blank-in{color:var(--ink);background:var(--surface);border-bottom-color:var(--ink-3)}
+.blank-fb{font-size:13px;font-weight:700;white-space:nowrap}
+.blank.ok .blank-fb{color:var(--good)}
+.blank.no .blank-fb{color:var(--bad)}
+.fill-bar{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;border-top:1px dashed var(--line);padding-top:10px;margin-top:4px}
+.fill-bar .btn{padding:6px 11px;font-size:13px;background:var(--surface)}
+.fill-count{font-size:13px;color:var(--ink-3)}
+.key li{line-height:1.9}
+.mpanel{display:flex;flex-direction:column;gap:8px}
+.mimg{width:100%;height:auto;border-radius:10px;display:block}
+.ex-tag{align-self:flex-start;font-size:13px;font-weight:700;color:var(--accent);background:var(--surface);border:1px solid var(--accent);border-radius:999px;padding:2px 10px}
+.mode-desc{line-height:1.9}
+.star-spec{margin-top:4px}
+.card-head .sub.fill{line-height:1.9}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 4px;line-height:1.15}
+.frac>span:first-child{border-bottom:2px solid currentColor;padding:0 6px 1px}
+.frac>span:last-child{padding:1px 6px 0}
+.fparen{font-weight:600;font-size:16px}
+.formula sub{font-size:.7em}
+.blank.choice{position:relative}
+.blank-btn{cursor:pointer;font-family:var(--font-num);min-width:4.2em}
+.blank-btn:disabled{cursor:default;opacity:1}
+.blank-pop{position:absolute;top:calc(100% + 6px);left:0;z-index:15;display:flex;gap:6px;padding:8px;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.15);white-space:nowrap}
+.blank-opt{font:inherit;font-family:var(--font-num);font-weight:700;font-size:15px;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);cursor:pointer}
+.blank-opt:hover{border-color:var(--accent);color:var(--accent)}
+.steps-hint .blank{display:inline-flex;min-width:0;border:0;text-align:left}
+.lum-result{display:flex;flex-direction:column;gap:4px;background:var(--accent-soft);border:1.5px solid var(--accent);border-radius:14px;padding:12px 14px}
+.lr-main{font-size:18px;font-weight:700;color:var(--ink)}
+.lr-main b{font-family:var(--font-num);color:var(--accent);font-size:22px}
+.lr-calc{font-family:var(--font-num);font-size:13px;color:var(--ink-2);line-height:1.7;overflow-wrap:anywhere}
+.lr-calc b{color:var(--ink)}
+.al-stars{height:220px;border-radius:14px;background:var(--strip)}
+.al-spec{height:260px}
+.al-info{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (max-width:520px){.al-info{grid-template-columns:1fr}}
+.al-info .stat .lbl{font-size:15px;font-weight:700;color:var(--ink)}
+.lr-dir{font-size:13px;font-weight:700;margin-left:6px}
+.lr-dir.up{color:var(--good)}.lr-dir.down{color:var(--bad)}
+.lgauge{display:flex;flex-direction:column;gap:4px;margin-top:6px}
+.lg-track{position:relative;height:12px;border-radius:6px;background:linear-gradient(90deg,var(--line),var(--accent))}
+.lg-dot{position:absolute;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:var(--surface);border:3px solid var(--accent);transition:left .15s}
+.lg-sun{position:absolute;top:-20px;transform:translateX(-50%);font-size:11px;font-weight:700;color:var(--ink-2)}
+.lg-sun::after{content:"";position:absolute;left:50%;top:16px;width:2px;height:14px;background:var(--ink-2)}
+.lum-result{padding-top:22px}
+.lg-scale{display:flex;justify-content:space-between;font-family:var(--font-num);font-size:11px;color:var(--ink-3)}
+.ac-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+@media (max-width:520px){.ac-grid{grid-template-columns:1fr}}
+.ac-grid label{display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:var(--ink-3);font-weight:500}
+.ac-grid input{font-family:var(--font-num);font-size:18px;font-weight:600;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);width:100%}
+.ac-grid label.is-out input{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.ac-out{display:flex;flex-direction:column;gap:2px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.ac-f{font-family:var(--font-num);font-size:15px;color:var(--ink);overflow-wrap:anywhere}
+.ac-res b{color:var(--accent);font-size:18px}
+.ac-err{color:var(--bad);font-size:14px}
+.sol{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:10px;color:var(--ink);font-size:15.5px;line-height:2}
+.sol .formula{margin-top:6px;font-size:18px}
+.sol .frac{font-family:var(--font-num);font-weight:700}
+.mathf{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;margin:8px 0 2px;padding:10px 12px;border-radius:12px;background:var(--accent-soft);border:1.5px solid var(--accent);font-family:var(--font-body);font-size:20px;font-weight:800;color:var(--ink);line-height:1.2}
+.mathf .frac{font-family:var(--font-body);font-weight:800}
+.mathf .paren{font-size:1.9em;font-weight:300;line-height:1;margin:0 -2px}
+.ac-grid.ac4{grid-template-columns:repeat(2,minmax(0,1fr))}
+.lx-mode{display:flex;flex-direction:column;gap:6px}
+.lx-vars{display:flex;flex-direction:column;gap:8px}
+.lx-var{background:var(--surface-2);border:1.5px solid transparent;border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:4px}
+.lx-var.is-auto{background:var(--accent-soft);border-color:var(--accent)}
+.lx-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.lx-top label{flex:1;min-width:0;font-size:14.5px}
+.lx-auto{display:none;font-size:12px;font-weight:700;color:var(--accent-ink);background:var(--accent);border-radius:999px;padding:2px 8px}
+.lx-var.is-auto .lx-auto{display:inline-block}
+.lx-var .num-field input{width:130px;font-size:19px}
+.lx-var.is-auto .num-field input{background:var(--surface);color:var(--accent);border-color:var(--accent)}
+.lx-ctl{display:flex;align-items:center;gap:8px}
+.lx-ctl input[type=range]{flex:1;min-width:0}
+.lx-op{padding:6px 10px;font-family:var(--font-num);font-size:14px;background:var(--surface)}
+.lx-op:disabled,.lx-ctl input:disabled{opacity:.35}
+.lx-chg{min-height:46px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:16px;padding:10px 14px;border-radius:12px;background:var(--surface);border:1px dashed var(--accent)}
+.lx-chg .res{color:var(--accent)}
+.lx-chg .arr{color:var(--ink-3);font-weight:700}
+.lx-eq{display:flex;flex-direction:column;gap:4px;background:var(--surface-2);border-radius:14px;padding:10px 12px}
+.lx-eq-row{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:6px;text-align:center}
+.lx-eq-row .op{font-weight:700;color:var(--ink-3)}
+.lxb{display:flex;flex-direction:column;align-items:center;min-width:0}
+.lxb span{font-size:12.5px;color:var(--ink-2);font-weight:600}
+.lxb b{font-family:var(--font-num);font-size:16px;color:var(--ink)}
+.lxb.auto b,.lxb.auto span{color:var(--accent)}
+.lx-eq-row.nums .lxb b{font-size:17px}
+.lx-head{display:flex;flex-direction:column;gap:8px}
+.lx-pre{flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px}
+.lx-pre .chip{flex:none}
+.lx-mode{display:flex;flex-direction:row;align-items:center;gap:10px}
+.lx-mode .cap{flex:none}
+.lx-mode .seg{flex:1;padding:3px}
+.lx-mode .seg button{padding:6px 8px;font-size:14px;min-width:0}
+.lx-vars{gap:6px}
+.lx-var{display:grid;grid-template-columns:118px minmax(0,1fr) 118px auto;align-items:center;gap:10px;padding:8px 10px;flex-direction:initial}
+.lx-name{display:grid;grid-template-columns:auto auto;justify-content:start;align-items:center;column-gap:6px;line-height:1.25;font-size:14px;min-width:0}
+.lx-name .hint{grid-column:1/-1}
+.lx-name .hint{font-size:11.5px}
+.lx-name .lx-auto{font-size:11px;padding:1px 6px}
+.lx-var .num-field{gap:4px}
+.lx-var .num-field input{width:84px;font-size:16px;padding:4px 8px}
+.lx-var .num-field span{font-size:13px}
+.lx-btns{display:flex;gap:4px}
+.lx-op{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:13px;font-weight:700;border-radius:8px;padding:5px 9px;cursor:pointer;white-space:nowrap}
+.lx-op.up{color:var(--good);border-color:var(--good)}
+.lx-op.dn{color:var(--bad);border-color:var(--bad)}
+.lx-op:hover:not(:disabled){background:var(--surface-2)}
+.lx-op:disabled{visibility:hidden}
+.lx-ctl{display:none}
+@media (max-width:620px){.lx-var{grid-template-columns:minmax(0,1fr) auto auto;grid-template-areas:"n f b" "s s s"}.lx-name{grid-area:n;flex-direction:row;align-items:baseline;gap:6px;flex-wrap:wrap}.lx-var input[type=range]{grid-area:s}.lx-var .num-field{grid-area:f}.lx-btns{grid-area:b}}
+.lx-chg{min-height:40px;padding:8px 12px;font-size:15px}
+.lx-eq{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:6px;padding:8px 10px;text-align:center}
+.lx-eq .op{font-weight:700;color:var(--ink-3);font-size:18px}
+.lxb i{font-style:normal;font-family:var(--font-num);font-size:12.5px;color:var(--ink-2);min-height:1.2em}
+.lxb b{font-size:19px}
+.lum-cv{height:140px}
+.lx-res{display:flex;flex-direction:column;gap:0;border:1px dashed var(--accent);border-radius:12px;overflow:hidden}
+.lx-res .lx-chg{border:0;border-radius:0;min-height:34px;padding:6px 12px;font-size:14.5px;background:var(--surface)}
+.lx-res .lx-eq{border-radius:0;padding:6px 10px}
+.lx-var{padding:6px 10px}
+.lxb span{font-size:11.5px}
+.lxb b{font-size:17px}
+.lum-cv{height:150px}
+#lum .viz{gap:10px}
+.level-up{border:1.5px solid var(--c-neu)}
+.level-up .key-title{color:var(--c-neu)}
+.level-up summary{cursor:pointer;font-weight:700;color:var(--accent);font-size:14.5px}
+.level-up details p{margin-top:8px;color:var(--ink)}
+.lx-quiz{border:1.5px solid var(--accent)}
+.lq-q{font-size:16px;color:var(--ink);line-height:1.8}
+.lq-q b{color:var(--accent)}
+.ws-tag{align-self:flex-start;display:inline-block;font-size:12.5px;font-weight:800;color:var(--accent-ink);background:var(--accent);border-radius:999px;padding:3px 11px;letter-spacing:.01em}
+.ws-tag.more{background:var(--ink-3)}
+.after-q summary{cursor:pointer;list-style:revert}
+.after-q[open] summary{margin-bottom:6px}
+/* 한국어 줄바꿈: 단어(어절) 단위로 끊고, 너무 긴 낱말만 쪼갠다 */
+body{word-break:keep-all;overflow-wrap:break-word;line-break:strict}
+p,li,.mode-desc,.lq-q,.heat-msg,figcaption{text-wrap:pretty}
+.ac-f,.lr-calc,.formula,.wtable td,.mfig,.blank-pop{word-break:normal}
+.hero .eyebrow{display:flex;align-items:center;flex-wrap:wrap;gap:6px 12px}
+.home-link{display:inline-flex;align-items:center;gap:5px;font-size:13.5px;font-weight:700;color:var(--ink-2);text-decoration:none;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 12px 4px 9px}
+.home-link .tri{font-size:10px;color:var(--accent)}
+.home-link:hover{color:var(--accent);border-color:var(--accent)}
+.crumb{color:var(--accent)}
+.foot-link{margin-bottom:10px;font-size:13px}
+.lv-intro{display:flex;flex-direction:column;gap:12px}
+.lv-intro>p,.lv-intro>.key{max-width:900px}
+
+.aq-in{width:100%;box-sizing:border-box;font:inherit;font-size:15px;line-height:1.6;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;resize:vertical}
+.aq-in:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+.aq-in[readonly]{background:var(--surface-2)}
+.aq-row{justify-content:space-between;align-items:center}
+.ai-q{display:flex;flex-direction:column;gap:10px}
+.aq-q{font-weight:700;line-height:1.6}
+.aq-fb{line-height:1.6}
+.aq-fb.wait{background:var(--surface-2);color:var(--ink-2)}
+.aq-model{border-radius:12px;padding:10px 12px;background:var(--accent-soft)}
+.aq-model-t{font-weight:700;color:var(--accent);margin-bottom:4px}
+/* ---------- 허블-르메트르 법칙 전용 ---------- */
+:root{--space:#070A14;--gal:#FFE7B0;--red:#E5303F;--ca:#F2B705;--trend:#F76707}
+.intro{color:var(--ink-2);font-size:16px;line-height:1.75;background:var(--surface-2);border-radius:16px;padding:14px 18px}
+.intro b{color:var(--ink)}
+.sky{width:100%;aspect-ratio:16/11;display:block;border-radius:16px;background:var(--space);touch-action:pan-y}
+.sky.tall{aspect-ratio:1/1}
+.spec{width:100%;display:block;border-radius:14px;background:var(--strip)}
+.plotbox{width:100%;aspect-ratio:1.45/1;display:block;border-radius:14px;background:var(--surface-2);touch-action:pan-y}
+.anim-bar{display:flex;align-items:center;gap:10px}
+.anim-bar input[type=range]{flex:1;min-width:0}
+.play{flex:none;width:44px;height:44px;border-radius:50%;border:0;background:var(--accent);color:var(--accent-ink);font-size:16px;font-weight:800;cursor:pointer;display:grid;place-items:center}
+.stepbtns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.stepbtns button{border:1px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:12px;padding:9px 6px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;line-height:1.35}
+.stepbtns button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.stepbtns button small{display:block;font-size:12px;font-weight:500;color:var(--ink-3)}
+.talk{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.bubble{position:relative;background:var(--surface-2);border-radius:16px;padding:12px 14px;font-size:15px;color:var(--ink);line-height:1.6}
+.bubble b{display:block;font-size:13px;color:var(--accent);margin-bottom:4px}
+.bubble.alt b{color:var(--c-neu)}
+.timeline{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0;border-left:2px solid var(--line);margin-left:6px}
+.timeline li{position:relative;padding:4px 0 10px 18px;font-size:15px;color:var(--ink-2)}
+.timeline li::before{content:"";position:absolute;left:-7px;top:10px;width:12px;height:12px;border-radius:50%;background:var(--surface);border:2px solid var(--accent)}
+.timeline li b{font-family:var(--font-num);color:var(--ink);margin-right:6px}
+.timeline li.on::before{background:var(--accent)}
+.readout{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+@media (max-width:520px){.readout{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.readout .stat .val{font-size:18px}
+.galbtns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.galbtns button{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:12px;padding:8px 6px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px}
+.galbtns button small{font-family:var(--font-num);font-size:12px;font-weight:500;color:var(--ink-3)}
+.galbtns button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.galbtns button.done::after{content:"✓ 그래프에 표시";font-size:11px;color:var(--good);font-weight:700}
+.rtable{width:100%;border-collapse:collapse;font-size:14.5px;background:var(--surface);border-radius:12px}
+.rtable th,.rtable td{border:1px solid var(--line);padding:8px 6px;text-align:center;vertical-align:middle}
+.rtable thead th{font-size:13px;color:var(--ink-2);font-weight:700}
+.rtable tbody th{font-weight:700;color:var(--ink);white-space:nowrap}
+.rtable td{font-family:var(--font-num);font-variant-numeric:tabular-nums}
+.rtable td.wait{color:var(--ink-3);font-family:var(--font-body);font-size:13px}
+.rtable tr.sel td,.rtable tr.sel th{background:var(--accent-soft)}
+.calc-steps{display:flex;flex-direction:column;gap:6px;background:var(--surface-2);border-radius:14px;padding:12px 14px;font-size:15px;color:var(--ink)}
+.calc-steps .ln{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.calc-steps .ln .lbl{min-width:96px;color:var(--ink-2);font-size:13.5px;font-weight:600}
+.calc-steps .fx{font-size:15px}
+.ans{details:none}
+details.ans{background:var(--surface-2);border-radius:14px;padding:10px 14px}
+details.ans summary{cursor:pointer;font-weight:700;color:var(--accent);font-size:14.5px}
+details.ans p{margin-top:8px;color:var(--ink)}
+.qitem{display:flex;flex-direction:column;gap:8px}
+.qitem>p{color:var(--ink);font-weight:600}
+.legend-row{display:flex;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--ink-2)}
+.legend-row i{display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:-2px;margin-right:5px}
+.toggles{display:flex;flex-wrap:wrap;gap:8px 16px}
+.hub-res{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+@media (max-width:520px){.hub-res{grid-template-columns:1fr}}
+#p-expand .viz{gap:12px}
+.minip{width:100%;height:170px;display:block;border-radius:12px;background:var(--surface-2)}
+.prose-p{color:var(--ink-2)}
+.mwrong{text-align:left;width:100%;display:flex;flex-direction:column;gap:6px;margin:6px 0}
+.mwrong details{background:var(--surface-2);border-radius:10px;padding:10px 12px}
+.mwrong summary{cursor:pointer;font-weight:600;color:var(--ink);font-size:14.5px}
+.mwrong p{margin:8px 0 0;font-size:14px;line-height:1.6;color:var(--ink-2)}
+/* 1쪽: 인물 그림을 눌러 고르기 (인물+말풍선 모양대로 테두리) */
+.talk-fig{position:relative;border-radius:16px;background:#fff;line-height:0;--ein:var(--accent);--fri:var(--c-neu)}
+.talk-fig img{width:100%;height:auto;display:block}
+.talk-fig .base{border-radius:16px}
+.talk-fig .cut{position:absolute;inset:0;pointer-events:none;transition:opacity .25s}
+.talk-fig .wash{filter:brightness(0) invert(1);opacity:.62}
+.talk-fig .line{opacity:0}
+.talk-fig[data-who="ein"] .wash-ein,.talk-fig[data-who="fri"] .wash-fri{opacity:0}
+.talk-fig[data-hover="ein"] .wash-ein,.talk-fig[data-hover="fri"] .wash-fri{opacity:.3}
+.talk-fig .line-ein{filter:drop-shadow(2.5px 0 0 var(--ein)) drop-shadow(-2.5px 0 0 var(--ein)) drop-shadow(0 2.5px 0 var(--ein)) drop-shadow(0 -2.5px 0 var(--ein))}
+.talk-fig .line-fri{filter:drop-shadow(2.5px 0 0 var(--fri)) drop-shadow(-2.5px 0 0 var(--fri)) drop-shadow(0 2.5px 0 var(--fri)) drop-shadow(0 -2.5px 0 var(--fri))}
+.talk-fig[data-who="ein"] .line-ein,.talk-fig[data-who="fri"] .line-fri{opacity:1}
+.who{position:absolute;top:0;bottom:0;border:0;padding:0;margin:0;background:transparent;cursor:pointer}
+.who-ein{left:0;width:47%}
+.who-fri{right:0;width:53%}
+.who:focus-visible{outline:3px solid var(--accent);outline-offset:-3px;border-radius:16px}
+.talk-hint{margin-top:-4px}
+.who-panel{display:flex;flex-direction:column;gap:10px}
+.who-panel>p{color:var(--ink-2)}
+.who-panel>p b{color:var(--ink)}
+.who-tag{align-self:flex-start;font-size:13.5px;font-weight:800;color:var(--accent-ink)!important;background:var(--accent);border-radius:999px;padding:3px 12px}
+.who-tag.fri{background:var(--c-neu)}
+.who-panel.in{animation:fadeIn .3s ease-out}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* 좌우 높이 맞춤: 오른쪽은 왼쪽 높이에 맞추고 넘치는 설명은 스크롤 */
+.lab.eqh{align-items:stretch}
+.lab.eqh>.viz{position:static}
+.eq-col{display:flex;flex-direction:column;gap:10px}
+.eq-scroll{display:flex;flex-direction:column;gap:12px}
+@media (min-width:900px){
+  .lab.eqh>.txt{position:relative;min-height:0}
+  .eq-col{position:absolute;inset:0}
+  .eq-scroll{flex:1;min-height:0;overflow-y:auto;padding-right:6px;scrollbar-width:thin}
+}
+/* 1쪽: 인물 그림이 잘 보이도록 오른쪽 칸을 넓힘 */
+@media (min-width:900px){
+  #p-static .lab.eqh{grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:28px}
+  #p-static .lab.eqh .sky{aspect-ratio:1/1.02}
+}
+
+/* 2쪽: 과거-현재-팽창 시간 막대 */
+.tl-box{display:flex;flex-direction:column;gap:10px}
+.sky.wide{aspect-ratio:2.8/1}
+@media (max-width:620px){.sky.wide{aspect-ratio:4/3}}
+.tl-track{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.tl-marks{display:flex;justify-content:space-between;font-size:12.5px;font-weight:600;color:var(--ink-3)}
+.tl-marks span:nth-child(2){transform:translateX(-50%);position:relative;left:0}
+#tlSlider::-webkit-slider-runnable-track{background:linear-gradient(90deg,#ffd8a8,var(--line) 50%,#a5d8ff)}
+#tlSlider::-moz-range-track{background:linear-gradient(90deg,#ffd8a8,var(--line) 50%,#a5d8ff)}
+
+.fblock{display:flex;flex-direction:column;align-items:center;gap:6px;align-self:stretch;width:100%;text-align:center;padding:14px 12px}
+.fblock .fmain{white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.fblock .fnote{display:block;font-size:13px;color:var(--ink-3);font-weight:500;font-family:var(--font-body)}
+.eq-scroll.prose p{color:var(--ink-2)}
+.eq-scroll.prose p b{color:var(--ink)}
+#skyRuler{aspect-ratio:4/3}
+@media (max-width:620px){#skyRuler{aspect-ratio:1/1}}
+
+.plotbox.sq{aspect-ratio:1/1}
+.q-spec{width:100%;max-width:560px;aspect-ratio:2/1;display:block;align-self:center;background:#fff;border-radius:10px}
+.sub-lab:empty{padding-top:0}
+.eq-scroll>*{flex-shrink:0}
+
+.plotbox.hl{aspect-ratio:1.2/1}
+.hl-btns{gap:6px}
+.hl-res{grid-template-columns:repeat(2,minmax(0,1fr))}
+.q-spec{aspect-ratio:2.15/1}
+.fbody,.fbody .fmain{font-family:var(--font-body)}
+.fbody .fmain{flex-wrap:wrap;justify-content:center;white-space:normal;gap:8px 10px;font-size:19px}
+.fbody .nw{white-space:nowrap;display:inline-flex;align-items:center;gap:8px}
+.fbody .frac>span{padding-left:8px;padding-right:8px}
+.lx-quiz p{color:var(--ink);line-height:2}
+.blank-pop{position:fixed;flex-wrap:wrap;max-width:min(92vw,440px);white-space:normal;font-family:var(--font-body)}
+.blank-opt{white-space:nowrap;font-family:var(--font-body);font-size:14.5px}
+.blank-btn{font-family:var(--font-body)}
+
+
+
+details.after-q>p{color:var(--ink)}
+details.after-q>p+p{margin-top:10px}
+
+.mfig canvas.qfig{width:100%;aspect-ratio:3.2/1;background:#fff;border:1px solid var(--line)}
+.mfig canvas.qfig[data-fig="q603"]{aspect-ratio:2.6/1}
+.mbox{border:1px solid var(--line);border-radius:12px;padding:10px 14px;display:flex;flex-direction:column;gap:4px;font-size:15px}
+.mbox-t{align-self:center;font-size:13px;font-weight:700;color:var(--ink-3)}
+.mopts button.sel{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);font-weight:700}
+.modal-box h3 u{text-underline-offset:3px}
+
+/* 3쪽: 전체 정리 */
+.sum-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:stretch}
+@media (max-width:820px){.sum-grid{grid-template-columns:1fr}}
+.sum-card ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;color:var(--ink-2);font-size:15.5px;line-height:1.75}
+.sum-card li b{color:var(--ink)}
+.sum-h{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:800;color:var(--ink)}
+.sum-h span{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:var(--accent);color:var(--accent-ink);font-family:var(--font-num);font-size:14px}
+.f-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:820px){.f-grid{grid-template-columns:1fr}}
+.f-item{display:flex;flex-direction:column;gap:6px}
+.f-name{font-size:14px;font-weight:700;color:var(--accent)}
+.f-item .formula{flex:1;justify-content:center}
+</style>
+</head><body>
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow"><a class="home-link" href="https://moon-byte-code.github.io/earth-science-lab/"><span class="tri" aria-hidden="true">◀</span>하연샘 지구과학 실험실</a><span class="crumb">고등학교 · 지구과학 · 별과 우주</span></p>
+    <h1>허블-르메트르 법칙과 우주 팽창</h1>
+    <p class="lead">멀리 있는 외부 은하일수록 더 빨리 멀어진다. 외부 은하의 스펙트럼으로 우주가 팽창하고 있다는 것을 확인해 보자.<br>위의 번호를 누르거나 좌우로 넘기며 차례대로 학습해 보자.</p>
+  </header>
+
+  <div class="pager-bar">
+    <nav class="ptabs" id="ptabs" aria-label="학습 페이지"></nav>
+  </div>
+
+  <div class="pager" id="pager">
+
+  <!-- 1 -->
+  <section class="card page" id="p-static" data-title="정적 우주와 팽창 우주">
+    <div class="card-head"><div class="step-no">1</div><div>
+      <h2>정적 우주와 팽창 우주</h2>
+      <p class="sub">우주가 가만히 있을 수 있을까?</p>
+    </div></div>
+    <div class="lab eqh">
+      <div class="viz">
+        <canvas class="sky" id="skyStatic" aria-label="선택한 과학자가 생각한 우주의 모습"></canvas>
+        <div class="anim-bar">
+          <button class="play" id="stPlay" aria-label="재생">▶</button>
+          <input type="range" id="stSlider" min="0" max="200" value="0" aria-label="시간의 흐름">
+        </div>
+      </div>
+      <div class="txt">
+        <div class="eq-col">
+          <div class="talk-fig" id="talkFig" data-who="ein">
+          <img class="base" src="assets/talk.webp" alt="아인슈타인: 우주는 커지거나 작아지지 않아. 우주는 언제나 정적인 상태를 유지해. 프리드만: 우주는 팽창하거나 수축할 수밖에 없어. 현재 우주가 수축하지 않는다면, 팽창하고 있기 때문이야." width="1082" height="368">
+          <img class="cut wash wash-ein" src="assets/ein.webp" alt="" aria-hidden="true">
+          <img class="cut wash wash-fri" src="assets/fri.webp" alt="" aria-hidden="true">
+          <img class="cut line line-ein" src="assets/ein.webp" alt="" aria-hidden="true">
+          <img class="cut line line-fri" src="assets/fri.webp" alt="" aria-hidden="true">
+          <button class="who who-ein" data-who="ein" aria-pressed="true" aria-label="아인슈타인의 생각 보기"></button>
+          <button class="who who-fri" data-who="fri" aria-pressed="false" aria-label="프리드만의 생각 보기"></button>
+        </div>
+          <p class="hint talk-hint">아인슈타인이나 프리드만을 눌러 각자가 생각한 우주를 살펴보자.</p>
+          <div class="eq-scroll">
+        <div class="who-panel" id="panelEin">
+          <p class="who-tag">아인슈타인 · 정적 우주</p>
+          <p>20세기 최고의 과학자로 불리는 <b>아인슈타인</b>(Einstein, A., 1879~1955)은 뉴턴처럼 우주가 계속 정적인 상태를 유지한다고 생각했다. 그는 1917년 자신이 유도한 우주 방정식에 ‘우주 상수’를 도입하면서 <b>정적 우주</b>를 제안했다.</p>
+          <div class="key">
+            <p class="key-title">우주 상수</p>
+            <p>아인슈타인은 자신이 유도한 우주 방정식에서 우주는 수축할 수도 있고 팽창할 수도 있음을 알게 되었다. 그는 방정식에 우주 상수를 도입해서 수축도 팽창도 하지 않는 정적 우주를 제안했다. 이후 우주가 팽창한다는 사실이 확인되었고, 아인슈타인은 스스로 정적 우주가 틀렸음을 인정했다.</p>
+          </div>
+        </div>
+        <div class="who-panel" id="panelFri" hidden>
+          <p class="who-tag fri">프리드만 · 팽창 우주</p>
+          <p>한편 1922년 러시아의 과학자 <b>프리드만</b>(Friedman, A. A., 1888~1925)은 우주의 모습이 변할 수도 있다고 생각하고, 팽창과 수축이 모두 가능한 새로운 방정식을 유도했다. 그는 우주가 중력의 영향을 받고 있지만 현재는 <b>팽창</b>하고 있다고 주장했다.</p>
+          <p>당시에는 우주가 영원불변하다는 생각이 지배적이었다. 또 우주 팽창을 뒷받침할 수 있는 관측 증거를 제시하는 것도 어려웠으므로 팽창 우주에 대한 주장은 받아들여지지 않았다.</p>
+
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="card page" id="p-redshift" data-title="허블-르메트르 법칙과 우주 팽창" hidden>
+    <div class="card-head"><div class="step-no">2</div><div>
+      <h2>허블-르메트르 법칙과 우주 팽창</h2>
+      <p class="sub">과거로 거슬러 올라가면 우주는 어떤 모습이었을까?</p>
+    </div></div>
+    <div class="lab eqh">
+      <div class="viz">
+        <canvas class="sky" id="skyTime" aria-label="과거부터 현재, 팽창까지 우주의 크기 변화"></canvas>
+        <div class="stepbtns" id="tlSteps" role="group" aria-label="단계">
+          <button data-k="past" aria-pressed="false">← 과거<small>한 점에 모임</small></button>
+          <button data-k="now" aria-pressed="true">현재<small>멈춰 있는 듯한 우주</small></button>
+          <button data-k="exp" aria-pressed="false">팽창 →<small>은하 사이가 멀어짐</small></button>
+        </div>
+        <div class="anim-bar">
+          <button class="play" id="tlPlay" aria-label="재생">▶</button>
+          <div class="tl-track">
+            <input type="range" id="tlSlider" min="-100" max="100" value="0" aria-label="시간: 왼쪽 과거, 가운데 현재, 오른쪽 팽창">
+          </div>
+        </div>
+      </div>
+      <div class="txt"><div class="eq-col"><div class="eq-scroll prose">
+        <p>1927년 <b>르메트르</b>(Lemaître, G. H., 1894~1966)는 빅뱅 우주론을 제안하고 우주 팽창을 나타내는 공식을 유도했다. 그는 팽창하는 우주에서 과거로 거슬러 올라가면 과거의 우주는 현재보다 작았고, 아주 먼 과거에는 우주의 모든 물질이 하나로 모이게 된다고 주장했다. 하지만 정적 우주를 믿었던 당시에는 르메트르의 주장이 인정받지 못했다.</p>
+      </div></div></div>
+    </div>
+
+    <div class="sub-lab">
+      <h3 class="sub-title">적색 편이와 후퇴 속도</h3>
+    </div>
+    <div class="lab eqh">
+      <div class="viz">
+        <div class="chips" id="rsChips" role="group" aria-label="은하 고르기">
+          <button class="chip" data-v="0" aria-pressed="true">정지 상태의 은하</button>
+          <button class="chip" data-v="12000" aria-pressed="false">먼 거리에 있는 은하</button>
+          <button class="chip" data-v="24000" aria-pressed="false">더 먼 거리에 있는 은하</button>
+        </div>
+        <canvas class="spec" id="rsSpec" style="height:230px" aria-label="정지 상태의 은하와 관측한 은하의 스펙트럼"></canvas>
+        <div class="slider-block">
+          <div class="slider-top"><span class="cap">외부 은하가 멀어지는 속도</span><span class="big-val" id="rsVal">0<small>km/s</small></span></div>
+          <input type="range" id="rsSlider" min="0" max="30000" step="300" value="0" aria-label="후퇴 속도">
+        </div>
+        <div class="readout">
+          <div class="stat"><span class="lbl">고유 파장 λ₀</span><span class="val" id="rsL0">486 nm</span></div>
+          <div class="stat"><span class="lbl">관측 파장 λ</span><span class="val" id="rsL">486 nm</span></div>
+          <div class="stat"><span class="lbl">파장 변화량 Δλ</span><span class="val" id="rsDL">0 nm</span></div>
+          <div class="stat"><span class="lbl">적색 편이 z</span><span class="val" id="rsZ">0</span></div>
+        </div>
+        <p class="hint">위 칸은 정지 상태의 은하, 아래 칸은 관측한 은하의 스펙트럼이다. 노란 표시는 고유 파장이 약 486 nm인 흡수선이다.</p>
+      </div>
+      <div class="txt"><div class="eq-col"><div class="eq-scroll">
+        <div class="prose">
+          <p>윌슨산천문대에서 외부 은하를 연구하던 허블은 우주 팽창의 근거가 되는 중요한 연구 결과를 얻게 되었다. 그는 멀리 있는 모든 외부 은하들의 스펙트럼에서 흡수선의 위치가 파장이 긴 쪽으로 치우치는 현상을 발견했다. 이러한 현상을 <b>적색 편이</b>라고 하는데, 적색 편이(z)는 다음과 같이 나타낼 수 있다.</p>
+        </div>
+        <div class="formula fblock"><span class="fmain">z = <span class="frac"><span>λ − λ₀</span><span>λ₀</span></span> = <span class="frac"><span>Δλ</span><span>λ₀</span></span></span><small class="fnote">(λ₀: 고유 파장, λ: 관측 파장)</small></div>
+        <div class="prose">
+          <p>한편 외부 은하가 멀어지는 속도를 <b>후퇴 속도</b>라고 하는데, 후퇴 속도가 광속에 비해 상대적으로 작으면 후퇴 속도(v)와 적색 편이의 관계는 다음과 같이 나타낼 수 있다.</p>
+        </div>
+        <div class="formula fblock"><span class="fmain">v = c × <span class="frac"><span>Δλ</span><span>λ₀</span></span> = cz</span><small class="fnote">(c: 광속, 3×10⁵ km/s)</small></div>
+        <div class="prose">
+          <p>허블의 관측 결과에 따르면 외부 은하의 적색 편이는 은하까지의 거리가 멀수록 더 크게 나타났다. 즉 멀리 있는 외부 은하들은 모두 우리은하로부터 멀어지는데, 먼 거리에 있는 은하일수록 더 빨리 멀어지고 있다는 것을 의미한다. 이 관측 결과로부터 팽창 우주론이 옳다는 사실을 인정받게 되었다.</p>
+        </div>
+      </div></div></div>
+    </div>
+
+    <div class="sub-lab">
+      <h3 class="sub-title">멀리 있는 은하일수록 더 빨리 멀어진다: 허블-르메트르 법칙</h3>
+    </div>
+    <div class="lab eqh">
+      <div class="viz">
+        <canvas class="plotbox hl" id="hlGraph" aria-label="외부 은하의 거리와 후퇴 속도 그래프: 관측값과 평균값 직선"></canvas>
+        <p class="cap" style="text-align:center">외부 은하의 거리와 후퇴 속도</p>
+        <div class="slider-block">
+          <div class="slider-top"><span class="cap">은하까지의 거리 (r)</span><span class="big-val" id="hlRv">200<small>Mpc</small></span></div>
+          <input type="range" id="hlR" min="0" max="400" step="10" value="200" aria-label="은하까지의 거리">
+        </div>
+        <div class="slider-block">
+          <div class="slider-top"><span class="cap">허블 상수 (H)</span><span class="big-val" id="hlHv">70<small>km/s/Mpc</small></span></div>
+          <input type="range" id="hlHs" min="50" max="100" step="1" value="70" aria-label="허블 상수">
+        </div>
+        <div class="hub-res hl-res">
+          <div class="stat"><span class="lbl">후퇴 속도 (V)</span><span class="val" id="hlV">14,000 km/s</span></div>
+          <div class="stat"><span class="lbl">허블 상수 (H)</span><span class="val" id="hlH">70 km/s/Mpc</span></div>
+        </div>
+      </div>
+      <div class="txt"><div class="eq-col"><div class="eq-scroll">
+        <div class="prose">
+          <p>1929년 허블은 외부 은하들의 거리와 적색 편이를 측정해 외부 은하의 후퇴 속도(V)가 은하까지의 거리(r)에 비례한다는 것을 알아냈다. 이를 <b>허블-르메트르 법칙</b>이라고 하고, 다음과 같이 나타낸다.</p>
+        </div>
+        <div class="formula fblock"><span class="fmain">V = H · r</span><small class="fnote">(H: 허블 상수)</small></div>
+        <div class="prose">
+          <p>최근의 연구에 따르면 허블 상수는 약 70 km/s/Mpc이다. 외부 은하의 후퇴 속도는 스펙트럼의 적색 편이를 이용해 구할 수 있으므로, 허블 상수를 알면 허블-르메트르 법칙으로부터 외부 은하까지의 거리를 구할 수 있다.</p>
+          <p>우주가 일정한 속도로 계속 팽창했다고 가정하면 허블 상수의 역수는 모든 은하가 한 점으로 모여드는 데 걸리는 시간에 해당하며, 이 값을 <b>허블 시간</b>이라고 한다. 허블 시간은 우주의 나이를 대략적으로 가늠해 보는 근삿값이다.</p>
+        </div>
+        <div class="formula fblock fbody"><span class="fmain"><span class="nw">허블 시간 = <span class="frac"><span>1</span><span>H</span></span></span><span class="nw">= <span class="frac"><span>1</span><span>70 km/s/Mpc</span></span></span><span class="nw">≒ 140억 년</span></span></div>
+        <div class="key lx-quiz fill nobar">
+          <p class="key-title">확인 퀴즈</p>
+          <p>1. 외부 은하의 거리와 후퇴 속도 그래프에서 기울기는 <span class="blank" data-a="허블 상수" data-opts="허블 상수|허블 시간|광속|적색 편이"></span>을/를 의미한다.</p>
+          <p>2. 그래프 기울기의 역수는 <span class="blank" data-a="허블 시간" data-opts="허블 상수|허블 시간|후퇴 속도|은하까지의 거리"></span>(으)로, 우주의 나이를 대략적으로 가늠해 보는 근삿값이다.</p>
+        </div>
+      </div></div></div>
+    </div>
+
+    <details class="key after-q">
+      <summary class="key-title">더 알아보기: 허블-르메트르 법칙</summary>
+      <p>르메트르는 1927년에 발표한 논문에서 우주의 팽창을 주장했고 은하의 후퇴 속도와 거리 사이의 비례를 나타내는 상수를 제안했는데, 2년 뒤 허블이 관측을 통해 같은 의미의 허블 상수를 제안했다. 두 사람의 업적을 모두 고려해 2018년 국제천문연맹 총회에서 기존의 ‘허블 법칙’을 ‘허블-르메트르 법칙’으로 부르자는 권고안이 통과되었다.</p>
+      <p>1929년 허블은 46개 은하의 거리와 후퇴 속도를 연관시켜 추세선을 분석했고, 최초로 500 km/s/Mpc의 비례 상수(허블 상수)를 얻었다. 2013년 플랑크 망원경의 정밀한 관측 결과를 바탕으로 구한 허블 상수는 67.8 km/s/Mpc ± 0.77 km/s/Mpc이다. 이 값의 의미는 현재 1 Mpc만큼 떨어져 있는 공간에서 1초마다 약 67.8 km의 새로운 공간이 생기고 있다는 것이다.</p>
+    </details>
+    <div class="sub-lab"></div>
+    <div class="lab eqh">
+      <div class="viz">
+        <canvas class="sky" id="skyRuler" aria-label="공간 전체가 고르게 팽창할 때 관측 위치에 따른 은하의 거리 변화"></canvas>
+        <div class="stepbtns" id="ruObs" role="group" aria-label="관측 위치">
+          <button data-o="1" aria-pressed="true">우리은하에서 관측</button>
+          <button data-o="0" aria-pressed="false">은하 A에서 관측</button>
+          <button data-o="2" aria-pressed="false">은하 B에서 관측</button>
+        </div>
+        <div class="anim-bar">
+          <button class="play" id="ruPlay" aria-label="재생">▶</button>
+          <input type="range" id="ruSlider" min="0" max="200" value="0" aria-label="시간의 흐름">
+        </div>
+      </div>
+      <div class="txt"><div class="eq-col"><div class="eq-scroll">
+        <div class="key try">
+          <p class="key-title">생각해 보기</p>
+          <div class="ai-q" data-q="other-galaxy">
+          <p class="aq-q">관측 결과, 멀리 있는 외부 은하들은 모두 우리은하로부터 멀어지고 있다. 그렇다면 우리은하는 우주의 중심에 있다고 할 수 있을까? 왼쪽 애니메이션에서 관측 위치를 바꿔 보고, 그렇게 생각한 까닭을 서술해 보자.</p>
+          <textarea class="aq-in" rows="4" maxlength="500" placeholder="다른 은하에서 관측할 때 거리와 후퇴 속도는 어떤 관계인지 떠올리며 써 보자." aria-label="답안"></textarea>
+          <div class="row aq-row">
+            <span class="hint aq-left">채점 기회 2번</span>
+            <button class="btn aq-btn" type="button">AI 채점받기</button>
+          </div>
+          <div class="fb aq-fb" aria-live="polite" hidden></div>
+          <div class="aq-model" hidden>
+            <p class="aq-model-t">모범 답안</p>
+            <p>우주가 균질하게 팽창한다면 우주의 모든 지점에서 허블-르메트르 법칙이 성립한다. 즉 팽창하는 우주의 어느 곳에서 관측하더라도 멀리 있는 은하일수록 빠르게 멀어지는 것을 확인할 수 있다. 그러므로 모든 은하가 우리은하로부터 멀어지고 있어도 우리은하가 우주의 중심에 있다고는 볼 수 없다.</p>
+          </div>
+        </div>
+        </div>
+      </div></div></div>
+    </div>
+
+    <div class="sub-lab">
+      <div class="key try">
+          <p class="key-title">해 보기</p>
+          <div class="ai-q" data-q="q586">
+          <p class="aq-q">그림은 외부 은하 A~C의 흡수 스펙트럼을 정지 상태의 흡수선 파장과 비교하여 나타낸 것이다. (가) 후퇴 속도가 가장 빠른 은하와 (나) 우리은하로부터 가장 멀리 있는 은하를 각각 쓰시오.</p>
+          <canvas class="q-spec" id="q586Spec" aria-label="외부 은하 A, B, C의 흡수 스펙트럼과 정지 상태의 흡수선"></canvas>
+          <textarea class="aq-in" rows="3" maxlength="500" placeholder="예: (가) ○, (나) ○ — 그렇게 생각한 까닭도 함께 써 보자." aria-label="답안"></textarea>
+          <div class="row aq-row">
+            <span class="hint aq-left">채점 기회 2번</span>
+            <button class="btn aq-btn" type="button">AI 채점받기</button>
+          </div>
+          <div class="fb aq-fb" aria-live="polite" hidden></div>
+          <div class="aq-model" hidden>
+            <p class="aq-model-t">모범 답안</p>
+            <p>(가) B, (나) B. B는 흡수선이 정지 상태의 파장보다 파장이 긴 쪽으로 가장 많이 이동했으므로(적색 편이가 가장 크므로) 후퇴 속도가 가장 빠르다. 허블-르메트르 법칙에 따라 후퇴 속도가 빠를수록 멀리 있으므로 B가 가장 멀리 있다.</p>
+          </div>
+        </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="card page" id="p-sum" data-title="허블-르메트르 법칙과 우주 팽창 총정리" hidden>
+    <div class="card-head"><div class="step-no">3</div><div>
+      <h2>허블-르메트르 법칙과 우주 팽창 총정리</h2>
+      <p class="sub">정적 우주와 팽창 우주, 허블-르메트르 법칙과 우주 팽창을 한눈에 정리해 보자.</p>
+    </div></div>
+    <div class="sum-grid">
+      <div class="key sum-card">
+        <p class="sum-h"><span>1</span>정적 우주와 팽창 우주</p>
+        <ul>
+          <li><b>정적 우주</b>: 아인슈타인(1917년)은 우주 방정식에 ‘우주 상수’를 도입하여 우주가 팽창하거나 수축하지 않는 정적 우주를 제안했다.</li>
+          <li><b>팽창 우주</b>: 프리드만(1922년)은 우주가 중력의 영향을 받고 있지만 현재는 팽창하고 있다고 주장했다.</li>
+          <li>당시에는 우주가 영원불변하다는 생각이 지배적이었고, 관측 증거가 없어 팽창 우주는 받아들여지지 않았다.</li>
+        </ul>
+      </div>
+      <div class="key sum-card">
+        <p class="sum-h"><span>2</span>허블-르메트르 법칙과 우주 팽창</p>
+        <ul>
+          <li><b>르메트르</b>(1927년): 빅뱅 우주론을 제안했다. 과거의 우주는 현재보다 작았고, 아주 먼 과거에는 우주의 모든 물질이 하나로 모여 있었다.</li>
+          <li><b>적색 편이</b>: 외부 은하의 스펙트럼에서 흡수선의 위치가 파장이 긴 쪽으로 치우치는 현상</li>
+          <li><b>허블-르메트르 법칙</b>: 외부 은하의 후퇴 속도는 은하까지의 거리에 비례한다. 멀리 있는 은하일수록 더 빨리 멀어진다.</li>
+          <li><b>허블 시간</b>: 허블 상수의 역수로, 우주의 나이를 대략적으로 가늠해 보는 근삿값이다.</li>
+          <li><b>우주 팽창</b>: 우주가 균질하게 팽창하므로 어느 곳에서 관측해도 허블-르메트르 법칙이 성립한다. 우리은하는 우주의 중심이 아니다.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sub-lab">
+      <h3 class="sub-title">식 한눈에 보기</h3>
+    </div>
+    <div class="f-grid">
+      <div class="f-item"><p class="f-name">적색 편이</p><div class="formula fblock fbody"><span class="fmain">z = <span class="frac"><span>λ − λ₀</span><span>λ₀</span></span> = <span class="frac"><span>Δλ</span><span>λ₀</span></span></span><small class="fnote">(λ₀: 고유 파장, λ: 관측 파장)</small></div></div>
+      <div class="f-item"><p class="f-name">후퇴 속도</p><div class="formula fblock fbody"><span class="fmain">v = c × <span class="frac"><span>Δλ</span><span>λ₀</span></span> = cz</span><small class="fnote">(c: 광속, 3×10⁵ km/s)</small></div></div>
+      <div class="f-item"><p class="f-name">허블-르메트르 법칙</p><div class="formula fblock fbody"><span class="fmain">V = H · r</span><small class="fnote">(H: 허블 상수, 약 70 km/s/Mpc · 그래프의 기울기)</small></div></div>
+      <div class="f-item"><p class="f-name">허블 시간</p><div class="formula fblock fbody"><span class="fmain">허블 시간 = <span class="frac"><span>1</span><span>H</span></span> ≒ 140억 년</span><small class="fnote">(우주의 나이를 가늠해 보는 근삿값)</small></div></div>
+    </div>
+    <div class="quiz-cta sub-lab">
+      <p>허블-르메트르 법칙과 우주 팽창 연습 문제 (10문제)</p>
+      <button class="btn primary" id="openHub">연습 문제 풀기</button>
+    </div>
+  </section>
+
+  </div>
+
+  <nav class="pnav" aria-label="페이지 이동">
+    <button class="btn ghost" id="pPrev"></button>
+    <span class="pcount num" id="pCount">1 / 3</span>
+    <button class="btn primary" id="pNext"></button>
+  </nav>
+
+  <div class="modal" id="quizModal" hidden role="dialog" aria-modal="true" aria-labelledby="mqTitle">
+    <div class="modal-box">
+      <div class="modal-top">
+        <div class="mprog" id="mqProg"></div>
+        <button class="btn ghost" id="mqClose">닫기</button>
+      </div>
+      <div id="mqBody" style="display:flex;flex-direction:column;gap:14px"></div>
+    </div>
+  </div>
+  <p class="foot"><a class="home-link foot-link" href="https://moon-byte-code.github.io/earth-science-lab/"><span class="tri" aria-hidden="true">◀</span>하연샘 지구과학 실험실로 돌아가기</a><br>그림 속 은하, 스펙트럼, 관측값은 원리를 보여 주기 위한 모형이다.</p>
+</div>
+<script>
+(function(){
+const $=s=>document.querySelector(s);
+const cssv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const FB=()=>cssv('--font-body'), FN=()=>cssv('--font-num');
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const lerp=(a,b,t)=>a+(b-a)*t;
+const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+const C=3e5;
+function setup(cv){const dpr=window.devicePixelRatio||1;const w=cv.clientWidth,h=cv.clientHeight;
+  if(cv.width!==Math.round(w*dpr)||cv.height!==Math.round(h*dpr)){cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);}
+  const ctx=cv.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);return{ctx,w,h};}
+function rnd(seed){let a=seed;return()=>{a=(a*16807)%2147483647;return a/2147483647;};}
+const fmt=n=>Math.round(n).toLocaleString('ko-KR');
+
+/* ---------- 공통 그림: 배경 별 · 은하 ---------- */
+const BGS=(()=>{const r=rnd(7);return Array.from({length:140},()=>({x:r(),y:r(),s:.3+r()*.9,a:.25+r()*.5}));})();
+function starfield(ctx,w,h){BGS.forEach(s=>{ctx.globalAlpha=s.a;ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(s.x*w,s.y*h,s.s,0,6.283);ctx.fill();});ctx.globalAlpha=1;}
+function spaceBg(ctx,w,h){const g=ctx.createRadialGradient(w*.5,h*.45,0,w*.5,h*.5,Math.max(w,h)*.75);g.addColorStop(0,'#141a33');g.addColorStop(1,'#05070e');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);starfield(ctx,w,h);}
+/* 나선 은하 · 타원 은하: 미리 그려 둔 그림(스프라이트)을 돌리고 기울여 찍는다 */
+const GSPR={};
+function galSprite(type,hue){const key=type+hue;if(GSPR[key])return GSPR[key];const N=128,c=document.createElement('canvas');c.width=c.height=N;const g=c.getContext('2d');const m=N/2;
+  g.globalCompositeOperation='lighter';
+  const halo=g.createRadialGradient(m,m,0,m,m,m);halo.addColorStop(0,`rgba(${hue},.55)`);halo.addColorStop(.25,`rgba(${hue},.22)`);halo.addColorStop(.6,`rgba(${hue},.06)`);halo.addColorStop(1,`rgba(${hue},0)`);
+  g.fillStyle=halo;g.fillRect(0,0,N,N);
+  if(type==='s'){const r=rnd(type.length*97+hue.length*13+11);
+    for(let k=0;k<2;k++)for(let i=0;i<260;i++){const t=r(),a=k*Math.PI+t*4.2,rr=m*(.1+.82*t);const sc=m*.07*(.4+t);
+      const x=m+Math.cos(a)*rr+(r()-.5)*sc*2,y=m+Math.sin(a)*rr+(r()-.5)*sc*2;const s=.6+r()*1.6;
+      g.fillStyle=r()<.18?'rgba(255,190,210,.35)':'rgba(170,200,255,.22)';g.beginPath();g.arc(x,y,s,0,6.283);g.fill();}
+    for(let i=0;i<160;i++){const a=r()*6.283,rr=Math.pow(r(),1.6)*m*.9;g.fillStyle='rgba(200,215,255,.08)';g.beginPath();g.arc(m+Math.cos(a)*rr,m+Math.sin(a)*rr,1.4,0,6.283);g.fill();}}
+  const core=g.createRadialGradient(m,m,0,m,m,m*(type==='s'?.3:.55));core.addColorStop(0,'rgba(255,250,235,1)');core.addColorStop(.35,'rgba(255,236,200,.6)');core.addColorStop(1,`rgba(${hue},0)`);
+  g.fillStyle=core;g.beginPath();g.arc(m,m,m*(type==='s'?.3:.55),0,6.283);g.fill();
+  GSPR[key]=c;return c;}
+function galaxy(ctx,x,y,r,o){o=o||{};const rot=o.rot||0,tilt=o.tilt||.55,type=o.type||'s',hue=(o.hue||[255,230,190]).join(','),alpha=o.alpha==null?1:o.alpha;
+  const sp=galSprite(type,hue);ctx.save();ctx.translate(x,y);ctx.rotate(rot);ctx.scale(1,type==='e'?Math.max(.6,tilt):tilt);ctx.globalAlpha=alpha;ctx.globalCompositeOperation='lighter';
+  ctx.drawImage(sp,-r*1.3,-r*1.3,r*2.6,r*2.6);ctx.restore();}
+
+/* ---------- 파장 → 색 ---------- */
+function wlRGB(l){let r=0,g=0,b=0;
+  if(l<440){r=-(l-440)/60;b=1;}else if(l<490){g=(l-440)/50;b=1;}else if(l<510){g=1;b=-(l-510)/20;}else if(l<580){r=(l-510)/70;g=1;}else if(l<645){r=1;g=-(l-645)/65;}else{r=1;}
+  let f=1;if(l<420)f=.3+.7*(l-380)/40;else if(l>700)f=.3+.7*(780-l)/80;f=clamp(f,0,1);
+  return[r,g,b].map(v=>Math.round(255*Math.pow(clamp(v*f,0,1),.8)));}
+/* 연속 스펙트럼 + 흡수선 띠 */
+function specStrip(ctx,x0,y0,w,h,L0,L1,lines,o){o=o||{};
+  for(let i=0;i<w;i++){const l=L0+(L1-L0)*i/w;const c=wlRGB(l);ctx.fillStyle=`rgb(${c})`;ctx.fillRect(x0+i,y0,1.2,h);}
+  const sh=ctx.createLinearGradient(0,y0,0,y0+h);sh.addColorStop(0,'rgba(0,0,0,.25)');sh.addColorStop(.5,'rgba(0,0,0,0)');sh.addColorStop(1,'rgba(0,0,0,.25)');ctx.fillStyle=sh;ctx.fillRect(x0,y0,w,h);
+  lines.forEach(l=>{if(l<L0||l>L1)return;const x=x0+(l-L0)/(L1-L0)*w;ctx.fillStyle='rgba(10,8,12,.92)';ctx.fillRect(x-1.3,y0,2.6,h);});}
+
+/* =========================================================
+   1. 정적 우주와 팽창 우주 — 인물을 누르면 그 사람이 생각한 우주
+   ========================================================= */
+const ST={who:'ein',t:0,play:null,gal:(()=>{const r=rnd(42);const a=[];for(let i=0;i<34;i++){const ang=r()*6.283,d=Math.sqrt(r())*.95;a.push({x:Math.cos(ang)*d,y:Math.sin(ang)*d*.8,r:.6+r()*.7,rot:r()*6.28,tilt:.35+r()*.55,type:r()<.65?'s':'e'});}return a;})()};
+const stScale=t=>ST.who==='fri'?1+.9*ease(t):1;
+function arrow(ctx,x1,y1,x2,y2,col,lw){const dx=x2-x1,dy=y2-y1,L=Math.hypot(dx,dy);if(L<3)return;const ux=dx/L,uy=dy/L;
+  ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineWidth=lw||2.5;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2-ux*8,y2-uy*8);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-ux*10-uy*5,y2-uy*10+ux*5);ctx.lineTo(x2-ux*10+uy*5,y2-uy*10-ux*5);ctx.closePath();ctx.fill();}
+function pill(ctx,x,y,text,bg,fg,size){ctx.font=`700 ${size||14}px ${FB()}`;ctx.textBaseline='middle';const tw=ctx.measureText(text).width;
+  ctx.fillStyle=bg;ctx.beginPath();if(ctx.roundRect)ctx.roundRect(x,y,tw+20,28,9);else ctx.rect(x,y,tw+20,28);ctx.fill();ctx.fillStyle=fg;ctx.textAlign='left';ctx.fillText(text,x+10,y+14.5);return tw+20;}
+function drawStatic(){const cv=$('#skyStatic');if(!cv||!cv.clientWidth)return;const{ctx,w,h}=setup(cv);spaceBg(ctx,w,h);
+  const t=ST.t,a=stScale(t),cx=w/2,cy=h/2,R=Math.min(w,h)*.42,fri=ST.who==='fri',sm=w<420;
+  /* 공간 격자 */
+  ctx.strokeStyle='rgba(140,170,255,.10)';ctx.lineWidth=1;const step=R*.35*a;
+  for(let x=cx%step;x<w;x+=step){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke();}for(let y=cy%step;y<h;y+=step){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}
+  const gr=Math.max(5,Math.min(w,h)*.028);
+  /* 팽창: 처음 자리에서 지금 자리까지 흔적 */
+  if(fri&&t>.02)ST.gal.forEach(g=>{const x0=cx+g.x*R,y0=cy+g.y*R,x1=cx+g.x*R*a,y1=cy+g.y*R*a;if(x1<-30||x1>w+30||y1<-30||y1>h+30)return;
+    ctx.strokeStyle='rgba(255,212,59,.45)';ctx.lineWidth=1.4;ctx.setLineDash([3,4]);ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1,y1);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle='rgba(255,212,59,.5)';ctx.beginPath();ctx.arc(x0,y0,1.8,0,6.283);ctx.fill();});
+  ST.gal.forEach(g=>{const x=cx+g.x*R*a,y=cy+g.y*R*a;if(x<-30||x>w+30||y<-30||y>h+30)return;galaxy(ctx,x,y,gr*g.r,{rot:g.rot,tilt:g.tilt,type:g.type});});
+  if(!fri){/* 중력(끌어당김)과 우주 상수(밀어냄)가 맞서 균형 */
+    const rr=R*.62;ctx.strokeStyle='rgba(255,255,255,.35)';ctx.setLineDash([6,6]);ctx.lineWidth=1.5;ctx.beginPath();ctx.ellipse(cx,cy,rr,rr*.8,0,0,6.283);ctx.stroke();ctx.setLineDash([]);
+    [0,1,2,3].forEach(k=>{const an=k*Math.PI/2+Math.PI/4,ux=Math.cos(an),uy=Math.sin(an)*.8;const bx=cx+ux*rr,by=cy+uy*rr,L=R*.2;
+      arrow(ctx,bx+ux*L,by+uy*L,bx+ux*4,by+uy*4,'#FF8787',3);arrow(ctx,bx-ux*L,by-uy*L,bx-ux*4,by-uy*4,'#74C0FC',3);});
+    const ly=h-(sm?70:78);pill(ctx,12,ly,'→← 중력: 서로 끌어당김','rgba(255,135,135,.22)','#FFC9C9',sm?12:13);pill(ctx,12,ly+34,'←→ 우주 상수: 밀어내는 효과','rgba(116,192,252,.22)','#A5D8FF',sm?12:13);}
+  pill(ctx,12,12,fri?'팽창 우주: 은하 사이의 거리가 점점 멀어진다':'정적 우주: 시간이 흘러도 우주의 크기는 그대로','rgba(0,0,0,.5)','#fff',sm?13:15);
+  ctx.font=`700 ${sm?13:14}px ${FB()}`;const sz=`우주의 크기: 처음의 ${a.toFixed(2)}배`;const tw=ctx.measureText(sz).width+20;
+  pill(ctx,w-tw-12,h-40,sz,fri?'rgba(247,103,7,.85)':'rgba(49,130,246,.85)','#fff',sm?13:14);
+  $('#stSlider').value=Math.round(t*200);$('#stPlay').textContent=ST.play?'❚❚':'▶';$('#stPlay').setAttribute('aria-label',ST.play?'멈춤':'재생');}
+function stRun(){cancelAnimationFrame(ST.raf);if(ST.t>=.999)ST.t=0;const from=ST.t,t0=performance.now(),dur=(1-from)*5000;ST.play=true;
+  const tick=now=>{const u=clamp((now-t0)/dur,0,1);ST.t=lerp(from,1,u);drawStatic();if(u<1&&ST.play)ST.raf=requestAnimationFrame(tick);else{ST.play=null;drawStatic();}};ST.raf=requestAnimationFrame(tick);}
+function stStop(){ST.play=null;cancelAnimationFrame(ST.raf);drawStatic();}
+function setWho(who,auto){ST.who=who;stStop();ST.t=0;
+  $('#talkFig').dataset.who=who;document.querySelectorAll('#talkFig .who').forEach(b=>b.setAttribute('aria-pressed',b.dataset.who===who));
+  [['ein','#panelEin'],['fri','#panelFri']].forEach(([k,id])=>{const p=$(id);p.hidden=k!==who;p.classList.remove('in');if(k===who){void p.offsetWidth;p.classList.add('in');}});
+  drawStatic();if(auto)stRun();}
+document.querySelectorAll('#talkFig .who').forEach(b=>{b.addEventListener('click',()=>setWho(b.dataset.who,true));
+  b.addEventListener('mouseenter',()=>{$('#talkFig').dataset.hover=b.dataset.who;});b.addEventListener('mouseleave',()=>{delete $('#talkFig').dataset.hover;});});
+$('#stPlay').addEventListener('click',()=>{if(ST.play)stStop();else stRun();});
+$('#stSlider').addEventListener('input',e=>{ST.play=null;cancelAnimationFrame(ST.raf);ST.t=+e.target.value/200;drawStatic();});
+
+/* =========================================================
+   2-1. 르메트르: 과거(한 점) ← 현재 → 팽창
+   ========================================================= */
+const TL={p:0,play:null,gal:(()=>{const r=rnd(77);const a=[];for(let i=0;i<46;i++){const ang=r()*6.283,d=Math.sqrt(r())*.98;a.push({x:Math.cos(ang)*d*1.25,y:Math.sin(ang)*d*.9,r:.6+r()*.7,rot:r()*6.28,tilt:.35+r()*.55,type:r()<.65?'s':'e'});}return a;})()};
+const tlScale=p=>p<0?lerp(1,.015,ease(-p)):1+.85*ease(p);
+function drawTime(){const cv=$('#skyTime');if(!cv||!cv.clientWidth)return;const{ctx,w,h}=setup(cv);spaceBg(ctx,w,h);
+  const p=TL.p,a=tlScale(p),cx=w/2,cy=h/2,R=Math.min(w*.42,h*.62),sm=w<520;
+  ctx.strokeStyle='rgba(140,170,255,.10)';ctx.lineWidth=1;const step=Math.max(16,R*.32*a);
+  for(let x=cx%step;x<w;x+=step){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke();}for(let y=cy%step;y<h;y+=step){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}
+  const gr=Math.max(5,Math.min(w,h)*.035);const fade=a<.12?a/.12:1;
+  TL.gal.forEach(g=>{const x=cx+g.x*R*a,y=cy+g.y*R*a;if(x<-30||x>w+30||y<-30||y>h+30)return;galaxy(ctx,x,y,gr*g.r,{rot:g.rot,tilt:g.tilt,type:g.type,alpha:fade});});
+  if(a<.45){const f=1-a/.45,rr=R*.35*f+6;const g=ctx.createRadialGradient(cx,cy,0,cx,cy,rr);g.addColorStop(0,`rgba(255,252,240,${f})`);g.addColorStop(.4,`rgba(255,225,170,${.7*f})`);g.addColorStop(1,'rgba(255,200,140,0)');
+    ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,rr,0,6.283);ctx.fill();}
+  const k=p<-.02?'past':p>.02?'exp':'now';
+  const T={past:p<=-.97?'과거: 우주의 모든 물질이 한 점에 모여 있었다':'과거로 거슬러 올라가는 중: 우주가 점점 작아진다',now:'현재: 멈춰 있는 듯한 우주',exp:'팽창: 은하 사이의 거리가 점점 멀어진다'}[k];
+  pill(ctx,12,12,T,'rgba(0,0,0,.5)','#fff',sm?13:15);
+  ctx.font=`700 ${sm?13:14}px ${FB()}`;const sz=`우주의 크기: 현재의 ${a<.1?a.toFixed(2):a.toFixed(2)}배`;const tw=ctx.measureText(sz).width+20;
+  pill(ctx,w-tw-12,h-40,sz,k==='past'?'rgba(232,89,12,.85)':k==='exp'?'rgba(25,113,194,.85)':'rgba(73,80,87,.85)','#fff',sm?13:14);
+  document.querySelectorAll('#tlSteps button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===k));
+  $('#tlSlider').value=Math.round(p*100);$('#tlPlay').textContent=TL.play?'❚❚':'▶';$('#tlPlay').setAttribute('aria-label',TL.play?'멈춤':'재생');}
+function tlRun(from,to,ms){cancelAnimationFrame(TL.raf);TL.p=from;const t0=performance.now(),dur=Math.max(300,Math.abs(to-from)*(ms||3000));TL.play=true;
+  const tick=now=>{const u=clamp((now-t0)/dur,0,1);TL.p=lerp(from,to,u);drawTime();if(u<1&&TL.play)TL.raf=requestAnimationFrame(tick);else{TL.play=null;drawTime();}};TL.raf=requestAnimationFrame(tick);}
+function tlStop(){TL.play=null;cancelAnimationFrame(TL.raf);drawTime();}
+/* 재생: 과거(한 점)부터 팽창 끝까지 이어서 */
+$('#tlPlay').addEventListener('click',()=>{if(TL.play){tlStop();return;}tlRun(TL.p,TL.p>=.999?-1:1);});
+/* 단계 버튼: 그 단계만 재생하고 멈춤 */
+document.querySelectorAll('#tlSteps button').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.k;
+  tlRun(TL.p,k==='past'?-1:k==='exp'?1:0);}));
+$('#tlSlider').addEventListener('input',e=>{TL.play=null;cancelAnimationFrame(TL.raf);TL.p=+e.target.value/100;drawTime();});
+
+/* 거리-후퇴 속도 그래프 (공용) */
+function plotAxes(ctx,w,h,o){const pl=w<420?62:72,pr=16,pt=16,pb=46;const pw=w-pl-pr,ph=h-pt-pb;
+  const X=v=>pl+v/o.xMax*pw,Y=v=>pt+ph-v/o.yMax*ph;
+  ctx.strokeStyle=cssv('--grid');ctx.lineWidth=1;ctx.fillStyle=cssv('--ink-3');ctx.font=`500 12px ${FN()}`;
+  o.xt.forEach(v=>{ctx.beginPath();ctx.moveTo(X(v),pt);ctx.lineTo(X(v),pt+ph);ctx.stroke();ctx.textAlign='center';ctx.textBaseline='top';ctx.fillText(v,X(v),pt+ph+6);});
+  o.yt.forEach(v=>{ctx.beginPath();ctx.moveTo(pl,Y(v));ctx.lineTo(pl+pw,Y(v));ctx.stroke();ctx.textAlign='right';ctx.textBaseline='middle';ctx.fillText(o.yLab?o.yLab(v):v,pl-6,Y(v));});
+  ctx.strokeStyle=cssv('--ink-2');ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(pl,pt);ctx.lineTo(pl,pt+ph);ctx.lineTo(pl+pw,pt+ph);ctx.stroke();
+  ctx.fillStyle=cssv('--ink-2');ctx.font=`600 12.5px ${FB()}`;ctx.textAlign='right';ctx.textBaseline='bottom';ctx.fillText(o.xName,pl+pw,h-4);
+  ctx.save();ctx.translate(12,pt+ph/2);ctx.rotate(-Math.PI/2);ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(o.yName,0,0);ctx.restore();
+  return{X,Y,pl,pt,pw,ph};}
+function dot(ctx,x,y,r,fill,stroke){ctx.beginPath();ctx.arc(x,y,r,0,6.283);ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=2;ctx.stroke();}}
+
+/* =========================================================
+   2-3. 외부 은하의 거리와 후퇴 속도: 관측값 찍기 → 직선 그리기 → 평균값
+   ========================================================= */
+const HL={n:999,mine:null,fit:true,raf:0,r:200,Hs:70,data:(()=>{const r=rnd(1929);const a=[];
+  for(let k=0;k<62;k++){const t=r();const d=12+Math.pow(t,1.6)*300;const v=70*d*(1+(r()-.5)*.26)+(r()-.5)*900;a.push([d,Math.max(600,v)]);}
+  a.push([275,22300],[306,21000],[310,23600],[390,26200]);return a.sort((p,q)=>p[0]-q[0]);})()};
+HL.H=HL.data.reduce((s,[d,v])=>s+d*v,0)/HL.data.reduce((s,[d])=>s+d*d,0);
+const HL_AX={xMax:440,yMax:31000,xt:[0,100,200,300,400],yt:[0,10000,20000,30000],yLab:v=>v?(v/1e4)+'×10⁴':'0',xName:'거리 (Mpc)',yName:'후퇴 속도 (km/s)'};
+function drawHL(){const cv=$('#hlGraph');if(!cv||!cv.clientWidth)return;const{ctx,w,h}=setup(cv);const G=plotAxes(ctx,w,h,HL_AX);HL.G=G;
+  const clipLine=(H,col,lw,dash)=>{const rEnd=Math.min(HL_AX.xMax,HL_AX.yMax/H);ctx.save();ctx.strokeStyle=col;ctx.lineWidth=lw;if(dash)ctx.setLineDash(dash);ctx.beginPath();ctx.moveTo(G.X(0),G.Y(0));ctx.lineTo(G.X(rEnd),G.Y(rEnd*H));ctx.stroke();ctx.restore();return rEnd;};
+  if(HL.fit){const e=clipLine(HL.H,'#8B95A1',4);ctx.font=`700 14px ${FB()}`;ctx.fillStyle=cssv('--ink');ctx.textAlign='left';ctx.textBaseline='middle';
+    const lx=G.X(e*.86),ly=G.Y(e*.86*HL.H);ctx.strokeStyle=cssv('--ink-2');ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(lx+4,ly);ctx.lineTo(lx+30,ly);ctx.lineTo(lx+30,ly+26);ctx.stroke();ctx.fillText('평균값',lx+14,ly+40);}
+  /* 조작: 허블 상수(H)에 따른 직선과 거리(r)에서의 후퇴 속도 */
+  clipLine(HL.Hs,cssv('--accent'),2.5);
+  {const V=HL.Hs*HL.r,x=G.X(HL.r),vis=V<=HL_AX.yMax,y=G.Y(Math.min(V,HL_AX.yMax));ctx.save();ctx.setLineDash([4,4]);ctx.strokeStyle=cssv('--accent');ctx.lineWidth=1.3;
+    ctx.beginPath();ctx.moveTo(x,G.Y(0));ctx.lineTo(x,y);if(vis)ctx.lineTo(G.X(0),y);ctx.stroke();ctx.restore();
+    if(vis){ctx.beginPath();ctx.arc(x,y,7,0,6.283);ctx.fillStyle=cssv('--accent');ctx.fill();ctx.strokeStyle=cssv('--surface');ctx.lineWidth=2;ctx.stroke();}}
+  const rEnd2=Math.min(HL_AX.xMax,HL_AX.yMax/HL.Hs);ctx.font=`700 13px ${FB()}`;ctx.fillStyle=cssv('--accent');ctx.textAlign='left';ctx.textBaseline='top';ctx.fillText('V = H · r',G.X(rEnd2*.5)+12,G.Y(rEnd2*.5*HL.Hs)+10);
+  ctx.fillStyle=cssv('--ink');HL.data.slice(0,HL.n).forEach(([d,v])=>{ctx.beginPath();ctx.arc(G.X(d),G.Y(v),3.6,0,6.283);ctx.fill();});
+  if(HL.n>=HL.data.length){const[d,v]=HL.data[HL.data.length-4];const x=G.X(d),y=G.Y(v);ctx.strokeStyle=cssv('--ink-2');ctx.fillStyle=cssv('--ink-2');ctx.lineWidth=1.2;
+    ctx.beginPath();ctx.moveTo(x-8,y);ctx.lineTo(x-46,y);ctx.stroke();ctx.beginPath();ctx.moveTo(x-6,y);ctx.lineTo(x-13,y-4);ctx.lineTo(x-13,y+4);ctx.closePath();ctx.fill();
+    ctx.font=`700 14px ${FB()}`;ctx.fillStyle=cssv('--ink');ctx.textAlign='right';ctx.textBaseline='middle';ctx.fillText('관측값',x-52,y);}
+  const V=HL.Hs*HL.r;$('#hlRv').innerHTML=`${HL.r}<small>Mpc</small>`;$('#hlHv').innerHTML=`${HL.Hs}<small>km/s/Mpc</small>`;
+  $('#hlV').textContent=fmt(V)+' km/s';$('#hlH').textContent=HL.Hs+' km/s/Mpc';}
+$('#hlR').addEventListener('input',e=>{HL.r=+e.target.value;drawHL();});
+$('#hlHs').addEventListener('input',e=>{HL.Hs=+e.target.value;drawHL();});
+
+/* =========================================================
+   2-4. 격자(공간) 전체가 고르게 팽창 — 어느 은하에서 관측해도 같다
+   ========================================================= */
+const RU={t:0,play:null,o:1,pts:(()=>{const r=rnd(5);const a=[];for(let i=-7;i<=9;i++)for(let j=-5;j<=5;j++){if(j===0&&i>=-1&&i<=2)continue;if(r()<.42)a.push({i,j,rot:r()*6.28,tilt:.35+r()*.5,type:r()<.6?'s':'e'});}return a;})()};
+const RU_N=[{n:'은하 A',i:-1,c:'#FFD43B'},{n:'우리은하',i:0,c:'#A5D8FF',hue:[200,215,255]},{n:'은하 B',i:2,c:'#FF8787'}];
+function drawRuler(){const cv=$('#skyRuler');if(!cv||!cv.clientWidth)return;const{ctx,w,h}=setup(cv);spaceBg(ctx,w,h);
+  const s=1+ease(RU.t),sm=w<480,O=RU_N[RU.o],oi=O.i,m=sm?24:40,g0=Math.min((w-2*m)/6,h/6),G=g0*s,gr=Math.max(7,Math.min(w,h)*.03);
+  const rels=RU_N.map(g=>g.i-oi),mn=Math.min(...rels),ox=(w-3*2*g0)/2-mn*2*g0,oy=h*.55;
+  const X=i=>ox+(i-oi)*G,X0=i=>ox+(i-oi)*g0;
+  ctx.strokeStyle='rgba(140,170,255,.28)';ctx.lineWidth=1;
+  for(let k=Math.floor(-ox/G)-1;ox+k*G<=w;k++){const x=ox+k*G;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke();}
+  for(let k=Math.floor(-oy/G)-1;oy+k*G<=h;k++){const y=oy+k*G;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}
+  RU.pts.forEach(p=>{const x=X(p.i),y=oy+p.j*G;if(x<-20||x>w+20||y<-20||y>h+20)return;galaxy(ctx,x,y,gr*.8,{rot:p.rot,tilt:p.tilt,type:p.type,alpha:.7});});
+  const others=RU_N.filter(g=>g!==O).sort((a,b)=>Math.abs(a.i-oi)-Math.abs(b.i-oi));
+  others.forEach(g=>{ctx.strokeStyle='rgba(255,255,255,.45)';ctx.setLineDash([3,3]);ctx.lineWidth=1.2;ctx.beginPath();ctx.arc(X0(g.i),oy,gr*.9,0,6.283);ctx.stroke();ctx.setLineDash([]);});
+  others.forEach((g,k)=>{const dir=Math.sign(g.i-oi),y2=oy-gr*(k?3.6:1.9),xa=ox+dir*gr*1.2,xb=X(g.i)-dir*gr*1.1;
+    ctx.strokeStyle=g.c;ctx.fillStyle=g.c;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(xa,y2);ctx.lineTo(xb,y2);ctx.stroke();
+    [[xa,-dir],[xb,dir]].forEach(([px,dd])=>{ctx.beginPath();ctx.moveTo(px,y2);ctx.lineTo(px-dd*7,y2-4);ctx.lineTo(px-dd*7,y2+4);ctx.closePath();ctx.fill();});
+    const d=5*Math.abs(g.i-oi)*s,lab=(s>1.995||s<1.005)?d.toFixed(0):d.toFixed(1);ctx.font=`800 ${sm?13:15}px ${FN()}`;ctx.textAlign='center';ctx.textBaseline='bottom';
+    const tx=(xa+xb)/2,tw=ctx.measureText(lab).width+12;ctx.fillStyle='rgba(0,0,0,.6)';ctx.fillRect(tx-tw/2,y2-24,tw,19);ctx.fillStyle=g.c;ctx.fillText(lab,tx,y2-7);});
+  RU_N.forEach((g,k)=>{const x=X(g.i);galaxy(ctx,x,oy,gr*(g===O?1.25:1.1),{rot:k*1.2+.5,tilt:.5,hue:g.hue});
+    ctx.strokeStyle=g===O?'#fff':g.c;ctx.lineWidth=2;ctx.beginPath();ctx.arc(x,oy,gr*1.4,0,6.283);ctx.stroke();if(g===O){ctx.beginPath();ctx.arc(x,oy,gr*1.85,0,6.283);ctx.stroke();}
+    ctx.font=`700 ${sm?12:13}px ${FB()}`;ctx.fillStyle=g===O?'#fff':g.c;ctx.textAlign='center';ctx.textBaseline='top';
+    const dy=(sm&&s<1.6&&k===1)?18:0;ctx.fillText(g===O?g.n+' (관측)':g.n,x,oy+gr*1.95+dy);});
+  pill(ctx,12,12,`공간(격자)의 크기: 처음의 ${s.toFixed(2)}배`,'rgba(0,0,0,.55)','#fff',sm?13:15);
+  if(RU.t>.98){const msg=sm?'어디서 보아도 먼 은하가 더 빨리 멀어진다':`${O.n}에서 보아도 멀리 있는 은하일수록 더 빨리 멀어진다`;ctx.font=`700 ${sm?12:14}px ${FB()}`;const tw=ctx.measureText(msg).width;
+    pill(ctx,Math.max(8,(w-tw-20)/2),h-40,msg,'rgba(255,212,59,.95)','#2b2100',sm?12:14);}
+  document.querySelectorAll('#ruObs button').forEach(bt=>bt.setAttribute('aria-pressed',+bt.dataset.o===RU.o));
+  $('#ruSlider').value=Math.round(RU.t*200);$('#ruPlay').textContent=RU.play?'❚❚':'▶';$('#ruPlay').setAttribute('aria-label',RU.play?'멈춤':'재생');}
+function ruRun(){cancelAnimationFrame(RU.raf);if(RU.t>=.999)RU.t=0;const from=RU.t,t0=performance.now(),dur=(1-from)*4500;RU.play=true;
+  const tick=now=>{const u=clamp((now-t0)/dur,0,1);RU.t=lerp(from,1,u);drawRuler();if(u<1&&RU.play)RU.raf=requestAnimationFrame(tick);else{RU.play=null;drawRuler();}};RU.raf=requestAnimationFrame(tick);}
+$('#ruPlay').addEventListener('click',()=>{if(RU.play){RU.play=null;cancelAnimationFrame(RU.raf);drawRuler();}else ruRun();});
+$('#ruSlider').addEventListener('input',e=>{RU.play=null;cancelAnimationFrame(RU.raf);RU.t=+e.target.value/200;drawRuler();});
+document.querySelectorAll('#ruObs button').forEach(bt=>bt.addEventListener('click',()=>{RU.o=+bt.dataset.o;RU.play=null;cancelAnimationFrame(RU.raf);RU.t=0;ruRun();}));
+
+/* ---------- 해 보기(기출픽 586) 그림: 정지 상태 흡수선과 A~C의 흡수 스펙트럼 ---------- */
+const Q586={rest:[132.5,139.5,230,325,331,341,402,408,449],sh:{A:31,B:40,C:18},x0:125,x1:497};
+function drawQ586(){const cv=$('#q586Spec');if(!cv||!cv.clientWidth)return;const{ctx,w,h}=setup(cv);ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);
+  const L=w*.17,R=w*.97,sc=(R-L)/(Q586.x1-Q586.x0),X=v=>L+(v-Q586.x0)*sc,fs=Math.max(12,Math.min(16,h*.065));
+  const top=h*.05,tick=h*.1,rowH=h*.17,gap=h*.045;
+  ctx.font=`500 ${fs}px ${FB()}`;ctx.fillStyle='#222';ctx.textAlign='right';ctx.textBaseline='middle';ctx.fillText('정지 상태',L-8,top+tick/2);
+  ctx.fillStyle='#333';Q586.rest.forEach(v=>ctx.fillRect(X(v)-1.5,top,3,tick));
+  ['A','B','C'].forEach((n,k)=>{const y=top+tick+h*.035+k*(rowH+gap);const g=ctx.createLinearGradient(L,0,R,0);
+    g.addColorStop(0,'#6f6f6f');g.addColorStop(.1,'#555');g.addColorStop(.3,'#b9b9b9');g.addColorStop(.52,'#e6e6e6');g.addColorStop(.78,'#b4b4b4');g.addColorStop(1,'#6a6a6a');
+    ctx.fillStyle=g;ctx.fillRect(L,y,R-L,rowH);ctx.fillStyle='#151515';Q586.rest.forEach(v=>{const x=X(v+Q586.sh[n]);if(x<R-2)ctx.fillRect(x-1.7,y,3.4,rowH);});
+    ctx.font=`500 ${fs*1.1}px 'Times New Roman',serif`;ctx.fillStyle='#222';ctx.textAlign='right';ctx.fillText(n,L-14,y+rowH/2);});
+  const ya=top+tick+h*.035+3*(rowH+gap)+h*.02,xm=(L+R)/2;ctx.font=`500 ${fs}px ${FB()}`;ctx.textBaseline='middle';ctx.fillStyle='#222';
+  ctx.textAlign='left';ctx.fillText('짧다',L,ya);ctx.textAlign='right';ctx.fillText('길다',R,ya);ctx.textAlign='center';ctx.fillText('파장',xm,ya);
+  const tw=ctx.measureText('파장').width/2+10,sw=ctx.measureText('짧다').width+10;ctx.strokeStyle='#222';ctx.lineWidth=1.3;
+  ctx.beginPath();ctx.moveTo(xm-tw,ya);ctx.lineTo(L+sw,ya);ctx.stroke();ctx.beginPath();ctx.moveTo(L+sw-2,ya);ctx.lineTo(L+sw+7,ya-4);ctx.lineTo(L+sw+7,ya+4);ctx.closePath();ctx.fill();
+  ctx.beginPath();ctx.moveTo(xm+tw,ya);ctx.lineTo(R-sw,ya);ctx.stroke();ctx.beginPath();ctx.moveTo(R-sw+2,ya);ctx.lineTo(R-sw-7,ya-4);ctx.lineTo(R-sw-7,ya+4);ctx.closePath();ctx.fill();}
+
+/* ---------- 서술형 AI 채점 ---------- */
+const GRADER_URL='https://script.google.com/macros/s/AKfycbxVJJDmFR_wn0VU--gZtXkc3ZxlJ6XdcpdqJRpUsl8Zk3yeQFVTB4NTzIl8_G3UGdEI/exec';
+const AQ_INFO={
+ 'other-galaxy':{min:10,question:'관측 결과, 멀리 있는 외부 은하들은 모두 우리은하로부터 멀어지고 있다. 그렇다면 우리은하는 우주의 중심에 있다고 할 수 있을까? 그렇게 생각한 까닭을 서술하시오.',
+  rubric:'① 우리은하가 우주의 중심에 있다고 볼 수 없다(팽창의 중심은 없다). ② 까닭: 우주가 균질하게 팽창하므로 우주의 모든 지점에서 허블-르메트르 법칙이 성립한다. 즉 어느 은하에서 관측하더라도 멀리 있는 은하일수록 빠르게 멀어진다. ①과 ②가 모두 있으면 정답. ①만 있고 까닭이 없거나 까닭이 부족하면 부분 정답. 우리은하가 중심이라고 하면 오답.'},
+ 'q586':{min:4,question:'외부 은하 A~C의 흡수 스펙트럼을 정지 상태의 흡수선과 비교한 그림에서 흡수선의 파장 변화량은 B > A > C이다(B가 긴 파장 쪽으로 가장 많이 이동). (가) 후퇴 속도가 가장 빠른 은하와 (나) 우리은하로부터 가장 멀리 있는 은하를 각각 쓰시오.',
+  rubric:'정답: (가) B, (나) B. 둘 다 B이면 정답. 하나만 맞으면 부분 정답. 까닭(적색 편이·파장 변화량이 가장 크다, 허블-르메트르 법칙에 따라 후퇴 속도가 빠를수록 멀다)은 있으면 좋지만 없어도 정답으로 본다.'}};
+const AQ_LOCAL={
+ 'other-galaxy':t=>{const notCenter=/(중심)[^.]{0,12}(아니|없|않|볼수없|할수없)|(아니|없)[^.]{0,6}중심/.test(t)&&!/중심(이다|에있다|이맞)/.test(t);
+   const anywhere=/(어느|어디|모든|다른|외부)[^.]{0,20}(관측|은하|지점|곳)/.test(t)&&/(멀|먼)[^.]{0,15}(빠르|빨리)|허블|비례|같은|동일|똑같/.test(t);
+   if(notCenter&&anywhere)return{result:'correct',feedback:'어느 곳에서 관측해도 같은 관계가 나타난다는 까닭을 잘 썼다.'};
+   if(notCenter)return{result:'partial',feedback:'다른 은하에서 관측해도 거리와 후퇴 속도의 관계가 어떻게 나타나는지 까닭으로 써 보자.'};
+   return{result:'wrong',feedback:'애니메이션에서 관측 위치를 바꿔 보자. 다른 은하에서 보아도 멀리 있는 은하는 어떻게 움직일까?'};},
+ 'q586':t=>{const u=t.toUpperCase();const ga=/가\)?[^나]{0,8}B/.test(u),na=/나\)?[^가]{0,8}B/.test(u);const both=(u.match(/B/g)||[]).length>=2&&!/[AC]/.test(u);
+   if((ga&&na)||both)return{result:'correct',feedback:'흡수선이 가장 많이 이동한 은하를 잘 찾았다.'};
+   if(ga||na)return{result:'partial',feedback:'(가)와 (나)를 모두 확인해 보자. 후퇴 속도와 거리는 어떤 관계일까?'};
+   return{result:'wrong',feedback:'정지 상태의 흡수선과 비교해 긴 파장 쪽으로 가장 많이 이동한 은하를 찾아보자.'};}};
+async function aqRemote(q,a,model){const ctl=new AbortController();const tm=setTimeout(()=>ctl.abort(),20000);
+  try{const r=await fetch(GRADER_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({q,answer:a,question:AQ_INFO[q].question,rubric:AQ_INFO[q].rubric,model:model||''}),signal:ctl.signal});
+    const j=await r.json();if(!j||!j.result)throw new Error(j&&j.error||'no result');return j;}finally{clearTimeout(tm);}}
+document.querySelectorAll('.ai-q[data-q]').forEach(box=>{const q=box.dataset.q;
+  const inp=box.querySelector('.aq-in'),btn=box.querySelector('.aq-btn'),fb=box.querySelector('.aq-fb'),left=box.querySelector('.aq-left'),model=box.querySelector('.aq-model');
+  const MAX=2;let tries=0,busy=false,mode='';
+  const tag=()=>mode==='간이'?' · 간이 채점':'';
+  function say(cls,t){fb.hidden=false;fb.className='fb aq-fb '+cls;fb.textContent=t;}
+  function finish(){inp.readOnly=true;btn.disabled=true;model.hidden=false;left.textContent='채점 끝'+tag();}
+  btn.addEventListener('click',async()=>{if(busy||tries>=MAX)return;const a=inp.value.trim();
+    if(a.replace(/\s/g,'').length<AQ_INFO[q].min){say('no','답을 조금 더 자세히 써 보자.');return;}
+    busy=true;btn.disabled=true;say('wait','채점하고 있다…');
+    let g=null;mode='간이';
+    if(GRADER_URL){try{g=await aqRemote(q,a,(model.querySelector('p:last-child')||{}).textContent);mode='AI';}catch(e){console.warn('AI 채점 연결 실패',e);}}
+    if(!g)g=AQ_LOCAL[q](a.replace(/\s+/g,''));
+    busy=false;btn.disabled=false;tries++;
+    if(g.result==='correct'){say('ok','정답! '+(g.feedback||''));finish();return;}
+    if(tries<MAX){say('no','다시 한번 더 생각해 보세요. '+(g.feedback||''));left.textContent='채점 기회 '+(MAX-tries)+'번 남음'+tag();inp.focus();}
+    else{say('no','아쉽다. 모범 답안과 내 답을 비교해 보자.'+(g.feedback?' ('+g.feedback+')':''));finish();}});});
+
+/* =========================================================
+   2. 적색 편이와 후퇴 속도
+   ========================================================= */
+const LINES=[410.2,434.0,486.1,518.4,589.3,656.3],L_HL=486.1;
+const RS={v:0};
+function drawRS(){const cv=$('#rsSpec');if(!cv||!cv.clientWidth)return;const{ctx,w,h}=setup(cv);const z=RS.v/C;
+  const L0=380,L1=720,pl=16,pr=16,sw=w-pl-pr,sh=Math.min(56,(h-96)/2),y1=26,y2=y1+sh+44;const X=l=>pl+(l-L0)/(L1-L0)*sw;
+  ctx.font=`600 13px ${FB()}`;ctx.fillStyle=cssv('--ink-2');ctx.textBaseline='bottom';ctx.textAlign='left';
+  ctx.fillText('정지 상태의 은하',pl,y1-6);ctx.fillText(RS.v?'관측한 은하 (멀어지는 은하)':'관측한 은하',pl,y2-6);
+  specStrip(ctx,pl,y1,sw,sh,L0,L1,LINES);specStrip(ctx,pl,y2,sw,sh,L0,L1,LINES.map(l=>l*(1+z)));
+  /* 강조한 흡수선 */
+  const xa=X(L_HL),xb=X(L_HL*(1+z));ctx.strokeStyle=cssv('--ca');ctx.lineWidth=2;ctx.setLineDash([4,4]);ctx.beginPath();ctx.moveTo(xa,y1+sh);ctx.lineTo(xa,y2);ctx.stroke();ctx.setLineDash([]);
+  [[xa,y1],[xb,y2]].forEach(([x,y])=>{ctx.strokeStyle=cssv('--ca');ctx.lineWidth=2;ctx.strokeRect(x-4,y-2,8,sh+4);});
+  if(xb-xa>6){const ya=y2+sh+10;ctx.strokeStyle=cssv('--ca');ctx.fillStyle=cssv('--ca');ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(xa,ya);ctx.lineTo(xb-6,ya);ctx.stroke();ctx.beginPath();ctx.moveTo(xb,ya);ctx.lineTo(xb-9,ya-5);ctx.lineTo(xb-9,ya+5);ctx.closePath();ctx.fill();}
+  /* 파장 눈금 */
+  ctx.fillStyle=cssv('--ink-3');ctx.font=`500 12px ${FN()}`;ctx.textAlign='center';ctx.textBaseline='top';
+  [400,500,600,700].forEach(l=>{const x=X(l);ctx.fillRect(x-.5,y2+sh+2,1,5);ctx.fillText(l+' nm',x,h-18);});
+  const L=L_HL*(1+z);$('#rsVal').innerHTML=`${fmt(RS.v)}<small>km/s</small>`;$('#rsL0').textContent='486 nm';$('#rsL').textContent=(L).toFixed(0)+' nm';
+  $('#rsDL').textContent=(L-L_HL).toFixed(1).replace(/\.0$/,'')+' nm';$('#rsZ').textContent=z.toFixed(3).replace(/\.?0+$/,'')||'0';
+  document.querySelectorAll('#rsChips .chip').forEach(c=>c.setAttribute('aria-pressed',+c.dataset.v===RS.v));}
+$('#rsSlider').addEventListener('input',e=>{RS.v=+e.target.value;drawRS();});
+document.querySelectorAll('#rsChips .chip').forEach(c=>c.addEventListener('click',()=>{RS.v=+c.dataset.v;$('#rsSlider').value=RS.v;drawRS();}));
+
+/* ---------- 연습 문제 ---------- */
+const MQ_HUB=[
+ {q:'외부 은하의 스펙트럼에서 흡수선의 위치가 파장이 긴 쪽으로 치우치는 현상은?',o:['적색 편이','청색 편이','연주 시차','광행차'],a:0,ex:'멀리 있는 외부 은하의 스펙트럼에서 흡수선이 파장이 긴 쪽으로 치우치는 현상을 적색 편이라고 한다.'},
+ {q:'고유 파장이 500 nm인 흡수선이 어느 외부 은하의 스펙트럼에서 505 nm로 관측되었다. 이 은하의 후퇴 속도는? (광속은 3×10⁵ km/s)',o:['300 km/s','1500 km/s','3000 km/s','30000 km/s'],a:2,ex:'적색 편이 z = (505 − 500) ÷ 500 = 0.01이므로 후퇴 속도 v = cz = 0.01 × 3×10⁵ = 3000 km/s이다.'},
+ {q:'허블-르메트르 법칙에 대한 설명으로 옳은 것은?',o:['외부 은하의 후퇴 속도는 은하까지의 거리에 비례한다','외부 은하의 후퇴 속도는 은하까지의 거리에 반비례한다','가까운 은하일수록 더 빨리 멀어진다','모든 외부 은하는 같은 속도로 멀어진다'],a:0,ex:'외부 은하의 후퇴 속도(V)는 은하까지의 거리(r)에 비례한다(V = H · r).'},
+ {q:'허블 상수가 70 km/s/Mpc일 때, 200 Mpc 떨어진 외부 은하의 후퇴 속도는?',o:['약 350 km/s','약 1400 km/s','약 7000 km/s','약 14000 km/s'],a:3,ex:'V = H · r = 70 km/s/Mpc × 200 Mpc = 14000 km/s이다.'},
+ {q:'외부 은하의 거리와 후퇴 속도 그래프에서 기울기가 나타내는 것은?',o:['광속','허블 상수','적색 편이','허블 시간'],a:1,ex:'V = H · r 이므로 거리-후퇴 속도 그래프의 기울기는 허블 상수(H)이다.'},
+ {q:'우주가 일정한 속도로 계속 팽창했다고 가정할 때, 우주의 나이를 대략적으로 가늠해 볼 수 있는 값은?',o:['허블 상수','허블 상수의 역수','광속','적색 편이의 역수'],a:1,ex:'허블 상수의 역수(허블 시간)는 모든 은하가 한 점으로 모여드는 데 걸리는 시간에 해당하며, 우주의 나이를 대략적으로 가늠해 보는 근삿값이다.'},
+ {q:'1917년 우주 방정식에 ‘우주 상수’를 도입하여 정적 우주를 제안한 과학자는?',o:['뉴턴','아인슈타인','프리드만','르메트르'],a:1,ex:'아인슈타인은 1917년 자신이 유도한 우주 방정식에 우주 상수를 도입하면서 정적 우주를 제안했다.'},
+ {q:'[기출픽 601] 그림은 우리은하에서 관측한 한 직선상에 있는 외부 은하 A~C의 거리와 후퇴 속도를 나타낸 것이다. 이에 대한 설명으로 옳지 <u>않은</u> 것만을 모두 고르면? (2개)',fig:'q601',
+  o:['우주는 우리은하를 중심으로 팽창한다.','허블 상수는 70 km/s/Mpc이다.','㉠은 40 Mpc이다.','B의 후퇴 속도는 2800 km/s이다.','A에서 우리은하의 스펙트럼을 관측하면 적색 편이가 나타난다.','A에서 측정한 우리은하와 C의 후퇴 속도의 비는 1 : 1이다.'],a:[0,5],
+  ex:'A는 100 Mpc에서 7000 km/s로 멀어지므로 허블 상수는 70 km/s/Mpc이다. C도 7000 km/s이므로 우리은하에서 100 Mpc 떨어져 있고, B는 C에서 60 Mpc 앞이므로 ㉠은 40 Mpc, B의 후퇴 속도는 70 × 40 = 2800 km/s이다. 우주에는 팽창의 중심이 없으므로 ①은 옳지 않다. A에서 보면 우리은하는 100 Mpc, C는 200 Mpc 떨어져 있으므로 후퇴 속도의 비는 1 : 2이다. 따라서 ⑥도 옳지 않다.'},
+ {q:'[기출픽 603] 그림은 은하 A에서 관측한 여러 은하의 후퇴 속도를 나타낸 것이다. 이에 대한 설명으로 옳은 것만을 &lt;보기&gt;에서 있는 대로 고른 것은?',fig:'q603',
+  box:['ㄱ. 은하 A에서 은하 C까지의 거리는 300 Mpc이다.','ㄴ. 은하 B에서 관측하면 은하 D는 청색 편이가 나타난다.','ㄷ. 은하 C가 은하 A로부터 멀어지는 동안 걸린 시간은 우주의 나이에 해당한다.'],
+  o:['ㄱ','ㄴ','ㄱ, ㄷ','ㄴ, ㄷ','ㄱ, ㄴ, ㄷ'],a:2,
+  ex:'D는 200 Mpc에서 14000 km/s이므로 허블 상수는 70 km/s/Mpc이고, C까지의 거리는 21000 ÷ 70 = 300 Mpc이다(ㄱ). 우주는 균질하게 팽창하므로 B에서 관측해도 D는 멀어져 적색 편이가 나타난다(ㄴ은 틀림). C가 A로부터 멀어지는 데 걸린 시간은 300 Mpc ÷ 21000 km/s = 1/H, 즉 허블 시간이므로 우주의 나이에 해당한다(ㄷ).'},
+ {q:'모든 외부 은하가 우리은하로부터 멀어지고 있다는 관측 사실에 대한 해석으로 옳은 것은?',o:['우리은하는 우주의 중심에 있다','우주의 어느 곳에서 관측해도 멀리 있는 은하일수록 빠르게 멀어진다','외부 은하들이 우리은하를 피해 움직인다','우주 팽창은 우리은하 주변에서만 일어난다'],a:1,ex:'우주는 균질하게 팽창하므로 어느 곳에서 관측해도 허블-르메트르 법칙이 성립한다. 따라서 우리은하가 우주의 중심이라고 볼 수 없다.'}];
+const QSETS={hub:{items:MQ_HUB,back:'허블-르메트르 법칙과 우주 팽창 페이지'}};
+const MQS={set:'hub',done:false,opener:null};
+const QST={};const QBTN={hub:'#openHub'};
+function qLoad(set){if(QST[set])return QST[set];let s=null;try{s=JSON.parse(localStorage.getItem('hubq2_'+set)||'null');}catch(e){}
+  const n=QSETS[set].items.length;if(!s||!Array.isArray(s.list)||s.list.some(k=>k>=n))s=null;QST[set]=s;return s;}
+function qSave(set){try{localStorage.setItem('hubq2_'+set,JSON.stringify(QST[set]));}catch(e){}updQBtn(set);}
+function qNew(set,list,mode){const prev=QST[set];QST[set]={list,pos:0,score:0,mode,wrong:mode==='wrong'&&prev?prev.wrong.slice():[],ans:{}};qSave(set);}
+function updQBtn(set){const b=$(QBTN[set]);if(!b)return;const s=QST[set];
+  b.textContent=!s?'연습 문제 풀기':s.mode==='wrong'&&s.pos<s.list.length?`오답 다시 풀기 (${s.pos+1} / ${s.list.length})`:(!s.pos&&!Object.keys(s.ans).length)?'연습 문제 풀기':s.pos<s.list.length?`이어서 풀기 (${s.pos+1} / ${s.list.length})`:s.wrong.length?'결과 · 오답 보기':'다시 풀기';}
+function openQuiz(set,opener){MQS.set=set;if(opener)MQS.opener=opener;if(!qLoad(set))qNew(set,QSETS[set].items.map((_,k)=>k),'all');
+  $('#quizModal').hidden=false;document.documentElement.style.overflow='hidden';renderMQ();$('#mqClose').focus();}
+function closeQuiz(){$('#quizModal').hidden=true;document.documentElement.style.overflow='';if(MQS.opener)MQS.opener.focus();}
+function renderMQ(){const body=$('#mqBody');const set=MQS.set,QS=QSETS[set].items,s=QST[set],n=s.list.length;
+  $('#mqProg').innerHTML=s.list.map((_,k)=>`<i class="${k<s.pos?'on':''}"></i>`).join('');
+  if(s.pos>=n){const sc=s.score,w=s.wrong;
+    body.innerHTML=`<div class="mresult"><p class="hint">${s.mode==='wrong'?'오답 다시 풀기 결과':'결과'}</p><span class="big">${sc} / ${n}</span>
+      <p style="font-size:16px">${sc===n?(s.mode==='wrong'?'틀렸던 문제를 모두 해결했다!':'모두 맞혔다!'):sc>=n-2?'잘했다. 틀린 문제를 다시 확인해 보자.':'앞의 페이지를 다시 살펴본 뒤 한 번 더 풀어 보자.'}</p>
+      ${w.length?`<div class="mwrong"><p class="key-title">아직 틀린 문제 ${w.length}개</p>${w.map(k=>{const q=QS[k];return `<details><summary>${q.q}</summary><p><b>정답: ${Array.isArray(q.a)?q.a.map(k=>NUMS[k]).join(', '):NUMS[q.a]+' '+q.o[q.a]}</b><br>${q.ex}</p></details>`;}).join('')}</div>`:''}
+      <div class="row" style="justify-content:center">${w.length?'<button class="btn primary" id="mqWrong">오답 다시 풀기</button>':''}<button class="btn" id="mqRetry">처음부터 다시 풀기</button><button class="btn ghost" id="mqEnd">닫기</button></div></div>`;
+    if(w.length)$('#mqWrong').onclick=()=>{qNew(set,w.slice(),'wrong');renderMQ();};
+    $('#mqRetry').onclick=()=>{qNew(set,QS.map((_,k)=>k),'all');QST[set].wrong=[];qSave(set);renderMQ();};$('#mqEnd').onclick=closeQuiz;return;}
+  const qi=s.list[s.pos],q=QS[qi];MQS.done=false;const ans=q.a,multi=Array.isArray(ans);
+  const fig=q.fig?`<div class="mfig"><canvas class="qfig" id="mqFig" data-fig="${q.fig}"></canvas></div>`:'';
+  const box=q.box?`<div class="mbox"><p class="mbox-t">보기</p>${q.box.map(t=>`<p>${t}</p>`).join('')}</div>`:'';
+  body.innerHTML=`<p class="hint">${s.mode==='wrong'?'오답 다시 풀기 · ':''}문제 ${s.pos+1} / ${n}</p><h3 id="mqTitle">${q.q}</h3>${fig}${box}
+    <div class="mopts">${q.o.map((t,j)=>`<button data-j="${j}">${NUMS[j]} ${t}</button>`).join('')}</div>
+    ${multi?`<button class="btn primary" id="mqSubmit" disabled>${ans.length}개를 고른 뒤 채점하기</button>`:''}
+    <div class="fb" id="mqFb" hidden></div><div class="row" style="justify-content:space-between"><span class="hint">창을 닫고 찾아본 뒤 이어서 풀 수 있다.</span><button class="btn primary" id="mqNext" hidden>${s.pos===n-1?'결과 보기':'다음 문제'}</button></div>`;
+  if(q.fig)requestAnimationFrame(()=>drawQFig($('#mqFig')));
+  const bs=()=>body.querySelectorAll('.mopts button');
+  const isRight=pick=>multi?(pick.length===ans.length&&pick.every(k=>ans.includes(k))):pick===ans;
+  const showAns=pick=>{const fb=$('#mqFb');fb.hidden=false;const B=bs();const picks=multi?pick:[pick],rights=multi?ans:[ans];
+    B.forEach((x,k)=>{x.className=rights.includes(k)?'right':picks.includes(k)?'wrong':'';x.disabled=true;});
+    const ok=isRight(pick);fb.className='fb '+(ok?'ok':'no');fb.textContent=(ok?'정답! ':'아쉽다. ')+q.ex;MQS.done=true;$('#mqNext').hidden=false;if(multi)$('#mqSubmit').hidden=true;};
+  const record=pick=>{s.ans[s.pos]=pick;if(isRight(pick)){s.score++;s.wrong=s.wrong.filter(k=>k!==qi);}else if(!s.wrong.includes(qi))s.wrong.push(qi);
+    qSave(set);showAns(pick);$('#mqNext').focus();$('#mqProg').innerHTML=s.list.map((_,k)=>`<i class="${k<=s.pos?'on':''}"></i>`).join('');};
+  if(s.ans[s.pos]!=null)showAns(s.ans[s.pos]);
+  else if(multi){const sel=new Set();bs().forEach(b=>b.addEventListener('click',()=>{if(MQS.done)return;const j=+b.dataset.j;sel.has(j)?sel.delete(j):sel.add(j);
+      b.classList.toggle('sel',sel.has(j));$('#mqSubmit').disabled=sel.size!==ans.length;}));
+    $('#mqSubmit').addEventListener('click',()=>{if(MQS.done)return;record([...sel].sort((a,b)=>a-b));});}
+  else bs().forEach(b=>b.addEventListener('click',()=>{if(MQS.done)return;record(+b.dataset.j);}));
+  $('#mqNext').addEventListener('click',()=>{s.pos++;qSave(set);renderMQ();});}
+const NUMS='①②③④⑤⑥';
+/* 연습 문제 그림 (교과서·문제집 그림처럼 흰 바탕) */
+function spiralIcon(ctx,x,y,r,col){ctx.save();ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineWidth=Math.max(1.6,r*.22);
+  for(let k=0;k<2;k++){ctx.beginPath();for(let t=0;t<=1;t+=.05){const a=k*Math.PI+t*3.4,rr=r*(.18+.8*t);ctx.lineTo(x+Math.cos(a)*rr,y+Math.sin(a)*rr*.9);}ctx.stroke();}
+  ctx.beginPath();ctx.arc(x,y,r*.2,0,6.283);ctx.fill();ctx.restore();}
+function ringGal(ctx,x,y,r){ctx.save();ctx.translate(x,y);ctx.scale(1,.55);const g=ctx.createRadialGradient(0,0,0,0,0,r);g.addColorStop(0,'#fff');g.addColorStop(.25,'#333');g.addColorStop(.45,'#ddd');g.addColorStop(.75,'#555');g.addColorStop(1,'#999');
+  ctx.fillStyle=g;ctx.beginPath();ctx.arc(0,0,r,0,6.283);ctx.fill();ctx.restore();}
+function arr(ctx,x1,y1,x2,y2,lw){const dx=x2-x1,dy=y2-y1,L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L;ctx.lineWidth=lw||1.8;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2-ux*6,y2-uy*6);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-ux*10-uy*4.5,y2-uy*10+ux*4.5);ctx.lineTo(x2-ux*10+uy*4.5,y2-uy*10-ux*4.5);ctx.closePath();ctx.fill();}
+function drawQFig(cv){if(!cv||!cv.clientWidth)return;const{ctx,w,h}=setup(cv);ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);ctx.strokeStyle='#222';ctx.fillStyle='#222';
+  const fs=Math.max(12,Math.min(15,w*.03)),serif=`${fs}px 'Times New Roman',serif`;
+  if(cv.dataset.fig==='q601'){const x0=w*.17,k=(w*.79-x0)/200,X=d=>x0+(d+100)*k,y=h*.45,r=Math.max(10,w*.028);
+    ctx.setLineDash([3,3]);ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(X(-100),y);ctx.lineTo(X(100),y);ctx.stroke();ctx.setLineDash([]);
+    arr(ctx,X(-100),y,w*.03,y);arr(ctx,X(40)+r,y,X(40)+r+k*30,y);arr(ctx,X(100)+r,y,w*.97,y);
+    spiralIcon(ctx,X(-100),y,r,'#222');spiralIcon(ctx,X(0),y,r,'#222');ctx.save();ctx.translate(X(40),y);ctx.scale(1,.7);ctx.beginPath();ctx.arc(0,0,r,0,6.283);ctx.fill();ctx.restore();
+    ctx.beginPath();ctx.arc(X(100),y,r,0,6.283);ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(X(100),y,r*.45,Math.PI*.1,Math.PI*1.1);ctx.stroke();ctx.strokeStyle='#222';
+    ctx.font=serif;ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillText('A 7000 km/s',X(-100),y-r-8);ctx.fillText('B',X(40),y-r-8);ctx.fillText('C 7000 km/s',X(100),y-r-8);
+    ctx.font=`600 ${fs-1}px ${FB()}`;ctx.fillText('우리은하',X(0),y-r-8);
+    const yd=y+r+28;ctx.lineWidth=1;[[-100],[0],[40],[100]].forEach(([d])=>{ctx.beginPath();ctx.moveTo(X(d),y+r+4);ctx.lineTo(X(d),yd+8);ctx.stroke();});
+    const dim=(a,b,t)=>{const xa=X(a),xb=X(b),xm=(xa+xb)/2;ctx.font=serif;const tw=ctx.measureText(t).width/2+6;ctx.textBaseline='middle';
+      arr(ctx,xm-tw,yd,xa,yd,1);arr(ctx,xm+tw,yd,xb,yd,1);ctx.fillText(t,xm,yd);};
+    dim(-100,0,'100 Mpc');dim(0,40,'㉠');dim(40,100,'60 Mpc');}
+  else{const A=[w*.27,h*.4],B=[w*.15,h*.15],C=[w*.66,h*.4],D=[w*.45,h*.74],r=Math.max(12,w*.03);
+    ctx.setLineDash([3,3]);ctx.lineWidth=1;[B,C,D].forEach(P=>{ctx.beginPath();ctx.moveTo(A[0],A[1]);ctx.lineTo(P[0],P[1]);ctx.stroke();});ctx.setLineDash([]);
+    const out=(P,L)=>{const dx=P[0]-A[0],dy=P[1]-A[1],d=Math.hypot(dx,dy);arr(ctx,P[0]+dx/d*r,P[1]+dy/d*r,P[0]+dx/d*(r+L),P[1]+dy/d*(r+L),2.2);};
+    out(B,w*.05);out(D,w*.1);out(C,w*.15);[A,B,C,D].forEach(P=>ringGal(ctx,P[0],P[1],r));
+    ctx.font=serif;ctx.textBaseline='bottom';ctx.textAlign='center';ctx.fillText('A',A[0],A[1]-r*.6-2);ctx.fillText('B',B[0]+r*.4,B[1]-r*.6-2);ctx.fillText('C',C[0],C[1]-r*.6-2);
+    ctx.textAlign='left';ctx.fillText('D',D[0]+r*.9,D[1]-r*.3);ctx.textBaseline='top';ctx.textAlign='right';ctx.fillText('7000 km/s',B[0]+r*.6,B[1]+r*.6+2);
+    ctx.textAlign='left';ctx.fillText('21000 km/s',C[0]-r,C[1]+r*.6+4);ctx.textAlign='right';ctx.fillText('14000 km/s',D[0]+r*.3,D[1]+r*.6+4);
+    const mx=(A[0]+D[0])/2,my=(A[1]+D[1])/2;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(A[0]+r*.7,A[1]+2);ctx.quadraticCurveTo(mx+w*.06,my-h*.05,D[0]+r*.2,D[1]-r*.5);ctx.stroke();
+    ctx.fillStyle='#fff';ctx.font=serif;const t='200 Mpc',tw=ctx.measureText(t).width;ctx.fillRect(mx+w*.02-3,my-h*.06-2,tw+6,fs+6);ctx.fillStyle='#222';ctx.textAlign='left';ctx.fillText(t,mx+w*.02,my-h*.06);}}
+$('#openHub').addEventListener('click',e=>openQuiz('hub',e.currentTarget));
+$('#mqClose').addEventListener('click',closeQuiz);
+$('#quizModal').addEventListener('click',e=>{if(e.target.id==='quizModal')closeQuiz();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#quizModal').hidden)closeQuiz();});
+
+/* ---------- 페이지 넘기기 ---------- */
+const PAGES=[...document.querySelectorAll('.page')];
+const PG={i:0};
+$('#ptabs').innerHTML=PAGES.map((p,i)=>`<button class="ptab" data-i="${i}" aria-current="false"><span class="pn">${i+1}</span><span class="pt">${p.dataset.title}</span></button>`).join('');
+document.querySelectorAll('.ptab').forEach(b=>b.addEventListener('click',()=>goTo(+b.dataset.i)));
+function goTo(i,opts){i=clamp(i,0,PAGES.length-1);const dir=i>PG.i?1:i<PG.i?-1:0;PG.i=i;
+  PAGES.forEach((p,k)=>{p.hidden=k!==i;p.classList.remove('in-r','in-l');});
+  const pg=PAGES[i];if(dir&&!(opts&&opts.noAnim)){void pg.offsetWidth;pg.classList.add(dir>0?'in-r':'in-l');}
+  document.querySelectorAll('.ptab').forEach((b,k)=>{b.setAttribute('aria-current',k===i?'page':'false');if(k===i){try{b.scrollIntoView({block:'nearest',inline:'nearest'});}catch(e){}}});
+  const prev=PAGES[i-1],next=PAGES[i+1];
+  $('#pPrev').disabled=!prev;$('#pPrev').textContent=prev?`← ${i}. ${prev.dataset.title}`:'← 처음 페이지';
+  $('#pNext').disabled=!next;$('#pNext').textContent=next?`${i+2}. ${next.dataset.title} →`:'마지막 페이지';
+  $('#pCount').textContent=`${i+1} / ${PAGES.length}`;
+  if(!(opts&&opts.keepHash)){try{history.replaceState(null,'','#'+pg.id);}catch(e){}}
+  if(!(opts&&opts.noScroll)){const bar=document.querySelector('.pager-bar');const y=bar.getBoundingClientRect().top+window.scrollY;if(window.scrollY>y)window.scrollTo({top:y});}
+  re();}
+$('#pPrev').addEventListener('click',()=>goTo(PG.i-1));
+$('#pNext').addEventListener('click',()=>goTo(PG.i+1));
+window.addEventListener('hashchange',()=>{const i=PAGES.findIndex(p=>p.id===location.hash.slice(1));if(i>=0&&i!==PG.i)goTo(i,{keepHash:true});});
+document.addEventListener('keydown',e=>{if(!$('#quizModal').hidden)return;const t=e.target;if(t.closest&&t.closest('input,textarea,select,[contenteditable]'))return;
+  if(e.key==='ArrowRight')goTo(PG.i+1);else if(e.key==='ArrowLeft')goTo(PG.i-1);});
+(function(){const pager=$('#pager');let sx=null,sy=0,st=0;
+  pager.addEventListener('touchstart',e=>{const t=e.target;if(e.touches.length!==1||(t.closest&&t.closest('input,canvas,button,select,textarea,.chips,.seg,.tw,svg'))){sx=null;return;}
+    sx=e.touches[0].clientX;sy=e.touches[0].clientY;st=Date.now();},{passive:true});
+  pager.addEventListener('touchend',e=>{if(sx==null)return;const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;sx=null;
+    if(Math.abs(dx)>70&&Math.abs(dx)>Math.abs(dy)*1.6&&Date.now()-st<700)goTo(PG.i+(dx<0?1:-1));},{passive:true});})();
+
+/* ---------- 빈칸(고르기) ---------- */
+const normA=t=>String(t).replace(/[\s.()\[\]~!?,'"·]/g,'').toLowerCase();
+function placePop(btn,pop){pop.style.position='fixed';pop.style.left='0px';pop.style.top='0px';const r=btn.getBoundingClientRect(),vw=document.documentElement.clientWidth,vh=window.innerHeight;
+  const pw=pop.offsetWidth,ph=pop.offsetHeight;let x=Math.min(Math.max(8,r.left),vw-pw-8);let y=r.bottom+6;if(y+ph>vh-8&&r.top-ph-6>8)y=r.top-ph-6;
+  pop.style.left=Math.max(8,x)+'px';pop.style.top=y+'px';}
+function closeChoices(except){document.querySelectorAll('.blank-pop').forEach(p=>{if(p!==except)p.hidden=true;});}
+window.addEventListener('scroll',()=>closeChoices(),true);window.addEventListener('resize',()=>closeChoices());
+document.addEventListener('click',e=>{if(!(e.target.closest&&e.target.closest('.blank.choice')))closeChoices();});
+function setupFill(box){[...box.querySelectorAll('.blank')].filter(sp=>!sp.dataset.ready).forEach(sp=>{sp.dataset.ready='1';const main=sp.dataset.a.split('|')[0];
+  const fb=document.createElement('span');fb.className='blank-fb';fb.setAttribute('aria-live','polite');sp.classList.add('choice');
+  const btn=document.createElement('button');btn.type='button';btn.className='blank-in blank-btn';btn.textContent='고르기';btn.setAttribute('aria-haspopup','true');
+  const pop=document.createElement('span');pop.className='blank-pop';pop.hidden=true;
+  pop.innerHTML=sp.dataset.opts.split('|').map(o=>`<button type="button" class="blank-opt">${o}</button>`).join('');sp.append(btn,fb,pop);
+  btn.addEventListener('click',e=>{e.stopPropagation();if(sp.classList.contains('ok'))return;const open=pop.hidden;closeChoices();pop.hidden=!open;if(open)placePop(btn,pop);});
+  pop.querySelectorAll('.blank-opt').forEach(o=>o.addEventListener('click',e=>{e.stopPropagation();pop.hidden=true;const ok=normA(o.textContent)===normA(main);
+    sp.className='blank choice '+(ok?'ok':'no');btn.textContent=o.textContent;if(ok){btn.disabled=true;fb.textContent='✓';}else fb.textContent='다시 한번 더 생각해 보세요.';}));});}
+document.querySelectorAll('.fill').forEach(setupFill);
+
+/* ---------- 시작 & 다시 그리기 ---------- */
+function drawAll(){drawStatic();drawTime();drawHL();drawRuler();drawQ586();drawRS();}
+qLoad('hub');updQBtn('hub');
+let raf=0;const re=()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(drawAll);};
+{const i0=PAGES.findIndex(p=>p.id===location.hash.slice(1));goTo(i0>=0?i0:0,{noAnim:true,noScroll:true,keepHash:i0<0});}
+if(window.ResizeObserver)new ResizeObserver(re).observe(document.querySelector('.wrap'));else window.addEventListener('resize',re);
+try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',re);}catch(e){}
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(re);
+})();
+</script>
+</body></html>
