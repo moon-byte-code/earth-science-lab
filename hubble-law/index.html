@@ -585,8 +585,7 @@ details.ans p{margin-top:8px;color:var(--ink)}
 }
 /* 1쪽: 인물 그림이 잘 보이도록 오른쪽 칸을 넓힘 */
 @media (min-width:900px){
-  #p-static .lab.eqh{grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:28px}
-  #p-static .lab.eqh .sky{aspect-ratio:1/1.02}
+  
 }
 
 /* 2쪽: 과거-현재-팽창 시간 막대 */
@@ -649,6 +648,22 @@ details.after-q>p+p{margin-top:10px}
 .f-item{display:flex;flex-direction:column;gap:6px}
 .f-name{font-size:14px;font-weight:700;color:var(--accent)}
 .f-item .formula{flex:1;justify-content:center}
+.eq-scroll{position:relative}
+
+/* 1쪽: 스크롤 없음. 두 인물의 설명을 같은 자리에 겹쳐 두어(보이지 않는 쪽도 자리는 차지) 높이가 바뀌지 않고,
+   왼쪽 그림은 오른쪽 높이에 맞춰 늘어난다 */
+.p1lab{display:flex;flex-direction:column;gap:20px}
+.p1-col{display:flex;flex-direction:column;gap:10px}
+.panels{display:grid}
+.panels>.who-panel{grid-area:1/1}
+.panels>.who-panel.off{visibility:hidden}
+.sky-wrap{position:relative;width:100%;aspect-ratio:16/11;border-radius:16px;overflow:hidden;background:var(--space)}
+.sky-wrap>.sky{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;border-radius:0}
+@media (min-width:900px){
+  .p1lab{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:28px;align-items:stretch}
+  .p1lab>.viz{position:static;display:flex;flex-direction:column}
+  .p1lab .sky-wrap{flex:1 1 auto;aspect-ratio:1/1.02;min-height:0}
+}
 </style>
 </head><body>
 <div class="wrap">
@@ -670,16 +685,16 @@ details.after-q>p+p{margin-top:10px}
       <h2>정적 우주와 팽창 우주</h2>
       <p class="sub">우주가 가만히 있을 수 있을까?</p>
     </div></div>
-    <div class="lab eqh">
+    <div class="lab p1lab">
       <div class="viz">
-        <canvas class="sky" id="skyStatic" aria-label="선택한 과학자가 생각한 우주의 모습"></canvas>
+        <div class="sky-wrap"><canvas class="sky" id="skyStatic" aria-label="선택한 과학자가 생각한 우주의 모습"></canvas></div>
         <div class="anim-bar">
           <button class="play" id="stPlay" aria-label="재생">▶</button>
           <input type="range" id="stSlider" min="0" max="200" value="0" aria-label="시간의 흐름">
         </div>
       </div>
       <div class="txt">
-        <div class="eq-col">
+        <div class="p1-col">
           <div class="talk-fig" id="talkFig" data-who="ein">
           <img class="base" src="assets/talk.webp" alt="아인슈타인: 우주는 커지거나 작아지지 않아. 우주는 언제나 정적인 상태를 유지해. 프리드만: 우주는 팽창하거나 수축할 수밖에 없어. 현재 우주가 수축하지 않는다면, 팽창하고 있기 때문이야." width="1082" height="368">
           <img class="cut wash wash-ein" src="assets/ein.webp" alt="" aria-hidden="true">
@@ -690,7 +705,7 @@ details.after-q>p+p{margin-top:10px}
           <button class="who who-fri" data-who="fri" aria-pressed="false" aria-label="프리드만의 생각 보기"></button>
         </div>
           <p class="hint talk-hint">아인슈타인이나 프리드만을 눌러 각자가 생각한 우주를 살펴보자.</p>
-          <div class="eq-scroll">
+          <div class="panels">
         <div class="who-panel" id="panelEin">
           <p class="who-tag">아인슈타인 · 정적 우주</p>
           <p>20세기 최고의 과학자로 불리는 <b>아인슈타인</b>(Einstein, A., 1879~1955)은 뉴턴처럼 우주가 계속 정적인 상태를 유지한다고 생각했다. 그는 1917년 자신이 유도한 우주 방정식에 ‘우주 상수’를 도입하면서 <b>정적 우주</b>를 제안했다.</p>
@@ -699,7 +714,7 @@ details.after-q>p+p{margin-top:10px}
             <p>아인슈타인은 자신이 유도한 우주 방정식에서 우주는 수축할 수도 있고 팽창할 수도 있음을 알게 되었다. 그는 방정식에 우주 상수를 도입해서 수축도 팽창도 하지 않는 정적 우주를 제안했다. 이후 우주가 팽창한다는 사실이 확인되었고, 아인슈타인은 스스로 정적 우주가 틀렸음을 인정했다.</p>
           </div>
         </div>
-        <div class="who-panel" id="panelFri" hidden>
+        <div class="who-panel off" id="panelFri" aria-hidden="true">
           <p class="who-tag fri">프리드만 · 팽창 우주</p>
           <p>한편 1922년 러시아의 과학자 <b>프리드만</b>(Friedman, A. A., 1888~1925)은 우주의 모습이 변할 수도 있다고 생각하고, 팽창과 수축이 모두 가능한 새로운 방정식을 유도했다. 그는 우주가 중력의 영향을 받고 있지만 현재는 <b>팽창</b>하고 있다고 주장했다.</p>
           <p>당시에는 우주가 영원불변하다는 생각이 지배적이었다. 또 우주 팽창을 뒷받침할 수 있는 관측 증거를 제시하는 것도 어려웠으므로 팽창 우주에 대한 주장은 받아들여지지 않았다.</p>
@@ -1016,7 +1031,7 @@ function stRun(){cancelAnimationFrame(ST.raf);if(ST.t>=.999)ST.t=0;const from=ST
 function stStop(){ST.play=null;cancelAnimationFrame(ST.raf);drawStatic();}
 function setWho(who,auto){ST.who=who;stStop();ST.t=0;
   $('#talkFig').dataset.who=who;document.querySelectorAll('#talkFig .who').forEach(b=>b.setAttribute('aria-pressed',b.dataset.who===who));
-  [['ein','#panelEin'],['fri','#panelFri']].forEach(([k,id])=>{const p=$(id);p.hidden=k!==who;p.classList.remove('in');if(k===who){void p.offsetWidth;p.classList.add('in');}});
+  [['ein','#panelEin'],['fri','#panelFri']].forEach(([k,id])=>{const p=$(id);p.classList.toggle('off',k!==who);p.setAttribute('aria-hidden',k!==who);p.classList.remove('in');if(k===who){void p.offsetWidth;p.classList.add('in');}});
   drawStatic();if(auto)stRun();}
 document.querySelectorAll('#talkFig .who').forEach(b=>{b.addEventListener('click',()=>setWho(b.dataset.who,true));
   b.addEventListener('mouseenter',()=>{$('#talkFig').dataset.hover=b.dataset.who;});b.addEventListener('mouseleave',()=>{delete $('#talkFig').dataset.hover;});});
@@ -1344,25 +1359,16 @@ function setupFill(box){[...box.querySelectorAll('.blank')].filter(sp=>!sp.datas
     sp.className='blank choice '+(ok?'ok':'no');btn.textContent=o.textContent;if(ok){btn.disabled=true;fb.textContent='✓';}else fb.textContent='다시 한번 더 생각해 보세요.';}));});}
 document.querySelectorAll('.fill').forEach(setupFill);
 
-/* 1쪽: 오른쪽 설명이 스크롤 없이 다 보이도록 왼쪽 그림 높이를 맞춘다 (두 인물 중 긴 설명 기준) */
-function fitP1(){const cv=$('#skyStatic'),sec=$('#p-static');if(!cv||sec.hidden)return;
-  if(window.innerWidth<900){if(cv.style.height){cv.style.height='';}return;}
-  const col=sec.querySelector('.eq-col'),sc=sec.querySelector('.eq-scroll'),pe=$('#panelEin'),pf=$('#panelFri');
-  const was=[pe.hidden,pf.hidden];let maxS=0;
-  [[false,true],[true,false]].forEach(([a,b])=>{pe.hidden=a;pf.hidden=b;maxS=Math.max(maxS,sc.scrollHeight);});
-  pe.hidden=was[0];pf.hidden=was[1];
-  const fixed=col.clientHeight-sc.clientHeight;const need=fixed+maxS;
-  const viz=sec.querySelector('.viz'),bar=viz.querySelector('.anim-bar'),gap=parseFloat(getComputedStyle(viz).rowGap)||14;
-  const base=cv.clientWidth/1.02,want=Math.ceil(Math.max(base,need-bar.offsetHeight-gap));
-  if(Math.abs(cv.clientHeight-want)>1)cv.style.height=want+'px';}
 /* ---------- 시작 & 다시 그리기 ---------- */
-function drawAll(){fitP1();drawStatic();drawTime();drawHL();drawRuler();drawQ586();drawRS();}
+function drawAll(){drawStatic();drawTime();drawHL();drawRuler();drawQ586();drawRS();}
 qLoad('hub');updQBtn('hub');
 let raf=0;const re=()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(drawAll);};
 {const i0=PAGES.findIndex(p=>p.id===location.hash.slice(1));goTo(i0>=0?i0:0,{noAnim:true,noScroll:true,keepHash:i0<0});}
 if(window.ResizeObserver)new ResizeObserver(re).observe(document.querySelector('.wrap'));else window.addEventListener('resize',re);
 try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',re);}catch(e){}
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(re);
+if(window.ResizeObserver){const ro=new ResizeObserver(re);ro.observe($('#skyStatic'));}
+window.addEventListener('load',re);
 })();
 </script>
 </body></html>
