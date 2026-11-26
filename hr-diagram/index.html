@@ -740,6 +740,20 @@ p,li,.mode-desc,.lq-q,.heat-msg,figcaption{text-wrap:pretty}
 .low-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
 .low-row img{width:220px;max-width:100%;height:auto;background:#fff;border-radius:10px}
 .low-row p{flex:1 1 200px;color:var(--ink);font-size:15.5px}
+.gran-row{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:22px;align-items:center}
+.gran-figs{display:flex;gap:14px;align-items:flex-start}
+.gran-fig{margin:0;flex-shrink:1;flex-basis:0;display:flex;flex-direction:column;gap:6px}
+.gran-fig img{width:100%;height:auto;aspect-ratio:var(--ar);display:block;border-radius:10px;background:#fff}
+.gran-fig figcaption{text-align:center;font-size:12.5px;color:var(--ink-3);line-height:1.5}
+@media (max-width:760px){.gran-row{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:480px){.gran-figs{flex-wrap:wrap}.gran-fig{flex:1 1 100%!important}}
+.gran-txt{display:flex;flex-direction:column;gap:8px}
+.st-block>details+details{margin-top:12px}
+.gran-list{list-style:none;padding:0!important;margin:0;display:flex;flex-direction:column;gap:6px}
+.gran-list li{display:flex;gap:10px;align-items:flex-start;line-height:1.6}
+.gran-list li b{margin-right:6px}
+.gran-list i{flex:none;width:14px;height:14px;border-radius:4px;margin-top:5px}
+.gl-up{background:#F5B045}.gl-dn{background:#7A2A02}
 .steps-ol{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px;color:var(--ink);font-size:15.5px}
 #raceClock b{color:var(--accent);font-family:var(--font-num)}
 .q-list{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:12px;color:var(--ink);font-size:15px;line-height:1.9}
@@ -1355,7 +1369,7 @@ p,li,.mode-desc,.lq-q,.heat-msg,figcaption{text-wrap:pretty}
           <p>주계열성은 질량에 따라 에너지가 생성되고 전달되는 방식이 다르게 나타나므로 내부 구조가 달라진다.</p>
 
           <div class="st4">
-            <img class="st4-img" src="hr-img01.webp" alt="질량이 태양 정도인 주계열성의 내부 구조">
+            <img class="st4-img" src="assets/img01.webp" alt="질량이 태양 정도인 주계열성의 내부 구조">
             <div class="st4-mid"><div class="tw">
           <table class="cmp-table">
             <thead><tr><th>질량이 태양 정도인 별</th><th>질량이 태양의 약 1.5배 이상인 별</th></tr></thead>
@@ -1365,14 +1379,30 @@ p,li,.mode-desc,.lq-q,.heat-msg,figcaption{text-wrap:pretty}
             </tr></tbody>
           </table>
           </div><p class="st4-cap">질량에 따른 주계열성의 내부 구조와 에너지 전달<br>(M: 별의 질량, M☉: 태양 질량)</p></div>
-            <img class="st4-img" src="hr-img02.webp" alt="질량이 태양의 약 1.5배 이상인 주계열성의 내부 구조">
+            <img class="st4-img" src="assets/img02.webp" alt="질량이 태양의 약 1.5배 이상인 주계열성의 내부 구조">
           </div>
         </div>
         <details class="key after-q">
           <summary class="key-title">더 알아보기: 질량이 태양의 0.26배 이하인 별의 내부 구조</summary>
           <div class="low-row">
-            <img src="hr-img03.png" alt="질량이 태양의 0.08배~0.26배인 별: 내부 전체가 대류층">
+            <img src="assets/img03.png" alt="질량이 태양의 0.08배~0.26배인 별: 내부 전체가 대류층">
             <p>질량이 태양의 0.08배~0.26배인 별은 주계열 단계에서 내부 전체가 대류층이므로 모든 수소가 핵융합 반응을 하고 있다.</p>
+          </div>
+        </details>
+        <details class="key after-q gran-more">
+          <summary class="key-title">더 알아보기: 태양 표면의 쌀알무늬</summary>
+          <div class="gran-row">
+            <div class="gran-figs">
+              <figure class="gran-fig" style="--ar:1/1;flex-grow:1"><img src="assets/img33.webp" alt="태양 표면의 쌀알무늬 사진"><figcaption>태양 표면의 쌀알무늬</figcaption></figure>
+              <figure class="gran-fig" style="--ar:392/231;flex-grow:1.697"><img src="assets/img34.webp" alt="쌀알무늬가 생기는 원리: 밝은 부분에서 기체가 상승하고 어두운 경계에서 기체가 하강한다"><figcaption>쌀알무늬가 생기는 원리</figcaption></figure>
+            </div>
+            <div class="gran-txt">
+              <p>태양 표면을 자세히 보면 쌀알을 뿌려 놓은 것 같은 무늬가 보이는데, 이를 <b>쌀알무늬</b>라고 한다. 쌀알무늬는 태양 바깥쪽의 <b>대류층</b>에서 일어나는 대류 때문에 생기는 현상이다.</p>
+              <ul class="gran-list">
+                <li><i class="gl-up"></i><span><b>밝은 부분</b> 온도가 높은 기체가 상승하는 곳</span></li>
+                <li><i class="gl-dn"></i><span><b>어두운 경계</b> 상대적으로 온도가 낮은 기체가 하강하는 곳</span></li>
+              </ul>
+            </div>
           </div>
         </details>
     </div>
@@ -2057,7 +2087,7 @@ $('#openHR').addEventListener('click',e=>openQuiz('hr',e.currentTarget));
 $('#mqClose').addEventListener('click',closeQuiz);
 $('#quizModal').addEventListener('click',e=>{if(e.target.id==='quizModal')closeQuiz();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#quizModal').hidden)closeQuiz();});
-const GIMG={a_surf:'hr-img04.webp',a_H:'hr-img05.webp',a_shell:'hr-img06.webp',a_He:'hr-img07.webp',a_CO:'hr-img08.webp',b_surf:'hr-img09.webp',b_H:'hr-img10.webp',b_He:'hr-img11.webp',b_CO:'hr-img12.webp',b_ONe:'hr-img13.webp',b_SiS:'hr-img14.webp',b_Fe:'hr-img15.webp',pn:'hr-img16.webp',sn:'hr-img17.webp',o_wd:'hr-img18.webp',o_sun:'hr-img19.webp',o_gi:'hr-img20.webp',o_blue:'hr-img21.webp',o_sg:'hr-img22.webp',o_ns:'hr-img23.webp',o_pro:'hr-img24.webp',o_ism:'hr-img25.webp',o_pn:'hr-img26.webp',o_sn:'hr-img27.webp',T_sunms:'hr-img28.webp',T_bigms:'hr-img29.webp',T_g23:'hr-img30.webp',T_g24:'hr-img31.webp',T_sg:'hr-img32.webp'};
+const GIMG={a_surf:'assets/img04.webp',a_H:'assets/img05.webp',a_shell:'assets/img06.webp',a_He:'assets/img07.webp',a_CO:'assets/img08.webp',b_surf:'assets/img09.webp',b_H:'assets/img10.webp',b_He:'assets/img11.webp',b_CO:'assets/img12.webp',b_ONe:'assets/img13.webp',b_SiS:'assets/img14.webp',b_Fe:'assets/img15.webp',pn:'assets/img16.webp',sn:'assets/img17.webp',o_wd:'assets/img18.webp',o_sun:'assets/img19.webp',o_gi:'assets/img20.webp',o_blue:'assets/img21.webp',o_sg:'assets/img22.webp',o_ns:'assets/img23.webp',o_pro:'assets/img24.webp',o_ism:'assets/img25.webp',o_pn:'assets/img26.webp',o_sn:'assets/img27.webp',T_sunms:'assets/img28.webp',T_bigms:'assets/img29.webp',T_g23:'assets/img30.webp',T_g24:'assets/img31.webp',T_sg:'assets/img32.webp'};
 const GIM={};Object.keys(GIMG).forEach(k=>{const im=new Image();im.src=GIMG[k];GIM[k]=im;});
 const $x=s=>document.querySelector(s)||{};
 
